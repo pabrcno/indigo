@@ -5,10 +5,10 @@ import 'package:indigo/db/patient_health_metric/patient_health_metric_dto.dart';
 
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
-class PatientHealthMetricRepository implements IPatientMetricsRepository {
+class PatientHealthMetricsRepository implements IPatientMetricsRepository {
   final AppDatabase _db;
 
-  PatientHealthMetricRepository(this._db);
+  PatientHealthMetricsRepository(this._db);
 
   @override
   Future<int> insertMetricRecord(PatientHealthMetric record) {
@@ -49,7 +49,7 @@ class PatientHealthMetricRepository implements IPatientMetricsRepository {
 }
 
 final patientHealthMetricRepositoryProvider =
-    Provider<PatientHealthMetricRepository>((ref) {
+    Provider<IPatientMetricsRepository>((ref) {
   final db = ref.watch(appDatabaseProvider);
-  return PatientHealthMetricRepository(db);
+  return PatientHealthMetricsRepository(db);
 });

@@ -36,7 +36,7 @@ class PatientsRepository implements IPatientsRepository {
   }
 }
 
-final patientsRepositoryProvider = Provider<PatientsRepository>((ref) {
+final patientsRepositoryProvider = Provider<IPatientsRepository>((ref) {
   final db = ref.watch(appDatabaseProvider);
   return PatientsRepository(db);
 });

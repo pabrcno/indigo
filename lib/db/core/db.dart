@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:indigo/db/core/web_database.dart';
 import 'package:indigo/db/patient/patients_table.dart';
 import 'package:indigo/db/patient_health_metric/patient_health_metrics_table.dart';
@@ -8,17 +9,7 @@ part 'db.g.dart';
 
 @DriftDatabase(tables: [PatientsTable, PatientHealthMetricsTable])
 class AppDatabase extends _$AppDatabase {
-  // Private constructor for singleton
-  AppDatabase._(super.e);
-
-  static AppDatabase? _instance;
-
-  /// Public factory to return the singleton instance
-  factory AppDatabase() {
-    _instance ??=
-        AppDatabase._(DatabaseConnection.delayed(openAsyncConnection()));
-    return _instance!;
-  }
+  AppDatabase(DatabaseConnection super.connection);
 
   @override
   int get schemaVersion => 1;
@@ -63,5 +54,7 @@ class AppDatabase extends _$AppDatabase {
 }
 
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
-  return AppDatabase();
+  final connection = DatabaseConnection.delayed(openAsyncConnection());
+
+  return AppDatabase(connection);
 });
