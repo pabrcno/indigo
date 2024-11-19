@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/db/core/db.dart';
-import 'package:indigo/db/patient_health_metric/I_patient_metrics_repository.dart';
+import 'package:indigo/db/patient_health_metric/i_patient_metrics_repository.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
 class PatientMetricsNotifier extends StateNotifier<
@@ -13,15 +11,13 @@ class PatientMetricsNotifier extends StateNotifier<
 
   /// Fetch all metrics for a specific patient
   Future<void> fetchPatientMetrics(int patientId) async {
-    final metrics = await _repository.getAllMetrics(patientId);
-    print('HERE ----> $metrics');
+    final metrics = await _repository.getMetricsByPatientId(patientId);
 
     final groupedMetrics =
         <EPatientHealthMetricField, List<PatientHealthMetric>>{};
-
     for (final metric in metrics) {
       final metricType = EPatientHealthMetricField.values.firstWhere(
-        (e) => e.name == metric.metricType.toString(),
+        (e) => e.name == metric.metricType.name,
         orElse: () =>
             throw ArgumentError('Invalid metric type: ${metric.metricType}'),
       );
@@ -39,7 +35,6 @@ class PatientMetricsNotifier extends StateNotifier<
     required double value,
   }) async {
     final newMetric = PatientHealthMetric(
-      id: 0, // Auto-incremented in the database
       patientId: patientId,
       metricType: metricType,
       value: value,
@@ -73,20 +68,6 @@ class PatientMetricsNotifier extends StateNotifier<
 
     // Fetch the updated state
     await fetchPatientMetrics(patientId);
-  }
-
-  /// Calculate BMI for the latest weight and height records
-  double getBMI() {
-    final heightMetric = state[EPatientHealthMetricField.height]?.last;
-    final weightMetric = state[EPatientHealthMetricField.weight]?.last;
-
-    if (heightMetric != null &&
-        weightMetric != null &&
-        heightMetric.value > 0) {
-      return weightMetric.value / pow(heightMetric.value / 100, 2);
-    }
-
-    return 0.0;
   }
 }
 

@@ -3,14 +3,14 @@ import 'package:indigo/db/core/db.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
 class PatientHealthMetricDTO {
-  final int id;
+  int? id;
   final int patientId;
   final String metricType;
   final double value;
   final DateTime recordedAt;
 
   PatientHealthMetricDTO({
-    required this.id,
+    this.id,
     required this.patientId,
     required this.metricType,
     required this.value,
@@ -42,7 +42,6 @@ class PatientHealthMetricDTO {
   /// Map from domain model to DTO
   factory PatientHealthMetricDTO.fromDomain(PatientHealthMetric metric) {
     return PatientHealthMetricDTO(
-      id: metric.id,
       patientId: metric.patientId,
       metricType: metric.metricType.name,
       value: metric.value,
@@ -53,7 +52,6 @@ class PatientHealthMetricDTO {
   /// Map from DTO to Drift's PatientHealthMetricsTableCompanion
   PatientHealthMetricsTableCompanion toDriftCompanion() {
     return PatientHealthMetricsTableCompanion(
-      id: Value(id),
       patientId: Value(patientId),
       metricType: Value(metricType),
       value: Value(value),

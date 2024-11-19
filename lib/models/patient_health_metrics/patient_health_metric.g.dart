@@ -9,7 +9,7 @@ part of 'patient_health_metric.dart';
 _$PatientHealthMetricImpl _$$PatientHealthMetricImplFromJson(
         Map<String, dynamic> json) =>
     _$PatientHealthMetricImpl(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       patientId: (json['patientId'] as num).toInt(),
       metricType:
           $enumDecode(_$EPatientHealthMetricFieldEnumMap, json['metricType']),

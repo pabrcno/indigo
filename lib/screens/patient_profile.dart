@@ -2,30 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/providers/patient_metrics_provider.dart';
+import 'package:indigo/utils/calculate_bmi.dart';
 
-class PatientProfileScreen extends ConsumerWidget {
+class PatientProfileScreen extends ConsumerStatefulWidget {
   final int patientId; // Accept a patient ID to fetch data
 
   const PatientProfileScreen({super.key, required this.patientId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PatientProfileScreen> createState() =>
+      _PatientProfileScreenState();
+}
+
+class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
+  late Future<void> _fetchMetricsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMetricsFuture = ref
+        .read(patientMetricsNotifierProvider.notifier)
+        .fetchPatientMetrics(widget.patientId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final patientMetrics = ref.watch(patientMetricsNotifierProvider);
-    final notifier = ref.read(patientMetricsNotifierProvider.notifier);
-    final bmi = notifier.getBMI();
+    final currentHeight =
+        patientMetrics[EPatientHealthMetricField.height]?.last.value ?? 0;
+    final currentWeight =
+        patientMetrics[EPatientHealthMetricField.weight]?.last.value ?? 0;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Patient Profile'),
       ),
       body: FutureBuilder(
-        future: notifier.fetchPatientMetrics(patientId),
+        future: _fetchMetricsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return const Center(child: Text('Error loading metrics.'));
+            return Center(
+              child: Text(
+                'Error loading metrics. ${snapshot.error.toString()}',
+              ),
+            );
           }
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -42,7 +65,8 @@ class PatientProfileScreen extends ConsumerWidget {
                   );
                 }),
                 const SizedBox(height: 16),
-                Text('BMI: ${bmi.toStringAsFixed(2)}'),
+                Text(
+                    'BMI: ${calculateBMI(heightInCM: currentHeight, weightInKG: currentWeight).toStringAsFixed(2)}'),
               ],
             ),
           );
@@ -122,7 +146,7 @@ class PatientProfileScreen extends ConsumerWidget {
                       await ref
                           .read(patientMetricsNotifierProvider.notifier)
                           .addMetric(
-                            patientId: patientId,
+                            patientId: widget.patientId,
                             metricType: field,
                             value: value,
                           );

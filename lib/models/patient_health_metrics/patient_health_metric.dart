@@ -6,7 +6,7 @@ part 'patient_health_metric.g.dart';
 @freezed
 class PatientHealthMetric with _$PatientHealthMetric {
   const factory PatientHealthMetric({
-    required int id,
+    int? id,
     required int patientId, // Foreign k
     required EPatientHealthMetricField metricType,
     required double value, // Value of the metric

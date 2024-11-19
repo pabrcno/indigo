@@ -20,7 +20,7 @@ PatientHealthMetric _$PatientHealthMetricFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PatientHealthMetric {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   int get patientId => throw _privateConstructorUsedError; // Foreign k
   EPatientHealthMetricField get metricType =>
       throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $PatientHealthMetricCopyWith<$Res> {
       _$PatientHealthMetricCopyWithImpl<$Res, PatientHealthMetric>;
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       int patientId,
       EPatientHealthMetricField metricType,
       double value,
@@ -66,17 +66,17 @@ class _$PatientHealthMetricCopyWithImpl<$Res, $Val extends PatientHealthMetric>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? patientId = null,
     Object? metricType = null,
     Object? value = null,
     Object? recordedAt = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       patientId: null == patientId
           ? _value.patientId
           : patientId // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$$PatientHealthMetricImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       int patientId,
       EPatientHealthMetricField metricType,
       double value,
@@ -126,17 +126,17 @@ class __$$PatientHealthMetricImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? patientId = null,
     Object? metricType = null,
     Object? value = null,
     Object? recordedAt = null,
   }) {
     return _then(_$PatientHealthMetricImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       patientId: null == patientId
           ? _value.patientId
           : patientId // ignore: cast_nullable_to_non_nullable
@@ -161,7 +161,7 @@ class __$$PatientHealthMetricImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PatientHealthMetricImpl implements _PatientHealthMetric {
   const _$PatientHealthMetricImpl(
-      {required this.id,
+      {this.id,
       required this.patientId,
       required this.metricType,
       required this.value,
@@ -171,7 +171,7 @@ class _$PatientHealthMetricImpl implements _PatientHealthMetric {
       _$$PatientHealthMetricImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final int patientId;
 // Foreign k
@@ -227,7 +227,7 @@ class _$PatientHealthMetricImpl implements _PatientHealthMetric {
 
 abstract class _PatientHealthMetric implements PatientHealthMetric {
   const factory _PatientHealthMetric(
-      {required final int id,
+      {final int? id,
       required final int patientId,
       required final EPatientHealthMetricField metricType,
       required final double value,
@@ -237,7 +237,7 @@ abstract class _PatientHealthMetric implements PatientHealthMetric {
       _$PatientHealthMetricImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   int get patientId; // Foreign k
   @override

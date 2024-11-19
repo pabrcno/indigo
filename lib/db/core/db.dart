@@ -4,7 +4,7 @@ import 'package:indigo/db/core/web_database.dart';
 import 'package:indigo/db/patient/i_patients_repository.dart';
 import 'package:indigo/db/patient/patient_dto.dart';
 import 'package:indigo/db/patient/patients_table.dart';
-import 'package:indigo/db/patient_health_metric/I_patient_metrics_repository.dart';
+import 'package:indigo/db/patient_health_metric/i_patient_metrics_repository.dart';
 import 'package:indigo/db/patient_health_metric/patient_health_metric_dto.dart';
 import 'package:indigo/db/patient_health_metric/patient_health_metrics_table.dart';
 import 'package:indigo/models/patient/patient.dart';
@@ -43,7 +43,6 @@ class AppDatabase extends _$AppDatabase
 
   /// Method to seed the database with a basic patient and metrics
   Future<void> _seedDatabase() async {
-    print("SEEDING DATABASE");
     // Insert a basic patient
     final patientId =
         await into(patientsTable).insert(PatientsTableCompanion.insert(
@@ -55,21 +54,21 @@ class AppDatabase extends _$AppDatabase
     await into(patientHealthMetricsTable)
         .insert(PatientHealthMetricsTableCompanion.insert(
       patientId: patientId,
-      metricType: EPatientHealthMetricField.glucose.toString(),
+      metricType: EPatientHealthMetricField.glucose.name,
       value: const Value(90.0),
       recordedAt: Value(now),
     ));
     await into(patientHealthMetricsTable)
         .insert(PatientHealthMetricsTableCompanion.insert(
       patientId: patientId,
-      metricType: EPatientHealthMetricField.bloodPressure.toString(),
+      metricType: EPatientHealthMetricField.bloodPressure.name,
       value: const Value(120.0),
       recordedAt: Value(now),
     ));
     await into(patientHealthMetricsTable)
         .insert(PatientHealthMetricsTableCompanion.insert(
       patientId: patientId,
-      metricType: EPatientHealthMetricField.temperature.toString(),
+      metricType: EPatientHealthMetricField.temperature.name,
       value: const Value(36.5),
       recordedAt: Value(now),
     ));
@@ -119,7 +118,7 @@ class AppDatabase extends _$AppDatabase
   }
 
   @override
-  Future<List<PatientHealthMetric>> getAllMetrics(int patientId) async {
+  Future<List<PatientHealthMetric>> getMetricsByPatientId(int patientId) async {
     final rows = await (select(patientHealthMetricsTable)
           ..where((tbl) => tbl.patientId.equals(patientId)))
         .get();
