@@ -1,58 +1,98 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/models/patient_health_metrics/patient_health_metrics.dart';
+import 'package:indigo/db/core/db.dart';
+import 'package:indigo/db/patient_health_metric/I_patient_metrics_repository.dart';
+import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
-class PatientMetricsNotifier extends Notifier<PatientHealthMetrics> {
-  @override
-  PatientHealthMetrics build() {
-    return const PatientHealthMetrics();
+class PatientMetricsNotifier extends StateNotifier<
+    Map<EPatientHealthMetricField, List<PatientHealthMetric>>> {
+  final IPatientMetricsRepository _repository;
+
+  PatientMetricsNotifier(this._repository) : super({});
+
+  /// Fetch all metrics for a specific patient
+  Future<void> fetchPatientMetrics(int patientId) async {
+    final metrics = await _repository.getAllMetrics(patientId);
+    print('HERE ----> $metrics');
+
+    final groupedMetrics =
+        <EPatientHealthMetricField, List<PatientHealthMetric>>{};
+
+    for (final metric in metrics) {
+      final metricType = EPatientHealthMetricField.values.firstWhere(
+        (e) => e.name == metric.metricType.toString(),
+        orElse: () =>
+            throw ArgumentError('Invalid metric type: ${metric.metricType}'),
+      );
+
+      groupedMetrics.putIfAbsent(metricType, () => []).add(metric);
+    }
+
+    state = groupedMetrics;
   }
 
-  Future<void> fetchPatientMetrics(String patientId) async {
-    // TODO: Mocked database fetch logic. Replace this with your actual database call.
-    const fetchedMetrics = PatientHealthMetrics(
-      glucose: 90.0,
-      bloodPressure: 120.0,
-      temperature: 36.5,
-      height: 175,
-      weight: 70.0,
+  /// Add a new metric record
+  Future<void> addMetric({
+    required int patientId,
+    required EPatientHealthMetricField metricType,
+    required double value,
+  }) async {
+    final newMetric = PatientHealthMetric(
+      id: 0, // Auto-incremented in the database
+      patientId: patientId,
+      metricType: metricType,
+      value: value,
+      recordedAt: DateTime.now(),
     );
 
-    state = fetchedMetrics;
+    await _repository.insertMetricRecord(newMetric);
+
+    // Fetch the updated state
+    await fetchPatientMetrics(patientId);
   }
 
-  void updateMetric(EPatientHealthMetricField field, double value) {
-    final currentMetrics = state;
+  /// Update an existing metric record
+  Future<void> updateMetric({
+    required int patientId,
+    required EPatientHealthMetricField metricType,
+    required int metricId,
+    required double value,
+  }) async {
+    final existingMetric =
+        state[metricType]?.firstWhere((metric) => metric.id == metricId);
 
-    final updatedMetricsMap = currentMetrics.toJson();
-
-    final fieldName = field.name;
-    if (updatedMetricsMap.containsKey(fieldName)) {
-      updatedMetricsMap[fieldName] = value;
-    } else {
+    if (existingMetric == null) {
       throw ArgumentError(
-          'Field $fieldName does not exist in PatientHealthMetrics');
+          'Metric with ID $metricId not found for type $metricType');
     }
 
-    final updatedMetrics = PatientHealthMetrics.fromJson(updatedMetricsMap);
+    final updatedMetric = existingMetric.copyWith(value: value);
 
-    state = updatedMetrics;
+    await _repository.insertMetricRecord(updatedMetric);
+
+    // Fetch the updated state
+    await fetchPatientMetrics(patientId);
   }
 
-  PatientHealthMetrics getMetrics(String patientId) {
-    return state;
-  }
-
+  /// Calculate BMI for the latest weight and height records
   double getBMI() {
-    if (state.height > 0) {
-      return state.weight / pow(state.height / 100, 2);
+    final heightMetric = state[EPatientHealthMetricField.height]?.last;
+    final weightMetric = state[EPatientHealthMetricField.weight]?.last;
+
+    if (heightMetric != null &&
+        weightMetric != null &&
+        heightMetric.value > 0) {
+      return weightMetric.value / pow(heightMetric.value / 100, 2);
     }
+
     return 0.0;
   }
 }
 
-final patientMetricsNotifierProvider =
-    NotifierProvider<PatientMetricsNotifier, PatientHealthMetrics>(() {
-  return PatientMetricsNotifier();
+final patientMetricsNotifierProvider = StateNotifierProvider<
+    PatientMetricsNotifier,
+    Map<EPatientHealthMetricField, List<PatientHealthMetric>>>((ref) {
+  final database = AppDatabase.async();
+  return PatientMetricsNotifier(database);
 });

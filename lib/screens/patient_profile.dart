@@ -1,63 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/models/patient_health_metrics/patient_health_metrics.dart';
+import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/providers/patient_metrics_provider.dart';
 
 class PatientProfileScreen extends ConsumerWidget {
-  const PatientProfileScreen({super.key});
+  final int patientId; // Accept a patient ID to fetch data
+
+  const PatientProfileScreen({super.key, required this.patientId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final patientMetrics = ref.watch(patientMetricsNotifierProvider);
-    final bmi = ref.read(patientMetricsNotifierProvider.notifier).getBMI();
+    final notifier = ref.read(patientMetricsNotifierProvider.notifier);
+    final bmi = notifier.getBMI();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Patient Profile'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            buildEditableField(context, ref, 'Glucose',
-                EPatientHealthMetricField.glucose, patientMetrics.glucose),
-            buildEditableField(
-                context,
-                ref,
-                'Blood Pressure',
-                EPatientHealthMetricField.bloodPressure,
-                patientMetrics.bloodPressure),
-            buildEditableField(
-                context,
-                ref,
-                'Temperature',
-                EPatientHealthMetricField.temperature,
-                patientMetrics.temperature),
-            buildEditableField(
-                context,
-                ref,
-                'Respiratory Rate',
-                EPatientHealthMetricField.respiratoryRate,
-                patientMetrics.respiratoryRate),
-            buildEditableField(context, ref, 'Height (cm)',
-                EPatientHealthMetricField.height, patientMetrics.height),
-            buildEditableField(context, ref, 'Weight (kg)',
-                EPatientHealthMetricField.weight, patientMetrics.weight),
-            buildEditableField(context, ref, 'Chest',
-                EPatientHealthMetricField.chest, patientMetrics.chest),
-            buildEditableField(context, ref, 'Waist',
-                EPatientHealthMetricField.waist, patientMetrics.waist),
-            buildEditableField(context, ref, 'Hips',
-                EPatientHealthMetricField.hips, patientMetrics.hips),
-            const SizedBox(height: 16),
-            Text('BMI: $bmi'),
-          ],
-        ),
+      body: FutureBuilder(
+        future: notifier.fetchPatientMetrics(patientId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return const Center(child: Text('Error loading metrics.'));
+          }
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              children: [
+                ...EPatientHealthMetricField.values.map((metricType) {
+                  final latestMetric = patientMetrics[metricType]?.last;
+                  return buildEditableField(
+                    context,
+                    ref,
+                    metricType.name.capitalize(),
+                    metricType,
+                    latestMetric?.value ?? 0.0,
+                  );
+                }),
+                const SizedBox(height: 16),
+                Text('BMI: ${bmi.toStringAsFixed(2)}'),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget buildEditableField(BuildContext context, WidgetRef ref, String label,
-      EPatientHealthMetricField field, double value) {
+  Widget buildEditableField(
+    BuildContext context,
+    WidgetRef ref,
+    String label,
+    EPatientHealthMetricField field,
+    double value,
+  ) {
     return GestureDetector(
       onTap: () => showEditModal(context, ref, label, field, value),
       child: Padding(
@@ -80,8 +80,13 @@ class PatientProfileScreen extends ConsumerWidget {
     );
   }
 
-  void showEditModal(BuildContext context, WidgetRef ref, String label,
-      EPatientHealthMetricField field, double initialValue) {
+  void showEditModal(
+    BuildContext context,
+    WidgetRef ref,
+    String label,
+    EPatientHealthMetricField field,
+    double initialValue,
+  ) {
     final controller = TextEditingController(text: initialValue.toString());
 
     showModalBottomSheet(
@@ -89,16 +94,17 @@ class PatientProfileScreen extends ConsumerWidget {
       isScrollControlled: true,
       builder: (context) {
         return Padding(
-          padding: MediaQuery.of(context)
-              .viewInsets, // Adjusts padding when keyboard opens
+          padding: MediaQuery.of(context).viewInsets,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Edit $label',
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(
+                  'Edit $label',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: controller,
@@ -110,14 +116,18 @@ class PatientProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final value = double.tryParse(controller.text);
                     if (value != null) {
-                      ref
+                      await ref
                           .read(patientMetricsNotifierProvider.notifier)
-                          .updateMetric(field, value);
+                          .addMetric(
+                            patientId: patientId,
+                            metricType: field,
+                            value: value,
+                          );
                     }
-                    Navigator.of(context).pop();
+                    if (context.mounted) Navigator.of(context).pop();
                   },
                   child: const Text('Save'),
                 ),
@@ -127,5 +137,12 @@ class PatientProfileScreen extends ConsumerWidget {
         );
       },
     );
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    if (isEmpty) return this;
+    return '${this[0].toUpperCase()}${substring(1)}';
   }
 }
