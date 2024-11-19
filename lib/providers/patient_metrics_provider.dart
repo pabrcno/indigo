@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/db/core/db.dart';
 import 'package:indigo/db/patient_health_metric/i_patient_metrics_repository.dart';
+import 'package:indigo/db/patient_health_metric/patient_health_metric_repo.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
 class PatientMetricsNotifier extends StateNotifier<
@@ -74,6 +74,6 @@ class PatientMetricsNotifier extends StateNotifier<
 final patientMetricsNotifierProvider = StateNotifierProvider<
     PatientMetricsNotifier,
     Map<EPatientHealthMetricField, List<PatientHealthMetric>>>((ref) {
-  final database = AppDatabase.async();
-  return PatientMetricsNotifier(database);
+  final db = ref.watch(patientHealthMetricRepositoryProvider);
+  return PatientMetricsNotifier(db);
 });

@@ -15,6 +15,3 @@ Future<DatabaseConnection> openAsyncConnection() async {
 
   return DatabaseConnection(result.resolvedExecutor);
 }
-
-QueryExecutor openSyncConnection() =>
-    throw UnsupportedError('Sync connection is not supported on web.');
