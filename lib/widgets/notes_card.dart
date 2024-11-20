@@ -52,7 +52,7 @@ class NotesCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           // Add comments button
-          GestureDetector(
+          InkWell(
             onTap: onCreate,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

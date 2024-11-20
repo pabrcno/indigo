@@ -69,7 +69,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                 ].map((metricType) {
                   final history = patientMetrics[metricType] ?? [];
 
-                  return GestureDetector(
+                  return InkWell(
                     onTap: () {
                       showEditModal(context, ref, metricType);
                     },
@@ -88,7 +88,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                 ].map((metricType) {
                   final history = patientMetrics[metricType] ?? [];
 
-                  return GestureDetector(
+                  return InkWell(
                     onTap: () {
                       showEditModal(context, ref, metricType);
                     },
@@ -109,7 +109,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                 ].map((metricType) {
                   final history = patientMetrics[metricType] ?? [];
 
-                  return GestureDetector(
+                  return InkWell(
                     onTap: () {
                       showEditModal(context, ref, metricType);
                     },

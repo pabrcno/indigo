@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.bold,
               color: Colors.black87), // Smaller titles
-          bodyMedium: TextStyle(fontSize: 16, color: Colors.grey),
+          bodyMedium: TextStyle(fontSize: 16, color: Colors.black87),
 
           // Secondary body text
         ),
