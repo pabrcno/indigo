@@ -66,7 +66,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        PatientMetricHistoryCurve(
+                        PatientMetricHistoryChart(
                           icon: getIconForMetric(metricType),
                           unit: getUnitForMetric(metricType),
                           label: metricType.name.capitalize(),

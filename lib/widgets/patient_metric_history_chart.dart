@@ -2,14 +2,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
-class PatientMetricHistoryCurve extends StatelessWidget {
+class PatientMetricHistoryChart extends StatelessWidget {
   final List<PatientHealthMetric> metrics;
   final Color curveColor;
   final String label;
   final String unit;
   final IconData icon;
 
-  const PatientMetricHistoryCurve({
+  const PatientMetricHistoryChart({
     super.key,
     required this.metrics,
     required this.curveColor,
