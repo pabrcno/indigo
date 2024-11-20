@@ -1,10 +1,11 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/db/core/db.dart';
-import 'package:indigo/db/patient/i_patients_repository.dart';
+import 'package:indigo/db/patient/i_patient_repo.dart';
 import 'package:indigo/db/patient/patient_dto.dart';
 import 'package:indigo/models/patient/patient.dart';
 
-class PatientsRepository implements IPatientsRepository {
+class PatientsRepository implements IPatientRepo {
   final AppDatabase _db;
 
   PatientsRepository(this._db);
@@ -34,9 +35,22 @@ class PatientsRepository implements IPatientsRepository {
     return (_db.delete(_db.patientsTable)..where((tbl) => tbl.id.equals(id)))
         .go();
   }
+
+  Future<List<Patient>> searchPatientByName(String namePattern) async {
+    final rows = await _db.customSelect(
+      'SELECT * FROM patients WHERE name LIKE ?',
+      variables: [Variable.withString('%$namePattern%')],
+      readsFrom: {_db.patientsTable},
+    ).get();
+
+    return rows.map((row) {
+      final data = _db.patientsTable.map(row.data);
+      return PatientDTO.fromDrift(data).toDomain();
+    }).toList();
+  }
 }
 
-final patientsRepositoryProvider = Provider<IPatientsRepository>((ref) {
+final patientsRepositoryProvider = Provider<IPatientRepo>((ref) {
   final db = ref.watch(appDatabaseProvider);
   return PatientsRepository(db);
 });

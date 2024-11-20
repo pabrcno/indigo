@@ -2,19 +2,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:indigo/providers/patient_metrics_notifier.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:indigo/db/patient_health_metric/i_patient_metrics_repository.dart';
+import 'package:indigo/db/patient_health_metric/i_patient_metrics_repo.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
 import 'patient_metrics_notifier_test.mocks.dart';
 
-@GenerateMocks([IPatientMetricsRepository])
+@GenerateMocks([IPatientMetricsRepo])
 void main() {
-  late MockIPatientMetricsRepository mockRepository;
+  late MockIPatientMetricsRepo mockRepo;
   late PatientMetricsNotifier notifier;
 
   setUp(() {
-    mockRepository = MockIPatientMetricsRepository();
-    notifier = PatientMetricsNotifier(mockRepository);
+    mockRepo = MockIPatientMetricsRepo();
+    notifier = PatientMetricsNotifier(mockRepo);
   });
 
   group('PatientMetricsNotifier', () {
@@ -23,8 +23,8 @@ void main() {
     });
 
     test('fetchPatientMetrics groups metrics by type', () async {
-      // Arrange: Mock repository to return sample data
-      when(mockRepository.getMetricsByPatientId(1)).thenAnswer((_) async => [
+      // Arrange: Mock repo to return sample data
+      when(mockRepo.getMetricsByPatientId(1)).thenAnswer((_) async => [
             PatientHealthMetric(
               id: 1,
               patientId: 1,
@@ -53,10 +53,10 @@ void main() {
 
     test('addMetric adds a new metric and updates state', () async {
       // Arrange
-      when(mockRepository.insertMetricRecord(any)).thenAnswer((_) async {
+      when(mockRepo.insertMetricRecord(any)).thenAnswer((_) async {
         return 1;
       });
-      when(mockRepository.getMetricsByPatientId(1)).thenAnswer((_) async => [
+      when(mockRepo.getMetricsByPatientId(1)).thenAnswer((_) async => [
             PatientHealthMetric(
               id: 1,
               patientId: 1,
@@ -74,7 +74,7 @@ void main() {
       );
 
       // Assert
-      verify(mockRepository.insertMetricRecord(any)).called(1);
+      verify(mockRepo.insertMetricRecord(any)).called(1);
       final state = notifier.state;
       expect(state[EPatientHealthMetricField.glucose]?.length, 1);
       expect(state[EPatientHealthMetricField.glucose]?.first.value, 90.0);
@@ -94,10 +94,10 @@ void main() {
         EPatientHealthMetricField.glucose: [existingMetric]
       };
 
-      // Mock the repository methods
-      when(mockRepository.insertMetricRecord(any))
+      // Mock the repo methods
+      when(mockRepo.insertMetricRecord(any))
           .thenAnswer((_) async => 1); // Simulate successful insertion
-      when(mockRepository.getMetricsByPatientId(1)).thenAnswer((_) async => [
+      when(mockRepo.getMetricsByPatientId(1)).thenAnswer((_) async => [
             existingMetric.copyWith(value: 95.0),
           ]);
 
@@ -110,8 +110,7 @@ void main() {
       );
 
       // Assert
-      verify(mockRepository
-              .insertMetricRecord(argThat(isA<PatientHealthMetric>())))
+      verify(mockRepo.insertMetricRecord(argThat(isA<PatientHealthMetric>())))
           .called(1); // Ensure insertMetricRecord was called once
       final state = notifier.state;
       expect(state[EPatientHealthMetricField.glucose]?.length, 1);

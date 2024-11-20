@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/db/patient_health_metric/i_patient_metrics_repository.dart';
+import 'package:indigo/db/patient_health_metric/i_patient_metrics_repo.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
 class PatientMetricsNotifier extends StateNotifier<

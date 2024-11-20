@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:indigo/db/patient_health_metric/i_patient_metrics_repository.dart'
+import 'package:indigo/db/patient_health_metric/i_patient_metrics_repo.dart'
     as _i2;
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart'
     as _i4;
@@ -24,12 +24,12 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-/// A class which mocks [IPatientMetricsRepository].
+/// A class which mocks [IPatientMetricsRepo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIPatientMetricsRepository extends _i1.Mock
-    implements _i2.IPatientMetricsRepository {
-  MockIPatientMetricsRepository() {
+class MockIPatientMetricsRepo extends _i1.Mock
+    implements _i2.IPatientMetricsRepo {
+  MockIPatientMetricsRepo() {
     _i1.throwOnMissingStub(this);
   }
 

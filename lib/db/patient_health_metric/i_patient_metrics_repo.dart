@@ -1,6 +1,6 @@
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
-abstract class IPatientMetricsRepository {
+abstract class IPatientMetricsRepo {
   Future<int> insertMetricRecord(PatientHealthMetric record);
   Future<List<PatientHealthMetric>> getMetricsHistory(
       int patientId, String metricType);

@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/db/core/db.dart';
-import 'package:indigo/db/patient_health_metric/i_patient_metrics_repository.dart';
+import 'package:indigo/db/patient_health_metric/i_patient_metrics_repo.dart';
 import 'package:indigo/db/patient_health_metric/patient_health_metric_dto.dart';
 
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 
-class PatientHealthMetricsRepository implements IPatientMetricsRepository {
+class PatientHealthMetricsRepository implements IPatientMetricsRepo {
   final AppDatabase _db;
 
   PatientHealthMetricsRepository(this._db);
@@ -49,7 +49,7 @@ class PatientHealthMetricsRepository implements IPatientMetricsRepository {
 }
 
 final patientHealthMetricRepositoryProvider =
-    Provider<IPatientMetricsRepository>((ref) {
+    Provider<IPatientMetricsRepo>((ref) {
   final db = ref.watch(appDatabaseProvider);
   return PatientHealthMetricsRepository(db);
 });
