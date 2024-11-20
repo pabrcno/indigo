@@ -240,6 +240,8 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
         return Icons.height;
       case EPatientHealthMetricField.weight:
         return Icons.fitness_center;
+      case EPatientHealthMetricField.respiratoryRate:
+        return Icons.air;
       default:
         return Icons.device_unknown;
     }
