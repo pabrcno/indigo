@@ -20,9 +20,12 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Patient {
-  int get id => throw _privateConstructorUsedError; // Primary key
-  String get name => throw _privateConstructorUsedError; // Patient's name
+  int get id => throw _privateConstructorUsedError;
+  int get number => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get lastName => throw _privateConstructorUsedError;
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
+  String? get notes => throw _privateConstructorUsedError;
 
   /// Serializes this Patient to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +41,13 @@ abstract class $PatientCopyWith<$Res> {
   factory $PatientCopyWith(Patient value, $Res Function(Patient) then) =
       _$PatientCopyWithImpl<$Res, Patient>;
   @useResult
-  $Res call({int id, String name, DateTime? dateOfBirth});
+  $Res call(
+      {int id,
+      int number,
+      String name,
+      String lastName,
+      DateTime? dateOfBirth,
+      String? notes});
 }
 
 /// @nodoc
@@ -57,22 +66,37 @@ class _$PatientCopyWithImpl<$Res, $Val extends Patient>
   @override
   $Res call({
     Object? id = null,
+    Object? number = null,
     Object? name = null,
+    Object? lastName = null,
     Object? dateOfBirth = freezed,
+    Object? notes = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastName: null == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
               as String,
       dateOfBirth: freezed == dateOfBirth
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -84,7 +108,13 @@ abstract class _$$PatientImplCopyWith<$Res> implements $PatientCopyWith<$Res> {
       __$$PatientImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, DateTime? dateOfBirth});
+  $Res call(
+      {int id,
+      int number,
+      String name,
+      String lastName,
+      DateTime? dateOfBirth,
+      String? notes});
 }
 
 /// @nodoc
@@ -101,22 +131,37 @@ class __$$PatientImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? number = null,
     Object? name = null,
+    Object? lastName = null,
     Object? dateOfBirth = freezed,
+    Object? notes = freezed,
   }) {
     return _then(_$PatientImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastName: null == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
               as String,
       dateOfBirth: freezed == dateOfBirth
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -124,23 +169,33 @@ class __$$PatientImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PatientImpl implements _Patient {
-  const _$PatientImpl({required this.id, required this.name, this.dateOfBirth});
+  const _$PatientImpl(
+      {required this.id,
+      required this.number,
+      required this.name,
+      required this.lastName,
+      this.dateOfBirth,
+      this.notes});
 
   factory _$PatientImpl.fromJson(Map<String, dynamic> json) =>
       _$$PatientImplFromJson(json);
 
   @override
   final int id;
-// Primary key
+  @override
+  final int number;
   @override
   final String name;
-// Patient's name
+  @override
+  final String lastName;
   @override
   final DateTime? dateOfBirth;
+  @override
+  final String? notes;
 
   @override
   String toString() {
-    return 'Patient(id: $id, name: $name, dateOfBirth: $dateOfBirth)';
+    return 'Patient(id: $id, number: $number, name: $name, lastName: $lastName, dateOfBirth: $dateOfBirth, notes: $notes)';
   }
 
   @override
@@ -149,14 +204,19 @@ class _$PatientImpl implements _Patient {
         (other.runtimeType == runtimeType &&
             other is _$PatientImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.number, number) || other.number == number) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
             (identical(other.dateOfBirth, dateOfBirth) ||
-                other.dateOfBirth == dateOfBirth));
+                other.dateOfBirth == dateOfBirth) &&
+            (identical(other.notes, notes) || other.notes == notes));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, dateOfBirth);
+  int get hashCode =>
+      Object.hash(runtimeType, id, number, name, lastName, dateOfBirth, notes);
 
   /// Create a copy of Patient
   /// with the given fields replaced by the non-null parameter values.
@@ -177,17 +237,26 @@ class _$PatientImpl implements _Patient {
 abstract class _Patient implements Patient {
   const factory _Patient(
       {required final int id,
+      required final int number,
       required final String name,
-      final DateTime? dateOfBirth}) = _$PatientImpl;
+      required final String lastName,
+      final DateTime? dateOfBirth,
+      final String? notes}) = _$PatientImpl;
 
   factory _Patient.fromJson(Map<String, dynamic> json) = _$PatientImpl.fromJson;
 
   @override
-  int get id; // Primary key
+  int get id;
   @override
-  String get name; // Patient's name
+  int get number;
+  @override
+  String get name;
+  @override
+  String get lastName;
   @override
   DateTime? get dateOfBirth;
+  @override
+  String? get notes;
 
   /// Create a copy of Patient
   /// with the given fields replaced by the non-null parameter values.

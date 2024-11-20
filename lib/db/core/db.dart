@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,54 +30,79 @@ class AppDatabase extends _$AppDatabase {
     final now = DateTime.now();
 
     // Insert multiple patients
+
     final patientIds = await Future.wait([
       into(patientsTable).insert(PatientsTableCompanion.insert(
-        name: 'John Doe',
+        number: 12345,
+        name: 'John',
+        lastName: 'Doe',
         dateOfBirth: Value(DateTime(1980, 1, 1)),
+        notes: const Value('Regular check-ups required'),
       )),
       into(patientsTable).insert(PatientsTableCompanion.insert(
-        name: 'Jane Smith',
+        number: 12346,
+        name: 'Jane',
+        lastName: 'Smith',
         dateOfBirth: Value(DateTime(1992, 5, 10)),
+        notes: const Value('No known health issues'),
       )),
       into(patientsTable).insert(PatientsTableCompanion.insert(
-        name: 'Juan Pérez',
+        number: 12347,
+        name: 'Juan',
+        lastName: 'Pérez',
         dateOfBirth: Value(DateTime(1985, 7, 20)),
+        notes: const Value('Needs follow-up for recent surgery'),
       )),
       into(patientsTable).insert(PatientsTableCompanion.insert(
-        name: 'Alice Johnson',
+        number: 12348,
+        name: 'Alice',
+        lastName: 'Johnson',
         dateOfBirth: Value(DateTime(1990, 3, 15)),
+        notes: const Value('Scheduled for routine bloodwork'),
       )),
     ]);
-
     // Insert metrics for each patient
     for (var i = 0; i < patientIds.length; i++) {
       final patientId = patientIds[i];
+      final random =
+          Random(i); // Seeded random for consistent but varied results
+      for (var j = 0; j < 30; j++) {
+        // Simulate glucose values (baseline 80-120, smooth fluctuation)
+        await into(patientHealthMetricsTable).insert(
+          PatientHealthMetricsTableCompanion.insert(
+            patientId: patientId,
+            metricType: 'glucose',
+            value: Value(100 +
+                20 * sin(j / 5) +
+                random.nextDouble() * 5), // Baseline with sine wave
+            recordedAt: Value(now.subtract(Duration(days: j))),
+          ),
+        );
 
-      // Metrics for each patient
-      await into(patientHealthMetricsTable).insert(
-        PatientHealthMetricsTableCompanion.insert(
-          patientId: patientId,
-          metricType: 'glucose',
-          value: Value(80.0 + i * 10),
-          recordedAt: Value(now.subtract(Duration(days: i))),
-        ),
-      );
-      await into(patientHealthMetricsTable).insert(
-        PatientHealthMetricsTableCompanion.insert(
-          patientId: patientId,
-          metricType: 'bloodPressure',
-          value: Value(110.0 + i * 5),
-          recordedAt: Value(now.subtract(Duration(days: i))),
-        ),
-      );
-      await into(patientHealthMetricsTable).insert(
-        PatientHealthMetricsTableCompanion.insert(
-          patientId: patientId,
-          metricType: 'temperature',
-          value: Value(36.5 + i * 0.1),
-          recordedAt: Value(now.subtract(Duration(days: i))),
-        ),
-      );
+        // Simulate blood pressure values (baseline 110-130, smooth fluctuation)
+        await into(patientHealthMetricsTable).insert(
+          PatientHealthMetricsTableCompanion.insert(
+            patientId: patientId,
+            metricType: 'bloodPressure',
+            value: Value(120 +
+                10 * cos(j / 4) +
+                random.nextDouble() * 3), // Baseline with cosine wave
+            recordedAt: Value(now.subtract(Duration(days: j))),
+          ),
+        );
+
+        // Simulate temperature values (baseline 36.5-37.5, smooth fluctuation)
+        await into(patientHealthMetricsTable).insert(
+          PatientHealthMetricsTableCompanion.insert(
+            patientId: patientId,
+            metricType: 'temperature',
+            value: Value(36.8 +
+                0.5 * sin(j / 6) +
+                random.nextDouble() * 0.1), // Baseline with sine wave
+            recordedAt: Value(now.subtract(Duration(days: j))),
+          ),
+        );
+      }
     }
   }
 }

@@ -18,10 +18,24 @@ class $PatientsTableTable extends PatientsTable
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  @override
+  late final GeneratedColumn<int> number = GeneratedColumn<int>(
+      'number', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 50),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _lastNameMeta =
+      const VerificationMeta('lastName');
+  @override
+  late final GeneratedColumn<String> lastName = GeneratedColumn<String>(
+      'last_name', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 50),
       type: DriftSqlType.string,
@@ -32,8 +46,14 @@ class $PatientsTableTable extends PatientsTable
   late final GeneratedColumn<DateTime> dateOfBirth = GeneratedColumn<DateTime>(
       'date_of_birth', aliasedName, true,
       type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
-  List<GeneratedColumn> get $columns => [id, name, dateOfBirth];
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, number, name, lastName, dateOfBirth, notes];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -47,17 +67,33 @@ class $PatientsTableTable extends PatientsTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
+    }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('last_name')) {
+      context.handle(_lastNameMeta,
+          lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta));
+    } else if (isInserting) {
+      context.missing(_lastNameMeta);
+    }
     if (data.containsKey('date_of_birth')) {
       context.handle(
           _dateOfBirthMeta,
           dateOfBirth.isAcceptableOrUnknown(
               data['date_of_birth']!, _dateOfBirthMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
     }
     return context;
   }
@@ -70,10 +106,16 @@ class $PatientsTableTable extends PatientsTable
     return PatientRecord(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      number: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}number'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      lastName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}last_name'])!,
       dateOfBirth: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}date_of_birth']),
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
     );
   }
 
@@ -85,16 +127,30 @@ class $PatientsTableTable extends PatientsTable
 
 class PatientRecord extends DataClass implements Insertable<PatientRecord> {
   final int id;
+  final int number;
   final String name;
+  final String lastName;
   final DateTime? dateOfBirth;
-  const PatientRecord({required this.id, required this.name, this.dateOfBirth});
+  final String? notes;
+  const PatientRecord(
+      {required this.id,
+      required this.number,
+      required this.name,
+      required this.lastName,
+      this.dateOfBirth,
+      this.notes});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    map['number'] = Variable<int>(number);
     map['name'] = Variable<String>(name);
+    map['last_name'] = Variable<String>(lastName);
     if (!nullToAbsent || dateOfBirth != null) {
       map['date_of_birth'] = Variable<DateTime>(dateOfBirth);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
     }
     return map;
   }
@@ -102,10 +158,14 @@ class PatientRecord extends DataClass implements Insertable<PatientRecord> {
   PatientsTableCompanion toCompanion(bool nullToAbsent) {
     return PatientsTableCompanion(
       id: Value(id),
+      number: Value(number),
       name: Value(name),
+      lastName: Value(lastName),
       dateOfBirth: dateOfBirth == null && nullToAbsent
           ? const Value.absent()
           : Value(dateOfBirth),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
     );
   }
 
@@ -114,8 +174,11 @@ class PatientRecord extends DataClass implements Insertable<PatientRecord> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return PatientRecord(
       id: serializer.fromJson<int>(json['id']),
+      number: serializer.fromJson<int>(json['number']),
       name: serializer.fromJson<String>(json['name']),
+      lastName: serializer.fromJson<String>(json['lastName']),
       dateOfBirth: serializer.fromJson<DateTime?>(json['dateOfBirth']),
+      notes: serializer.fromJson<String?>(json['notes']),
     );
   }
   @override
@@ -123,26 +186,38 @@ class PatientRecord extends DataClass implements Insertable<PatientRecord> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'number': serializer.toJson<int>(number),
       'name': serializer.toJson<String>(name),
+      'lastName': serializer.toJson<String>(lastName),
       'dateOfBirth': serializer.toJson<DateTime?>(dateOfBirth),
+      'notes': serializer.toJson<String?>(notes),
     };
   }
 
   PatientRecord copyWith(
           {int? id,
+          int? number,
           String? name,
-          Value<DateTime?> dateOfBirth = const Value.absent()}) =>
+          String? lastName,
+          Value<DateTime?> dateOfBirth = const Value.absent(),
+          Value<String?> notes = const Value.absent()}) =>
       PatientRecord(
         id: id ?? this.id,
+        number: number ?? this.number,
         name: name ?? this.name,
+        lastName: lastName ?? this.lastName,
         dateOfBirth: dateOfBirth.present ? dateOfBirth.value : this.dateOfBirth,
+        notes: notes.present ? notes.value : this.notes,
       );
   PatientRecord copyWithCompanion(PatientsTableCompanion data) {
     return PatientRecord(
       id: data.id.present ? data.id.value : this.id,
+      number: data.number.present ? data.number.value : this.number,
       name: data.name.present ? data.name.value : this.name,
+      lastName: data.lastName.present ? data.lastName.value : this.lastName,
       dateOfBirth:
           data.dateOfBirth.present ? data.dateOfBirth.value : this.dateOfBirth,
+      notes: data.notes.present ? data.notes.value : this.notes,
     );
   }
 
@@ -150,55 +225,87 @@ class PatientRecord extends DataClass implements Insertable<PatientRecord> {
   String toString() {
     return (StringBuffer('PatientRecord(')
           ..write('id: $id, ')
+          ..write('number: $number, ')
           ..write('name: $name, ')
-          ..write('dateOfBirth: $dateOfBirth')
+          ..write('lastName: $lastName, ')
+          ..write('dateOfBirth: $dateOfBirth, ')
+          ..write('notes: $notes')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, dateOfBirth);
+  int get hashCode =>
+      Object.hash(id, number, name, lastName, dateOfBirth, notes);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is PatientRecord &&
           other.id == this.id &&
+          other.number == this.number &&
           other.name == this.name &&
-          other.dateOfBirth == this.dateOfBirth);
+          other.lastName == this.lastName &&
+          other.dateOfBirth == this.dateOfBirth &&
+          other.notes == this.notes);
 }
 
 class PatientsTableCompanion extends UpdateCompanion<PatientRecord> {
   final Value<int> id;
+  final Value<int> number;
   final Value<String> name;
+  final Value<String> lastName;
   final Value<DateTime?> dateOfBirth;
+  final Value<String?> notes;
   const PatientsTableCompanion({
     this.id = const Value.absent(),
+    this.number = const Value.absent(),
     this.name = const Value.absent(),
+    this.lastName = const Value.absent(),
     this.dateOfBirth = const Value.absent(),
+    this.notes = const Value.absent(),
   });
   PatientsTableCompanion.insert({
     this.id = const Value.absent(),
+    required int number,
     required String name,
+    required String lastName,
     this.dateOfBirth = const Value.absent(),
-  }) : name = Value(name);
+    this.notes = const Value.absent(),
+  })  : number = Value(number),
+        name = Value(name),
+        lastName = Value(lastName);
   static Insertable<PatientRecord> custom({
     Expression<int>? id,
+    Expression<int>? number,
     Expression<String>? name,
+    Expression<String>? lastName,
     Expression<DateTime>? dateOfBirth,
+    Expression<String>? notes,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (number != null) 'number': number,
       if (name != null) 'name': name,
+      if (lastName != null) 'last_name': lastName,
       if (dateOfBirth != null) 'date_of_birth': dateOfBirth,
+      if (notes != null) 'notes': notes,
     });
   }
 
   PatientsTableCompanion copyWith(
-      {Value<int>? id, Value<String>? name, Value<DateTime?>? dateOfBirth}) {
+      {Value<int>? id,
+      Value<int>? number,
+      Value<String>? name,
+      Value<String>? lastName,
+      Value<DateTime?>? dateOfBirth,
+      Value<String?>? notes}) {
     return PatientsTableCompanion(
       id: id ?? this.id,
+      number: number ?? this.number,
       name: name ?? this.name,
+      lastName: lastName ?? this.lastName,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -208,11 +315,20 @@ class PatientsTableCompanion extends UpdateCompanion<PatientRecord> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
+    if (number.present) {
+      map['number'] = Variable<int>(number.value);
+    }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (lastName.present) {
+      map['last_name'] = Variable<String>(lastName.value);
+    }
     if (dateOfBirth.present) {
       map['date_of_birth'] = Variable<DateTime>(dateOfBirth.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
     }
     return map;
   }
@@ -221,8 +337,11 @@ class PatientsTableCompanion extends UpdateCompanion<PatientRecord> {
   String toString() {
     return (StringBuffer('PatientsTableCompanion(')
           ..write('id: $id, ')
+          ..write('number: $number, ')
           ..write('name: $name, ')
-          ..write('dateOfBirth: $dateOfBirth')
+          ..write('lastName: $lastName, ')
+          ..write('dateOfBirth: $dateOfBirth, ')
+          ..write('notes: $notes')
           ..write(')'))
         .toString();
   }
@@ -555,14 +674,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$PatientsTableTableCreateCompanionBuilder = PatientsTableCompanion
     Function({
   Value<int> id,
+  required int number,
   required String name,
+  required String lastName,
   Value<DateTime?> dateOfBirth,
+  Value<String?> notes,
 });
 typedef $$PatientsTableTableUpdateCompanionBuilder = PatientsTableCompanion
     Function({
   Value<int> id,
+  Value<int> number,
   Value<String> name,
+  Value<String> lastName,
   Value<DateTime?> dateOfBirth,
+  Value<String?> notes,
 });
 
 final class $$PatientsTableTableReferences
@@ -602,11 +727,20 @@ class $$PatientsTableTableFilterComposer
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<int> get number => $composableBuilder(
+      column: $table.number, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<String> get name => $composableBuilder(
       column: $table.name, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get lastName => $composableBuilder(
+      column: $table.lastName, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<DateTime> get dateOfBirth => $composableBuilder(
       column: $table.dateOfBirth, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
 
   Expression<bool> patientHealthMetricsTableRefs(
       Expression<bool> Function(
@@ -645,11 +779,20 @@ class $$PatientsTableTableOrderingComposer
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<int> get number => $composableBuilder(
+      column: $table.number, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get name => $composableBuilder(
       column: $table.name, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get lastName => $composableBuilder(
+      column: $table.lastName, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get dateOfBirth => $composableBuilder(
       column: $table.dateOfBirth, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
 }
 
 class $$PatientsTableTableAnnotationComposer
@@ -664,11 +807,20 @@ class $$PatientsTableTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
+  GeneratedColumn<int> get number =>
+      $composableBuilder(column: $table.number, builder: (column) => column);
+
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
+  GeneratedColumn<String> get lastName =>
+      $composableBuilder(column: $table.lastName, builder: (column) => column);
+
   GeneratedColumn<DateTime> get dateOfBirth => $composableBuilder(
       column: $table.dateOfBirth, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
 
   Expression<T> patientHealthMetricsTableRefs<T extends Object>(
       Expression<T> Function(
@@ -719,23 +871,35 @@ class $$PatientsTableTableTableManager extends RootTableManager<
               $$PatientsTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
+            Value<int> number = const Value.absent(),
             Value<String> name = const Value.absent(),
+            Value<String> lastName = const Value.absent(),
             Value<DateTime?> dateOfBirth = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
           }) =>
               PatientsTableCompanion(
             id: id,
+            number: number,
             name: name,
+            lastName: lastName,
             dateOfBirth: dateOfBirth,
+            notes: notes,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
+            required int number,
             required String name,
+            required String lastName,
             Value<DateTime?> dateOfBirth = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
           }) =>
               PatientsTableCompanion.insert(
             id: id,
+            number: number,
             name: name,
+            lastName: lastName,
             dateOfBirth: dateOfBirth,
+            notes: notes,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (

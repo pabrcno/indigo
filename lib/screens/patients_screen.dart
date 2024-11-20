@@ -61,27 +61,49 @@ class PatientsScreenState extends ConsumerState<PatientsScreen> {
             )
           else
             Expanded(
-              child: ListView.builder(
-                itemCount: state.patients.length,
-                itemBuilder: (context, index) {
-                  final patient = state.patients[index];
-                  return ListTile(
-                    leading: Text('${patient.id}'),
-                    title: Text(patient.name),
-                    subtitle: Text('ID: #${patient.id}'),
-                    onTap: () {
-                      // Navigate to the PatientProfileScreen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PatientProfileScreen(
-                            patientId: patient.id,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: const [
+                    DataColumn(
+                        label: Text('Numero',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Nombre',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Apellido',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('ID',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Aclaraciones',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
+                  ],
+                  rows: state.patients.map((patient) {
+                    return DataRow(
+                      cells: [
+                        DataCell(Text('${patient.number}')), // "Numero"
+                        DataCell(Text(patient.name)), // "Nombre"
+                        DataCell(Text(patient.lastName)), // "Apellido"
+                        DataCell(Text('#${patient.id}')), // "ID"
+                        DataCell(Text(patient.notes ?? '-')), // "Aclaraciones"
+                      ],
+                      onSelectChanged: (_) {
+                        // Navigate to the PatientProfileScreen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PatientProfileScreen(
+                              patientId: patient.id,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
               ),
             ),
         ],

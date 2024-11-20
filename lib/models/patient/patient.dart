@@ -6,9 +6,12 @@ part 'patient.g.dart';
 @freezed
 class Patient with _$Patient {
   const factory Patient({
-    required int id, // Primary key
-    required String name, // Patient's name
-    DateTime? dateOfBirth, // Optional date of birth
+    required int id,
+    required int number,
+    required String name,
+    required String lastName,
+    DateTime? dateOfBirth,
+    String? notes,
   }) = _Patient;
 
   factory Patient.fromJson(Map<String, dynamic> json) =>
