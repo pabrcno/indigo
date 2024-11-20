@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 import 'package:indigo/utils/calculate_bmi.dart';
+import 'package:indigo/widgets/patient_metric_history_chart.dart';
 
 class PatientProfileScreen extends ConsumerStatefulWidget {
   final int patientId; // Accept a patient ID to fetch data
@@ -55,18 +56,29 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
             child: ListView(
               children: [
                 ...EPatientHealthMetricField.values.map((metricType) {
-                  final latestMetric = patientMetrics[metricType]?.last;
-                  return buildEditableField(
-                    context,
-                    ref,
-                    metricType.name.capitalize(),
-                    metricType,
-                    latestMetric?.value ?? 0.0,
+                  final history = patientMetrics[metricType] ?? [];
+                  final latestMetric = history.isNotEmpty ? history.last : null;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildEditableField(
+                        context,
+                        ref,
+                        metricType.name.capitalize(),
+                        metricType,
+                        latestMetric?.value ?? 0.0,
+                      ),
+                      if (history.isNotEmpty)
+                        PatientMetricHistoryChart(metrics: history),
+                      const SizedBox(height: 16),
+                    ],
                   );
                 }),
                 const SizedBox(height: 16),
                 Text(
-                    'BMI: ${calculateBMI(heightInCM: currentHeight, weightInKG: currentWeight).toStringAsFixed(2)}'),
+                  'BMI: ${calculateBMI(heightInCM: currentHeight, weightInKG: currentWeight).toStringAsFixed(2)}',
+                ),
               ],
             ),
           );
