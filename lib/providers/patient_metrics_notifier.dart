@@ -4,13 +4,13 @@ import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart'
 
 class PatientMetricsNotifier extends StateNotifier<
     Map<EPatientHealthMetricField, List<PatientHealthMetric>>> {
-  final IPatientMetricsRepository _repository;
+  final IPatientMetricsRepo _repo;
 
-  PatientMetricsNotifier(this._repository) : super({});
+  PatientMetricsNotifier(this._repo) : super({});
 
   /// Fetch all metrics for a specific patient
   Future<void> fetchPatientMetrics(int patientId) async {
-    final metrics = await _repository.getMetricsByPatientId(patientId);
+    final metrics = await _repo.getMetricsByPatientId(patientId);
 
     final groupedMetrics =
         <EPatientHealthMetricField, List<PatientHealthMetric>>{};
@@ -40,7 +40,7 @@ class PatientMetricsNotifier extends StateNotifier<
       recordedAt: DateTime.now(),
     );
 
-    await _repository.insertMetricRecord(newMetric);
+    await _repo.insertMetricRecord(newMetric);
 
     // Fetch the updated state
     await fetchPatientMetrics(patientId);
@@ -63,7 +63,7 @@ class PatientMetricsNotifier extends StateNotifier<
 
     final updatedMetric = existingMetric.copyWith(value: value);
 
-    await _repository.insertMetricRecord(updatedMetric);
+    await _repo.insertMetricRecord(updatedMetric);
 
     // Fetch the updated state
     await fetchPatientMetrics(patientId);
