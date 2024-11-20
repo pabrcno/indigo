@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/widgets/paddings.dart';
 
 class BodyMetricsCard extends StatelessWidget {
   final String label;
@@ -29,7 +30,7 @@ class BodyMetricsCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: kPadding,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),

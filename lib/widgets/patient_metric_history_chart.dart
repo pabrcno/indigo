@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
+import 'package:indigo/widgets/paddings.dart';
 
 class PatientMetricHistoryChart extends StatelessWidget {
   final List<PatientHealthMetric> metrics;
@@ -41,11 +42,11 @@ class PatientMetricHistoryChart extends StatelessWidget {
         children: [
           // Header with icon and label
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: kPadding,
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: kSmallPadding,
                   decoration: BoxDecoration(
                     color: curveColor.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(12),
