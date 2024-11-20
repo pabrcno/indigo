@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
+import 'package:indigo/providers/patient_metrics_notifier.dart';
 import 'package:indigo/providers/patient_metrics_provider.dart';
 import 'package:indigo/utils/calculate_bmi.dart';
 
