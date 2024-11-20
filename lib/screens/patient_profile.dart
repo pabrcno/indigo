@@ -55,26 +55,24 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ListView(
               children: [
-                ...EPatientHealthMetricField.values.map((metricType) {
+                ...[
+                  EPatientHealthMetricField.glucose,
+                  EPatientHealthMetricField.bloodPressure,
+                  EPatientHealthMetricField.temperature,
+                  EPatientHealthMetricField.respiratoryRate
+                ].map((metricType) {
                   final history = patientMetrics[metricType] ?? [];
 
                   return GestureDetector(
                     onTap: () {
-                      showEditModal(context, ref, metricType.name.capitalize(),
-                          metricType);
+                      showEditModal(context, ref, metricType.name, metricType);
                     },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        PatientMetricHistoryChart(
-                          icon: getIconForMetric(metricType),
-                          unit: getUnitForMetric(metricType),
-                          label: metricType.name.capitalize(),
-                          metrics: history,
-                          curveColor: getColorForMetric(metricType),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
+                    child: PatientMetricHistoryChart(
+                      icon: getIconForMetric(metricType),
+                      unit: getUnitForMetric(metricType),
+                      label: metricType.name.capitalize(),
+                      metrics: history,
+                      curveColor: getColorForMetric(metricType),
                     ),
                   );
                 }),
