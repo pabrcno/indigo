@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:indigo/models/patient/patient.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 import 'package:indigo/utils/calculate_bmi.dart';
 import 'package:indigo/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/widgets/bmi_indicator.dart';
 import 'package:indigo/widgets/body_metrics_card.dart';
+import 'package:indigo/widgets/notes_card.dart';
 import 'package:indigo/widgets/patient_metric_history_chart.dart';
 import 'package:indigo/widgets/ruler_widget.dart';
 
 class PatientProfileScreen extends ConsumerStatefulWidget {
-  final int patientId; // Accept a patient ID to fetch data
+  final Patient patient; // Accept a patient ID to fetch data
 
-  const PatientProfileScreen({super.key, required this.patientId});
+  const PatientProfileScreen({super.key, required this.patient});
 
   @override
   ConsumerState<PatientProfileScreen> createState() =>
@@ -27,7 +29,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
     super.initState();
     _fetchMetricsFuture = ref
         .read(patientMetricsNotifierProvider.notifier)
-        .fetchPatientMetrics(widget.patientId);
+        .fetchPatientMetrics(widget.patient.id);
   }
 
   @override
@@ -126,6 +128,11 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                   bmiValue: calculateBMI(
                       heightInCM: currentHeight, weightInKG: currentWeight),
                 ),
+                NotesCard(
+                    notes: widget.patient.notes ?? '',
+                    onCreate: () => {
+                          //TODO: IMPLEMENT FUNCTION HERE
+                        })
               ],
             ),
           );
@@ -175,7 +182,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                       await ref
                           .read(patientMetricsNotifierProvider.notifier)
                           .addMetric(
-                            patientId: widget.patientId,
+                            patientId: widget.patient.id,
                             metricType: field,
                             value: value,
                           );

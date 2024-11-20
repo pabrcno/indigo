@@ -96,7 +96,7 @@ class PatientsScreenState extends ConsumerState<PatientsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PatientProfileScreen(
-                              patientId: patient.id,
+                              patient: patient,
                             ),
                           ),
                         );
