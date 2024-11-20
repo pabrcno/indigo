@@ -20,7 +20,6 @@ class PatientMetricHistoryChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Sort the metrics history to display the curve properly
     final sortedMetrics = [...metrics]
       ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
     final latestMetric = sortedMetrics.isNotEmpty ? sortedMetrics.last : null;
@@ -38,160 +37,174 @@ class PatientMetricHistoryChart extends StatelessWidget {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header with icon and label
           Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(icon, color: curveColor),
-                      const SizedBox(width: 8),
-                      Text(
-                        label,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: curveColor,
-                        ),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: curveColor.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
-                ],
-              )),
-          if (latestMetric != null)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(children: [
-                      Row(
-                        children: [
-                          Text(
-                            latestMetric.value.toStringAsFixed(1),
-                            style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            unit,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                          const Spacer(),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: getStatusColor(
-                                getStatusForMetric(metrics.first.metricType,
-                                    latestMetric.value),
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              getStatusForMetric(
-                                  metrics.first.metricType, latestMetric.value),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ])),
-                SizedBox(
-                  height: 80,
-                  child: LineChart(
-                    LineChartData(
-                      gridData: const FlGridData(show: false),
-                      titlesData: const FlTitlesData(show: false),
-                      borderData: FlBorderData(show: false),
-                      lineBarsData: [
-                        LineChartBarData(
-                          isCurved: true,
-                          color: curveColor,
-                          spots: sortedMetrics
-                              .asMap()
-                              .entries
-                              .map(
-                                (entry) => FlSpot(
-                                  entry.key.toDouble(),
-                                  entry.value.value,
-                                ),
-                              )
-                              .toList(),
-                          dotData: const FlDotData(
-                            show: false, // Disable dots
-                          ),
-                          barWidth: 1,
-                          aboveBarData: BarAreaData(
-                            show: true,
-                            gradient: LinearGradient(
-                              colors: [
-                                curveColor.withOpacity(0.3),
-                                curveColor.withOpacity(0.0),
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                            ),
-                          ),
-                          belowBarData: BarAreaData(
-                            show: true,
-                            gradient: LinearGradient(
-                              colors: [
-                                curveColor.withOpacity(0.3),
-                                curveColor.withOpacity(0.1),
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                        ),
-                      ],
-                      lineTouchData: LineTouchData(
-                        touchTooltipData: LineTouchTooltipData(
-                          getTooltipItems: (touchedSpots) {
-                            return touchedSpots.map((spot) {
-                              final index = spot.spotIndex;
-                              final metric = sortedMetrics[index];
-                              return LineTooltipItem(
-                                '${metric.recordedAt.day}/${metric.recordedAt.month}/${metric.recordedAt.year}\n'
-                                '${metric.value.toStringAsFixed(1)} $unit',
-                                const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              );
-                            }).toList();
-                          },
-                        ),
-                        handleBuiltInTouches: true,
-                      ),
-                    ),
+                  child: Icon(icon, color: curveColor),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 16,
                   ),
                 ),
               ],
-            )
-          else
+            ),
+          ),
+
+          if (latestMetric != null) ...[
+            // Latest metric value and status badge
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            latestMetric.value.toStringAsFixed(1),
+                            style: const TextStyle(fontSize: 28),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            unit,
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.grey.shade600),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: getStatusColor(getStatusForMetric(
+                              metrics.first.metricType, latestMetric.value)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          getStatusForMetric(
+                              metrics.first.metricType, latestMetric.value),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ])),
+            const SizedBox(height: 16),
+            // Line chart
+            SizedBox(
+              height: 80,
+              child: LineChart(
+                LineChartData(
+                  gridData: const FlGridData(show: false),
+                  titlesData: const FlTitlesData(show: false),
+                  borderData: FlBorderData(show: false),
+                  lineBarsData: [
+                    // The double line imitates the desired effect
+                    LineChartBarData(
+                      isCurved: true,
+                      color: Colors.transparent,
+                      spots: sortedMetrics
+                          .asMap()
+                          .entries
+                          .map((entry) => FlSpot(
+                              entry.key.toDouble(), entry.value.value * 1.1))
+                          .toList(),
+                      dotData: const FlDotData(show: false),
+                      barWidth: 1.5,
+                      belowBarData: BarAreaData(
+                        show: true,
+                        gradient: LinearGradient(
+                          colors: [
+                            curveColor.withOpacity(0.3),
+                            curveColor.withOpacity(0.0),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                    LineChartBarData(
+                      isCurved: true,
+                      color: curveColor,
+                      spots: sortedMetrics
+                          .asMap()
+                          .entries
+                          .map((entry) =>
+                              FlSpot(entry.key.toDouble(), entry.value.value))
+                          .toList(),
+                      dotData: const FlDotData(show: false),
+                      barWidth: 1.5,
+                      belowBarData: BarAreaData(
+                        show: true,
+                        gradient: LinearGradient(
+                          colors: [
+                            curveColor.withOpacity(0.3),
+                            curveColor.withOpacity(0.0),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ],
+                  lineTouchData: LineTouchData(
+                    touchTooltipData: LineTouchTooltipData(
+                      getTooltipItems: (touchedSpots) =>
+                          touchedSpots.map((spot) {
+                        final index = spot.spotIndex;
+                        final metric = sortedMetrics[index];
+                        if (spot.barIndex == 0) {
+                          return LineTooltipItem(
+                            '${metric.recordedAt.day}/${metric.recordedAt.month}/${metric.recordedAt.year}',
+                            const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          );
+                        } else {
+                          return LineTooltipItem(
+                            '${metric.value.toStringAsFixed(1)} $unit',
+                            const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          );
+                        }
+                      }).toList(),
+                    ),
+                    handleBuiltInTouches: true,
+                  ),
+                ),
+              ),
+            ),
+          ] else
             Center(
               child: Text(
                 'No data available',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey.shade600,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
               ),
             ),
         ],

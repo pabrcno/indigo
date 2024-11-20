@@ -68,12 +68,12 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      showEditModal(context, ref, metricType.name, metricType);
+                      showEditModal(context, ref, metricType);
                     },
                     child: PatientMetricHistoryChart(
                       icon: getIconForMetric(metricType),
                       unit: getUnitForMetric(metricType),
-                      label: metricType.name,
+                      label: getLabelForMetric(metricType),
                       metrics: history,
                       curveColor: getColorForMetric(metricType),
                     ),
@@ -87,15 +87,16 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      showEditModal(context, ref, metricType.name, metricType);
+                      showEditModal(context, ref, metricType);
                     },
                     child: RulerWidget(
                       unit: getUnitForMetric(metricType),
-                      label: metricType.name,
+                      label: getLabelForMetric(metricType),
                       value: history.isNotEmpty
                           ? history.last.value
                           : 0.0, // Default to 0 if history is empty
-                      backgroundColor: getColorForMetric(metricType),
+                      backgroundColor:
+                          getColorForMetric(metricType).withOpacity(0.5),
                     ),
                   );
                 }),
@@ -108,10 +109,10 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      showEditModal(context, ref, metricType.name, metricType);
+                      showEditModal(context, ref, metricType);
                     },
                     child: BodyMetricsCard(
-                      label: metricType.name,
+                      label: getLabelForMetric(metricType),
                       value: history.isNotEmpty
                           ? history.last.value
                           : 0.0, // Default to 0 if history is empty
@@ -136,7 +137,6 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
   void showEditModal(
     BuildContext context,
     WidgetRef ref,
-    String label,
     EPatientHealthMetricField field,
   ) {
     final controller = TextEditingController();
@@ -145,6 +145,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
+        final label = getLabelForMetric(field);
         return Padding(
           padding: MediaQuery.of(context).viewInsets,
           child: Padding(
@@ -153,7 +154,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Add new $label measurement',
+                  'Crear nuevo registro de $label',
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -196,7 +197,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
       case EPatientHealthMetricField.glucose:
         return 'mg/dL';
       case EPatientHealthMetricField.bloodPressure:
-        return 'mmHg';
+        return '/72 mmHg';
       case EPatientHealthMetricField.temperature:
         return '°C';
       case EPatientHealthMetricField.height:
@@ -215,7 +216,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
       case EPatientHealthMetricField.bloodPressure:
         return const Color(0xFF478F96);
       case EPatientHealthMetricField.temperature:
-        return const Color(0xFFF3A53F);
+        return const Color(0xFFF8BDBD);
       case EPatientHealthMetricField.respiratoryRate:
         return const Color(0xFFF6C2FF);
       case EPatientHealthMetricField.height:
@@ -241,6 +242,31 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
         return Icons.fitness_center;
       default:
         return Icons.device_unknown;
+    }
+  }
+
+  String getLabelForMetric(EPatientHealthMetricField metric) {
+    switch (metric) {
+      case EPatientHealthMetricField.glucose:
+        return 'Glucemia';
+      case EPatientHealthMetricField.bloodPressure:
+        return 'Presión arterial';
+      case EPatientHealthMetricField.temperature:
+        return 'Temperatura corporal';
+      case EPatientHealthMetricField.respiratoryRate:
+        return 'Frecuencia respiratoria';
+      case EPatientHealthMetricField.height:
+        return 'Altura';
+      case EPatientHealthMetricField.weight:
+        return 'Peso';
+      case EPatientHealthMetricField.chest:
+        return 'Pecho';
+      case EPatientHealthMetricField.waist:
+        return 'Cintura';
+      case EPatientHealthMetricField.hips:
+        return 'Cadera';
+      default:
+        return 'Desconocido';
     }
   }
 }
