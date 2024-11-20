@@ -71,9 +71,7 @@ class RulerWidget extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
+                style: const TextStyle(fontSize: 16),
               ),
               Text(
                 '${value.toStringAsFixed(1)} $unit',
