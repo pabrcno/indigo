@@ -210,3 +210,36 @@ extension StringExtension on String {
     return '${this[0].toUpperCase()}${substring(1)}';
   }
 }
+
+String getStatusForMetric(EPatientHealthMetricField metric, double value) {
+  switch (metric) {
+    case EPatientHealthMetricField.glucose:
+      if (value < 70) return 'Low';
+      if (value <= 140) return 'Normal';
+      return 'High';
+    case EPatientHealthMetricField.bloodPressure:
+      if (value < 90) return 'Low';
+      if (value <= 120) return 'Normal';
+      return 'High';
+    case EPatientHealthMetricField.temperature:
+      if (value < 36.5) return 'Low';
+      if (value <= 37.5) return 'Normal';
+      return 'High';
+
+    default:
+      return 'Unknown';
+  }
+}
+
+Color getStatusColor(String status) {
+  switch (status) {
+    case 'Low':
+      return Colors.blue;
+    case 'Normal':
+      return Colors.green;
+    case 'High':
+      return Colors.red;
+    default:
+      return Colors.grey;
+  }
+}

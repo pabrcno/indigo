@@ -23,9 +23,9 @@ class PatientMetricHistoryCurve extends StatelessWidget {
     // Sort the metrics history to display the curve properly
     final sortedMetrics = [...metrics]
       ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+    final latestMetric = sortedMetrics.isNotEmpty ? sortedMetrics.last : null;
 
     return Container(
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -39,47 +39,77 @@ class PatientMetricHistoryCurve extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              Icon(icon, color: curveColor),
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: curveColor,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          if (sortedMetrics.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(icon, color: curveColor),
+                      const SizedBox(width: 8),
+                      Text(
+                        label,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: curveColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )),
+          if (latestMetric != null)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      sortedMetrics.last.value.toStringAsFixed(1),
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            latestMetric.value.toStringAsFixed(1),
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            unit,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: getStatusColor(
+                                getStatusForMetric(metrics.first.metricType,
+                                    latestMetric.value),
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              getStatusForMetric(
+                                  metrics.first.metricType, latestMetric.value),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      unit,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                const SizedBox(height: 8),
+                    ])),
                 SizedBox(
                   height: 80,
                   child: LineChart(
@@ -107,10 +137,9 @@ class PatientMetricHistoryCurve extends StatelessWidget {
                           barWidth: 1,
                           aboveBarData: BarAreaData(
                             show: true,
-                            color: curveColor.withOpacity(0.3),
                             gradient: LinearGradient(
                               colors: [
-                                curveColor.withOpacity(0.2),
+                                curveColor.withOpacity(0.3),
                                 curveColor.withOpacity(0.0),
                               ],
                               begin: Alignment.bottomCenter,
@@ -169,5 +198,41 @@ class PatientMetricHistoryCurve extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getStatusForMetric(EPatientHealthMetricField metric, double value) {
+    switch (metric) {
+      case EPatientHealthMetricField.glucose:
+        if (value < 70) return 'Low';
+        if (value <= 140) return 'Normal';
+        return 'High';
+      case EPatientHealthMetricField.bloodPressure:
+        if (value < 90) return 'Low';
+        if (value <= 120) return 'Normal';
+        return 'High';
+      case EPatientHealthMetricField.temperature:
+        if (value < 36.5) return 'Low';
+        if (value <= 37.5) return 'Normal';
+        return 'High';
+      case EPatientHealthMetricField.respiratoryRate:
+        if (value < 12) return 'Low';
+        if (value <= 20) return 'Normal';
+        return 'High';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'Low':
+        return Colors.blue;
+      case 'Normal':
+        return Colors.green;
+      case 'High':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
   }
 }
