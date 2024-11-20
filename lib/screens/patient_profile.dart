@@ -132,7 +132,11 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                     notes: widget.patient.notes ?? '',
                     onCreate: () => {
                           //TODO: IMPLEMENT FUNCTION HERE
-                        })
+                        }),
+                Image.asset(
+                  'assets/images/patient.png',
+                  height: 200,
+                ),
               ],
             ),
           );
