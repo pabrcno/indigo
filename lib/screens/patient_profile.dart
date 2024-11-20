@@ -95,8 +95,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                       value: history.isNotEmpty
                           ? history.last.value
                           : 0.0, // Default to 0 if history is empty
-                      backgroundColor:
-                          getColorForMetric(metricType).withOpacity(0.5),
+                      backgroundColor: getColorForMetric(metricType),
                     ),
                   );
                 }),
@@ -220,7 +219,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
       case EPatientHealthMetricField.respiratoryRate:
         return const Color(0xFFF6C2FF);
       case EPatientHealthMetricField.height:
-        return const Color(0xFFF3A53F);
+        return const Color(0xFFF8DEBD);
       case EPatientHealthMetricField.weight:
         return const Color(0xFFD0FBFF);
       default:

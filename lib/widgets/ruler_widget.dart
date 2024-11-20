@@ -32,50 +32,57 @@ class RulerWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
           const SizedBox(height: 8),
+          // Stack for the ruler
           Stack(
             alignment: Alignment.center,
             children: [
-              // Ruler lines
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
                   11,
-                  (index) => Container(
-                    height: index == 5 ? 30 : 15,
-                    width: 2,
-                    color:
-                        index == 5 ? Colors.red : Colors.black.withOpacity(0.4),
-                  ),
+                  (index) {
+                    final opacity = 1.0 - (index - 5).abs() / 10.0;
+                    return Container(
+                      height: index == 5 ? 30 : 15,
+                      width: 2,
+                      color: index == 5
+                          ? Colors.red
+                          : Colors.black.withOpacity(opacity),
+                    );
+                  },
                 ),
               ),
-              // Highlighted line for the value
+              // Cover the left half of the ruler
               Positioned(
-                bottom: 0,
+                left: 0,
                 child: Container(
-                  width: 2,
+                  width: MediaQuery.of(context).size.width / 3, // Adjust width
                   height: 30,
-                  color: Colors.red,
+                  color: backgroundColor,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            '${value.toStringAsFixed(1)} $unit',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+          // Row for label and measurement
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                '${value.toStringAsFixed(1)} $unit',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox()
+            ],
           ),
         ],
       ),
