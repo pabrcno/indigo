@@ -73,7 +73,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                     child: PatientMetricHistoryChart(
                       icon: getIconForMetric(metricType),
                       unit: getUnitForMetric(metricType),
-                      label: metricType.name.capitalize(),
+                      label: metricType.name,
                       metrics: history,
                       curveColor: getColorForMetric(metricType),
                     ),
@@ -91,12 +91,11 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                     },
                     child: RulerWidget(
                       unit: getUnitForMetric(metricType),
-                      label: metricType.name.capitalize(),
+                      label: metricType.name,
                       value: history.isNotEmpty
                           ? history.last.value
                           : 0.0, // Default to 0 if history is empty
-                      backgroundColor:
-                          getColorForMetric(metricType).withOpacity(0.2),
+                      backgroundColor: getColorForMetric(metricType),
                     ),
                   );
                 }),
@@ -112,7 +111,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                       showEditModal(context, ref, metricType.name, metricType);
                     },
                     child: BodyMetricsCard(
-                      label: metricType.name.capitalize(),
+                      label: metricType.name,
                       value: history.isNotEmpty
                           ? history.last.value
                           : 0.0, // Default to 0 if history is empty
@@ -212,15 +211,17 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
   Color getColorForMetric(EPatientHealthMetricField metric) {
     switch (metric) {
       case EPatientHealthMetricField.glucose:
-        return Colors.orange;
+        return const Color(0xFFF3A53F);
       case EPatientHealthMetricField.bloodPressure:
-        return Colors.blue;
+        return const Color(0xFF478F96);
       case EPatientHealthMetricField.temperature:
-        return Colors.red;
+        return const Color(0xFFF3A53F);
+      case EPatientHealthMetricField.respiratoryRate:
+        return const Color(0xFFF6C2FF);
       case EPatientHealthMetricField.height:
-        return Colors.green;
+        return const Color(0xFFF3A53F);
       case EPatientHealthMetricField.weight:
-        return Colors.purple;
+        return const Color(0xFFD0FBFF);
       default:
         return Colors.grey;
     }
@@ -241,45 +242,5 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
       default:
         return Icons.device_unknown;
     }
-  }
-}
-
-extension StringExtension on String {
-  String capitalize() {
-    if (isEmpty) return this;
-    return '${this[0].toUpperCase()}${substring(1)}';
-  }
-}
-
-String getStatusForMetric(EPatientHealthMetricField metric, double value) {
-  switch (metric) {
-    case EPatientHealthMetricField.glucose:
-      if (value < 70) return 'Low';
-      if (value <= 140) return 'Normal';
-      return 'High';
-    case EPatientHealthMetricField.bloodPressure:
-      if (value < 90) return 'Low';
-      if (value <= 120) return 'Normal';
-      return 'High';
-    case EPatientHealthMetricField.temperature:
-      if (value < 36.5) return 'Low';
-      if (value <= 37.5) return 'Normal';
-      return 'High';
-
-    default:
-      return 'Unknown';
-  }
-}
-
-Color getStatusColor(String status) {
-  switch (status) {
-    case 'Low':
-      return Colors.blue;
-    case 'Normal':
-      return Colors.green;
-    case 'High':
-      return Colors.red;
-    default:
-      return Colors.grey;
   }
 }
