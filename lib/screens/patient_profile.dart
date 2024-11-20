@@ -57,27 +57,34 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
               children: [
                 ...EPatientHealthMetricField.values.map((metricType) {
                   final history = patientMetrics[metricType] ?? [];
-                  final latestMetric = history.isNotEmpty ? history.last : null;
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildEditableField(
-                        context,
-                        ref,
-                        metricType.name.capitalize(),
-                        metricType,
-                        latestMetric?.value ?? 0.0,
-                      ),
-                      if (history.isNotEmpty)
-                        PatientMetricHistoryChart(metrics: history),
-                      const SizedBox(height: 16),
-                    ],
+                  return GestureDetector(
+                    onTap: () {
+                      showEditModal(context, ref, metricType.name.capitalize(),
+                          metricType);
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PatientMetricHistoryCurve(
+                          icon: getIconForMetric(metricType),
+                          unit: getUnitForMetric(metricType),
+                          label: metricType.name.capitalize(),
+                          metrics: history,
+                          curveColor: getColorForMetric(metricType),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   );
                 }),
                 const SizedBox(height: 16),
                 Text(
                   'BMI: ${calculateBMI(heightInCM: currentHeight, weightInKG: currentWeight).toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -87,43 +94,13 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
     );
   }
 
-  Widget buildEditableField(
-    BuildContext context,
-    WidgetRef ref,
-    String label,
-    EPatientHealthMetricField field,
-    double value,
-  ) {
-    return GestureDetector(
-      onTap: () => showEditModal(context, ref, label, field, value),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(label),
-              Text(value == 0.0 ? 'Enter value' : value.toStringAsFixed(1)),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   void showEditModal(
     BuildContext context,
     WidgetRef ref,
     String label,
     EPatientHealthMetricField field,
-    double initialValue,
   ) {
-    final controller = TextEditingController(text: initialValue.toString());
+    final controller = TextEditingController();
 
     showModalBottomSheet(
       context: context,
@@ -137,7 +114,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Edit $label',
+                  'Add new $label measurement',
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -173,6 +150,57 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
         );
       },
     );
+  }
+
+  String getUnitForMetric(EPatientHealthMetricField metric) {
+    switch (metric) {
+      case EPatientHealthMetricField.glucose:
+        return 'mg/dL';
+      case EPatientHealthMetricField.bloodPressure:
+        return 'mmHg';
+      case EPatientHealthMetricField.temperature:
+        return '°C';
+      case EPatientHealthMetricField.height:
+        return 'cm';
+      case EPatientHealthMetricField.weight:
+        return 'kg';
+      default:
+        return '';
+    }
+  }
+
+  Color getColorForMetric(EPatientHealthMetricField metric) {
+    switch (metric) {
+      case EPatientHealthMetricField.glucose:
+        return Colors.orange;
+      case EPatientHealthMetricField.bloodPressure:
+        return Colors.blue;
+      case EPatientHealthMetricField.temperature:
+        return Colors.red;
+      case EPatientHealthMetricField.height:
+        return Colors.green;
+      case EPatientHealthMetricField.weight:
+        return Colors.purple;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  IconData getIconForMetric(EPatientHealthMetricField metric) {
+    switch (metric) {
+      case EPatientHealthMetricField.glucose:
+        return Icons.bloodtype;
+      case EPatientHealthMetricField.bloodPressure:
+        return Icons.favorite;
+      case EPatientHealthMetricField.temperature:
+        return Icons.thermostat;
+      case EPatientHealthMetricField.height:
+        return Icons.height;
+      case EPatientHealthMetricField.weight:
+        return Icons.fitness_center;
+      default:
+        return Icons.device_unknown;
+    }
   }
 }
 
