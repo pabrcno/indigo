@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 import 'package:indigo/utils/calculate_bmi.dart';
+import 'package:indigo/widgets/bmi_indicator.dart';
+import 'package:indigo/widgets/body_metrics_card.dart';
 import 'package:indigo/widgets/patient_metric_history_chart.dart';
 import 'package:indigo/widgets/ruler_widget.dart';
 
@@ -98,13 +100,31 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                     ),
                   );
                 }),
+                ...[
+                  EPatientHealthMetricField.chest,
+                  EPatientHealthMetricField.waist,
+                  EPatientHealthMetricField.hips
+                ].map((metricType) {
+                  final history = patientMetrics[metricType] ?? [];
+
+                  return GestureDetector(
+                    onTap: () {
+                      showEditModal(context, ref, metricType.name, metricType);
+                    },
+                    child: BodyMetricsCard(
+                      label: metricType.name.capitalize(),
+                      value: history.isNotEmpty
+                          ? history.last.value
+                          : 0.0, // Default to 0 if history is empty
+                      previousValue:
+                          history.isNotEmpty ? history.first.value : 0.0,
+                    ),
+                  );
+                }),
                 const SizedBox(height: 16),
-                Text(
-                  'BMI: ${calculateBMI(heightInCM: currentHeight, weightInKG: currentWeight).toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                BMIIndicator(
+                  bmiValue: calculateBMI(
+                      heightInCM: currentHeight, weightInKG: currentWeight),
                 ),
               ],
             ),
