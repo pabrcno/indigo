@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:indigo/providers/patient_metrics_notifier.dart';
+import 'package:indigo/providers/patient_health_metrics/patient_metrics_notifier.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:indigo/db/patient_health_metric/i_patient_metrics_repo.dart';

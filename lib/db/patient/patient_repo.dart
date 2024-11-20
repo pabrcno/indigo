@@ -36,9 +36,10 @@ class PatientsRepository implements IPatientRepo {
         .go();
   }
 
+  @override
   Future<List<Patient>> searchPatientByName(String namePattern) async {
     final rows = await _db.customSelect(
-      'SELECT * FROM patients WHERE name LIKE ?',
+      'SELECT * FROM patients_table WHERE name LIKE ?',
       variables: [Variable.withString('%$namePattern%')],
       readsFrom: {_db.patientsTable},
     ).get();

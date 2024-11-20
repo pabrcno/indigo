@@ -5,4 +5,5 @@ abstract class IPatientRepo {
   Future<List<Patient>> getAllPatients();
   Future<Patient?> getPatientById(int id);
   Future<int> deletePatient(int id);
+  Future<List<Patient>> searchPatientByName(String namePattern);
 }
