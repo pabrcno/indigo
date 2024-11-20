@@ -105,9 +105,28 @@ class PatientMetricHistoryCurve extends StatelessWidget {
                             show: false, // Disable dots
                           ),
                           barWidth: 1,
-                          belowBarData: BarAreaData(
+                          aboveBarData: BarAreaData(
                             show: true,
                             color: curveColor.withOpacity(0.3),
+                            gradient: LinearGradient(
+                              colors: [
+                                curveColor.withOpacity(0.2),
+                                curveColor.withOpacity(0.0),
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                            ),
+                          ),
+                          belowBarData: BarAreaData(
+                            show: true,
+                            gradient: LinearGradient(
+                              colors: [
+                                curveColor.withOpacity(0.3),
+                                curveColor.withOpacity(0.1),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
                           ),
                         ),
                       ],
