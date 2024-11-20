@@ -67,7 +67,6 @@ class PatientMetricHistoryCurve extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: Column(children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             latestMetric.value.toStringAsFixed(1),
