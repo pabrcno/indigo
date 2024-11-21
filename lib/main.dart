@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/screens/patients_screen.dart';
+import 'package:indigo/widgets/custom_navigation_menu.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           // Secondary body text
         ),
       ),
-      home: const PatientsScreen(),
+      home: const CustomNavigationRail(),
     );
   }
 }

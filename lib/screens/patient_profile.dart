@@ -7,6 +7,8 @@ import 'package:indigo/utils/calculate_bmi.dart';
 import 'package:indigo/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/widgets/bmi_indicator.dart';
 import 'package:indigo/widgets/body_metrics_card.dart';
+import 'package:indigo/widgets/custom_app_bar.dart';
+import 'package:indigo/widgets/custom_navigation_menu.dart';
 import 'package:indigo/widgets/notes_card.dart';
 import 'package:indigo/widgets/patient_metric_history_chart.dart';
 import 'package:indigo/widgets/ruler_widget.dart';
@@ -41,9 +43,6 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
         patientMetrics[EPatientHealthMetricField.weight]?.last.value ?? 0;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Patient Profile'),
-      ),
       body: FutureBuilder(
         future: _fetchMetricsFuture,
         builder: (context, snapshot) {
