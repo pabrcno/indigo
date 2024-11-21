@@ -2,8 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-double calculateBMI({required double heightInCM, required double weightInKG}) =>
-    weightInKG / pow(heightInCM / 100, 2);
+double calculateBMI({required double heightInCM, required double weightInKG}) {
+  if (heightInCM <= 0) {
+    throw Exception('Height must be greater than zero.');
+  }
+  if (weightInKG <= 0) {
+    throw Exception('Weight must be greater than zero.');
+  }
+  return weightInKG / pow(heightInCM / 100, 2);
+}
 
 String getBMICategory(double bmi) {
   if (bmi < 18.5) {
