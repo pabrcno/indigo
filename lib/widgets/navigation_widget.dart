@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient/patient.dart';
-import 'package:indigo/screens/patient_profile.dart';
+import 'package:indigo/screens/home_screen.dart';
+import 'package:indigo/screens/patient_profile_screen.dart';
 import 'package:indigo/screens/patients_screen.dart';
 import 'package:indigo/widgets/custom_app_bar.dart';
 import 'package:indigo/widgets/paddings.dart';
 
-class CustomNavigationRail extends StatefulWidget {
-  const CustomNavigationRail({super.key});
+class NavigationWidget extends StatefulWidget {
+  const NavigationWidget({super.key});
 
   @override
-  State<CustomNavigationRail> createState() => _CustomNavigationRailState();
+  State<NavigationWidget> createState() => _NavigationWidgetState();
 }
 
-class _CustomNavigationRailState extends State<CustomNavigationRail> {
+class _NavigationWidgetState extends State<NavigationWidget> {
   int _selectedIndex = 0;
 
   final List<_MenuOption> _menuOptions = [
@@ -67,7 +68,7 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                const Center(child: Text('Inicio')),
+                const HomeScreen(),
                 _buildPatientsNavigator(), // Patients section with inner navigation
                 const Center(child: Text('Planes')),
                 const Center(child: Text('Perfil')),

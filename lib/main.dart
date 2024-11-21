@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/widgets/custom_navigation_menu.dart';
+import 'package:indigo/widgets/navigation_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           // Secondary body text
         ),
       ),
-      home: const CustomNavigationRail(),
+      home: const NavigationWidget(),
     );
   }
 }
