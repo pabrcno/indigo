@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/presentation/constants/colors.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
-import 'package:indigo/presentation/widgets/paddings.dart';
+
+import 'package:indigo/presentation/widgets/shadow.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final bool isWideScreen = MediaQuery.of(context).size.width > 1100;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: standardSpacing),
+      padding: EdgeInsets.symmetric(
+          horizontal: standardSpacing,
+          vertical: isWideScreen ? 0 : standardSpacing),
       decoration: BoxDecoration(
         color: lightPurple,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(standardSpacing),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,8 +31,7 @@ class TaskCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: standardSpacing),
+                      padding: const EdgeInsets.only(bottom: standardSpacing),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -43,15 +46,15 @@ class TaskCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [standardShadow]),
                             child: const Text(
                               '62',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: lightPurple,
+                                color: darkPurple,
                               ),
                             ),
                           ),
@@ -64,31 +67,32 @@ class TaskCard extends StatelessWidget {
                           'Ver todo',
                           style: TextStyle(color: Colors.white),
                         )),
-                    const _TaskCounter(label: 'Usuarios', count: 20),
+                    const _TaskCounter(label: 'Usuarios'),
                     const SizedBox(height: smallSpacing),
-                    const _TaskCounter(label: 'Mensajes', count: 15),
+                    const _TaskCounter(label: 'Mensajes'),
                     const SizedBox(height: smallSpacing),
-                    const _TaskCounter(label: 'Seguimientos', count: 27),
+                    const _TaskCounter(label: 'Seguimientos'),
                   ],
                 ),
               ),
-              const SizedBox(
-                width: standardSpacing * 4,
-              ),
-              // Image Section
-              Padding(
-                padding: const EdgeInsets.only(top: standardSpacing),
-                child: Expanded(
-                  flex: 1,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Image.asset(
-                      "assets/images/coach.png",
-                      fit: BoxFit.contain,
+              if (isWideScreen)
+                const SizedBox(
+                  width: standardSpacing * 2,
+                ),
+              if (isWideScreen)
+                Padding(
+                  padding: const EdgeInsets.only(top: standardSpacing),
+                  child: Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Image.asset(
+                        "assets/images/coach.png",
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ],
@@ -99,14 +103,18 @@ class TaskCard extends StatelessWidget {
 
 class _TaskCounter extends StatelessWidget {
   final String label;
-  final int count;
 
-  const _TaskCounter({required this.label, required this.count});
+  const _TaskCounter({required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: kSmallPadding,
+        padding: const EdgeInsets.symmetric(
+            horizontal: standardSpacing, vertical: 4),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(smallSpacing)),
+            boxShadow: [standardShadow]),
         child: Row(
           children: [
             Container(
@@ -126,15 +134,8 @@ class _TaskCounter extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: const TextStyle(fontSize: 14, color: Colors.white),
+                style: const TextStyle(fontSize: 16),
               ),
-            ),
-            Text(
-              count.toString(),
-              style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
             ),
           ],
         ));
