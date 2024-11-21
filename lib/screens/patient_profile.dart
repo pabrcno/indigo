@@ -7,13 +7,12 @@ import 'package:indigo/utils/calculate_bmi.dart';
 import 'package:indigo/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/widgets/bmi_indicator.dart';
 import 'package:indigo/widgets/body_metrics_card.dart';
-
 import 'package:indigo/widgets/notes_card.dart';
 import 'package:indigo/widgets/patient_metric_history_chart.dart';
 import 'package:indigo/widgets/ruler_widget.dart';
 
 class PatientProfileScreen extends ConsumerStatefulWidget {
-  final Patient patient; // Accept a patient ID to fetch data
+  final Patient patient;
 
   const PatientProfileScreen({super.key, required this.patient});
 
@@ -42,114 +41,137 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
         patientMetrics[EPatientHealthMetricField.weight]?.last.value ?? 0;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF4263EB),
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(context)
-                  .pop(); // Navigate back to the previous screen
-            },
-          ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF4263EB),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: FutureBuilder(
-          future: _fetchMetricsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Error loading metrics. ${snapshot.error.toString()}',
-                ),
-              );
-            }
-            return ListView(
+      ),
+      body: FutureBuilder(
+        future: _fetchMetricsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Error loading metrics. ${snapshot.error.toString()}',
+              ),
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
               children: [
-                ...[
-                  EPatientHealthMetricField.glucose,
-                  EPatientHealthMetricField.bloodPressure,
-                  EPatientHealthMetricField.temperature,
-                  EPatientHealthMetricField.respiratoryRate
-                ].map((metricType) {
-                  final history = patientMetrics[metricType] ?? [];
-
-                  return InkWell(
-                    onTap: () {
-                      showEditModal(context, ref, metricType);
-                    },
-                    child: PatientMetricHistoryChart(
-                      icon: getIconForMetric(metricType),
-                      unit: getUnitForMetric(metricType),
-                      label: getLabelForMetric(metricType),
-                      metrics: history,
-                      curveColor: getColorForMetric(metricType),
-                    ),
-                  );
-                }),
-                ...[
-                  EPatientHealthMetricField.weight,
-                  EPatientHealthMetricField.height,
-                ].map((metricType) {
-                  final history = patientMetrics[metricType] ?? [];
-
-                  return InkWell(
-                    onTap: () {
-                      showEditModal(context, ref, metricType);
-                    },
-                    child: RulerWidget(
-                      unit: getUnitForMetric(metricType),
-                      label: getLabelForMetric(metricType),
-                      value: history.isNotEmpty
-                          ? history.last.value
-                          : 0.0, // Default to 0 if history is empty
-                      backgroundColor: getColorForMetric(metricType),
-                    ),
-                  );
-                }),
-                ...[
-                  EPatientHealthMetricField.chest,
-                  EPatientHealthMetricField.waist,
-                  EPatientHealthMetricField.hips
-                ].map((metricType) {
-                  final history = patientMetrics[metricType] ?? [];
-
-                  return InkWell(
-                    onTap: () {
-                      showEditModal(context, ref, metricType);
-                    },
-                    child: BodyMetricsCard(
-                      label: getLabelForMetric(metricType),
-                      value: history.isNotEmpty
-                          ? history.last.value
-                          : 0.0, // Default to 0 if history is empty
-                      previousValue:
-                          history.isNotEmpty ? history.first.value : 0.0,
-                    ),
-                  );
-                }),
-                const SizedBox(height: 16),
-                BMIIndicator(
-                  bmiValue: calculateBMI(
-                      heightInCM: currentHeight, weightInKG: currentWeight),
+                // Metrics Cards
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    for (var metricType in [
+                      EPatientHealthMetricField.glucose,
+                      EPatientHealthMetricField.bloodPressure,
+                      EPatientHealthMetricField.temperature,
+                      EPatientHealthMetricField.respiratoryRate,
+                    ])
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 200),
+                        child: InkWell(
+                          onTap: () {
+                            showEditModal(context, ref, metricType);
+                          },
+                          child: PatientMetricHistoryChart(
+                            icon: getIconForMetric(metricType),
+                            unit: getUnitForMetric(metricType),
+                            label: getLabelForMetric(metricType),
+                            metrics: patientMetrics[metricType] ?? [],
+                            curveColor: getColorForMetric(metricType),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
+                const SizedBox(height: 16),
+
+                // Rulers for Weight and Height
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    for (var metricType in [
+                      EPatientHealthMetricField.weight,
+                      EPatientHealthMetricField.height,
+                    ])
+                      InkWell(
+                        onTap: () {
+                          showEditModal(context, ref, metricType);
+                        },
+                        child: RulerWidget(
+                          unit: getUnitForMetric(metricType),
+                          label: getLabelForMetric(metricType),
+                          value: patientMetrics[metricType]?.last.value ?? 0.0,
+                          backgroundColor: getColorForMetric(metricType),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Body Metrics
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    for (var metricType in [
+                      EPatientHealthMetricField.chest,
+                      EPatientHealthMetricField.waist,
+                      EPatientHealthMetricField.hips,
+                    ])
+                      InkWell(
+                        onTap: () {
+                          showEditModal(context, ref, metricType);
+                        },
+                        child: BodyMetricsCard(
+                          label: getLabelForMetric(metricType),
+                          value: patientMetrics[metricType]?.last.value ?? 0.0,
+                          previousValue:
+                              patientMetrics[metricType]?.first.value ?? 0.0,
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // BMI Indicator
+                if (currentHeight > 0 && currentWeight > 0)
+                  BMIIndicator(
+                    bmiValue: calculateBMI(
+                        heightInCM: currentHeight, weightInKG: currentWeight),
+                  ),
+                const SizedBox(height: 16),
+
+                // Notes Section
                 NotesCard(
-                    notes: widget.patient.notes ?? '',
-                    onCreate: () => {
-                          //TODO: IMPLEMENT FUNCTION HERE
-                        }),
+                  notes: widget.patient.notes ?? '',
+                  onCreate: () {
+                    // TODO: Handle note creation
+                  },
+                ),
+                const SizedBox(height: 16),
+
+                // Patient Image
                 Image.asset(
                   'assets/images/patient.png',
                   height: 200,
                 ),
               ],
-            );
-          },
-        ));
+            ),
+          );
+        },
+      ),
+    );
   }
 
   void showEditModal(
@@ -172,7 +194,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Crear nuevo registro de $label',
+                  'Create new entry for $label',
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),

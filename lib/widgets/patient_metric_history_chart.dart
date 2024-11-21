@@ -42,7 +42,7 @@ class PatientMetricHistoryChart extends StatelessWidget {
         children: [
           // Header with icon and label
           Padding(
-            padding: kPadding,
+            padding: kSmallPadding,
             child: Row(
               children: [
                 Container(
@@ -61,12 +61,13 @@ class PatientMetricHistoryChart extends StatelessWidget {
                   child: Icon(icon, color: curveColor),
                 ),
                 const SizedBox(width: 8),
-                Text(
+                Flexible(
+                    child: Text(
                   label,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
-                ),
+                )),
               ],
             ),
           ),
@@ -74,25 +75,26 @@ class PatientMetricHistoryChart extends StatelessWidget {
           if (latestMetric != null) ...[
             // Latest metric value and status badge
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: kSmallPadding,
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
+                      Flexible(
+                          child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
                             latestMetric.value.toStringAsFixed(1),
-                            style: const TextStyle(fontSize: 28),
+                            style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(width: 8),
                           Text(
                             unit,
                             style: TextStyle(
-                                fontSize: 18, color: Colors.grey.shade600),
+                                fontSize: 12, color: Colors.grey.shade600),
                           ),
                         ],
-                      ),
+                      )),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
@@ -202,11 +204,13 @@ class PatientMetricHistoryChart extends StatelessWidget {
               ),
             ),
           ] else
-            Center(
-              child: Text(
+            SizedBox(
+              height: 80,
+              child: Center(
+                  child: Text(
                 'No data available',
                 style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-              ),
+              )),
             ),
         ],
       ),
@@ -216,21 +220,21 @@ class PatientMetricHistoryChart extends StatelessWidget {
   String getStatusForMetric(EPatientHealthMetricField metric, double value) {
     switch (metric) {
       case EPatientHealthMetricField.glucose:
-        if (value < 70) return 'Low';
+        if (value < 70) return 'Bajo';
         if (value <= 140) return 'Normal';
-        return 'High';
+        return 'Alto';
       case EPatientHealthMetricField.bloodPressure:
-        if (value < 90) return 'Low';
+        if (value < 90) return 'Bajo';
         if (value <= 120) return 'Normal';
-        return 'High';
+        return 'Alto';
       case EPatientHealthMetricField.temperature:
-        if (value < 36.5) return 'Low';
+        if (value < 36.5) return 'Bajo';
         if (value <= 37.5) return 'Normal';
-        return 'High';
+        return 'Alto';
       case EPatientHealthMetricField.respiratoryRate:
-        if (value < 12) return 'Low';
+        if (value < 12) return 'Bajo';
         if (value <= 20) return 'Normal';
-        return 'High';
+        return 'Alto';
       default:
         return 'Unknown';
     }
@@ -238,11 +242,11 @@ class PatientMetricHistoryChart extends StatelessWidget {
 
   Color getStatusColor(String status) {
     switch (status) {
-      case 'Low':
+      case 'Bajo':
         return Colors.blue;
       case 'Normal':
         return Colors.green;
-      case 'High':
+      case 'Alto':
         return Colors.red;
       default:
         return Colors.grey;
