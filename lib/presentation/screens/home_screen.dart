@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:indigo/widgets/plans_card.dart';
-import 'package:indigo/widgets/recent_conversation.dart';
-import 'package:indigo/widgets/task_card.dart';
-import 'package:indigo/widgets/view_users_widget.dart';
+import 'package:indigo/presentation/widgets/plans_card.dart';
+import 'package:indigo/presentation/widgets/recent_conversation.dart';
+import 'package:indigo/presentation/widgets/task_card.dart';
+import 'package:indigo/presentation/widgets/view_users_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

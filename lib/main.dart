@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/widgets/navigation_widget.dart';
+import 'package:indigo/presentation/widgets/navigation_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

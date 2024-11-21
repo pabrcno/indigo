@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:indigo/widgets/paddings.dart';
+import 'package:indigo/presentation/widgets/paddings.dart';
 
 class BMIIndicator extends StatelessWidget {
   final double bmiValue;

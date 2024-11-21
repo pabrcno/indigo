@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
-import 'package:indigo/utils/patient_metics_ui_mapper.dart';
+import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 
 void showEditModal(BuildContext context, WidgetRef ref,
     EPatientHealthMetricField field, int patientId) {

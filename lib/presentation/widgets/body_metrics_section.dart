@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
-import 'package:indigo/utils/determine_body_shape.dart';
-import 'package:indigo/utils/patient_metics_ui_mapper.dart';
-import 'package:indigo/widgets/body_metrics_card.dart';
+import 'package:indigo/presentation/utils/determine_body_shape.dart';
+import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
+import 'package:indigo/presentation/widgets/body_metrics_card.dart';
 
 class BodyMetricsSection extends StatelessWidget {
   final Map<EPatientHealthMetricField, List<PatientHealthMetric>>

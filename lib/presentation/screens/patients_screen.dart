@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/widgets/paddings.dart';
+import 'package:indigo/presentation/widgets/paddings.dart';
 import 'package:indigo/providers/patient/patients_notifier_provider.dart';
 
 class PatientsScreen extends ConsumerStatefulWidget {

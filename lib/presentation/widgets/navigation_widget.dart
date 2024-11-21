@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient/patient.dart';
-import 'package:indigo/screens/home_screen.dart';
-import 'package:indigo/screens/patient_profile_screen.dart';
-import 'package:indigo/screens/patients_screen.dart';
-import 'package:indigo/widgets/custom_app_bar.dart';
-import 'package:indigo/widgets/paddings.dart';
+import 'package:indigo/presentation/screens/home_screen.dart';
+import 'package:indigo/presentation/screens/patient_profile_screen.dart';
+import 'package:indigo/presentation/screens/patients_screen.dart';
+import 'package:indigo/presentation/widgets/custom_app_bar.dart';
+import 'package:indigo/presentation/widgets/paddings.dart';
 
 class NavigationWidget extends StatefulWidget {
   const NavigationWidget({super.key});

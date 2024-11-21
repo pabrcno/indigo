@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient/patient.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 
-import 'package:indigo/widgets/metrics_cards_section.dart';
-import 'package:indigo/widgets/bmi_calculator_section.dart';
-import 'package:indigo/widgets/body_metrics_section.dart';
-import 'package:indigo/widgets/notes_card.dart';
-import 'package:indigo/widgets/show_edit_modal.dart';
+import 'package:indigo/presentation/widgets/metrics_cards_section.dart';
+import 'package:indigo/presentation/widgets/bmi_calculator_section.dart';
+import 'package:indigo/presentation/widgets/body_metrics_section.dart';
+import 'package:indigo/presentation/widgets/notes_card.dart';
+import 'package:indigo/presentation/widgets/show_edit_modal.dart';
 
 class PatientProfileScreen extends ConsumerStatefulWidget {
   final Patient patient;

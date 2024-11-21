@@ -12,8 +12,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0xFF7B61FF), // Start color of gradient
-            Color(0xFF4263EB), // End color of gradient
+            Color(0xFF7B61FF),
+            Color(0xFF4263EB),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -21,10 +21,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: SafeArea(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // Spacer to center the logo
-            const Spacer(),
-
             // Logo
             Image.asset(
               'assets/images/coach_logo.png',
