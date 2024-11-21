@@ -46,7 +46,6 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FB), // Light background
       body: Container(
         margin: kPadding,
         padding: kPadding,
@@ -173,46 +172,53 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                       child: ValueListenableBuilder<bool>(
                         valueListenable: isHovered,
                         builder: (context, hovered, child) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 16,
-                            ),
-                            decoration: BoxDecoration(
-                              color: hovered
-                                  ? const Color(
-                                      0xFFF3E9FE) // Light purple hover
-                                  : (index % 2 == 0
-                                      ? Colors.white
-                                      : const Color(
-                                          0xFFF5F7FB)), // Alternating colors
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Text('${patient.number}'),
+                          return InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  '/patientProfile',
+                                  arguments: patient,
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 16,
                                 ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text(patient.name),
+                                decoration: BoxDecoration(
+                                  color: hovered
+                                      ? const Color(
+                                          0xFFF3E9FE) // Light purple hover
+                                      : (index % 2 == 0
+                                          ? Colors.white
+                                          : const Color(
+                                              0xFFF5F7FB)), // Alternating colors
                                 ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text(patient.lastName),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text('${patient.number}'),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(patient.name),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(patient.lastName),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text('#${patient.id}'),
+                                    ),
+                                    if (!isSmallScreen) // Hide notes on small screens
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(patient.notes ?? '-'),
+                                      ),
+                                  ],
                                 ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text('#${patient.id}'),
-                                ),
-                                if (!isSmallScreen) // Hide notes on small screens
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(patient.notes ?? '-'),
-                                  ),
-                              ],
-                            ),
-                          );
+                              ));
                         },
                       ),
                     );
