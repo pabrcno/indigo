@@ -4,7 +4,7 @@ import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/presentation/widgets/ruler_widget.dart';
 import 'package:indigo/presentation/widgets/bmi_indicator.dart';
-import 'package:indigo/presentation/utils/calculate_bmi.dart';
+import 'package:indigo/presentation/utils/bmi.dart';
 
 class BMICalculatorSection extends StatelessWidget {
   final Map<EPatientHealthMetricField, List<PatientHealthMetric>>

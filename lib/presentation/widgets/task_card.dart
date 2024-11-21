@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/colors.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
+import 'package:indigo/presentation/widgets/paddings.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({super.key});
@@ -9,11 +11,12 @@ class TaskCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: standardSpacing),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: lightPurple,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,14 +27,17 @@ class TaskCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: standardSpacing),
+                      padding:
+                          const EdgeInsets.symmetric(vertical: standardSpacing),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
                             'Tareas asignadas recientemente',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -45,15 +51,19 @@ class TaskCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF6C63FF),
+                                color: lightPurple,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    TextButton(onPressed: () {}, child: const Text('Ver todo')),
-                    const SizedBox(height: standardSpacing),
+                    TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Ver todo',
+                          style: TextStyle(color: Colors.white),
+                        )),
                     const _TaskCounter(label: 'Usuarios', count: 20),
                     const SizedBox(height: smallSpacing),
                     const _TaskCounter(label: 'Mensajes', count: 15),
@@ -62,15 +72,20 @@ class TaskCard extends StatelessWidget {
                   ],
                 ),
               ),
-
+              const SizedBox(
+                width: standardSpacing * 4,
+              ),
               // Image Section
-              Expanded(
-                flex: 1,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Image.asset(
-                    "assets/images/coach.png",
-                    fit: BoxFit.contain,
+              Padding(
+                padding: const EdgeInsets.only(top: standardSpacing),
+                child: Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      "assets/images/coach.png",
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
@@ -90,33 +105,38 @@ class _TaskCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.grey.shade300,
-          ),
-          child: Text(
-            label[0], // First letter of the label
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        const SizedBox(width: smallSpacing),
-        Expanded(
-          child: Text(
-            label,
-            style: const TextStyle(fontSize: 14),
-          ),
-        ),
-        Text(
-          count.toString(),
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
+    return Container(
+        padding: kSmallPadding,
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(colors: [Colors.blue, darkPurple])),
+              child: Text(
+                label[0], // First letter of the label
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+            const SizedBox(width: smallSpacing),
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(fontSize: 14, color: Colors.white),
+              ),
+            ),
+            Text(
+              count.toString(),
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ],
+        ));
   }
 }

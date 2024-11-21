@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
+import 'package:indigo/presentation/utils/bmi.dart';
 import 'package:indigo/presentation/widgets/paddings.dart';
+import 'package:indigo/presentation/widgets/shadow.dart';
 
 class BMIIndicator extends StatelessWidget {
   final double bmiValue;
@@ -13,21 +15,15 @@ class BMIIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Determine BMI category and status
-    final bmiCategory = _getBMICategory(bmiValue);
-    final bmiLabelColor = _getBMILabelColor(bmiValue);
+    final bmiCategory = getBMICategory(bmiValue);
+    final bmiLabelColor = getBMILabelColor(bmiValue);
 
     return Container(
       padding: kPadding,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: smallSpacing,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: [standardShadow],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +90,7 @@ class BMIIndicator extends StatelessWidget {
                 ),
                 // BMI indicator
                 Positioned(
-                  left: _calculateIndicatorPosition(bmiValue, barWidth),
+                  left: calculateIndicatorPosition(bmiValue, barWidth),
                   child: Container(
                     height: 12,
                     width: 12,
@@ -126,39 +122,4 @@ class BMIIndicator extends StatelessWidget {
   }
 
   // Helper to determine the BMI category
-  String _getBMICategory(double bmi) {
-    if (bmi < 18.5) {
-      return 'Bajo peso';
-    } else if (bmi >= 18.5 && bmi < 25) {
-      return 'En buen estado';
-    } else if (bmi >= 25 && bmi < 30) {
-      return 'Sobrepeso';
-    } else {
-      return 'Obesidad';
-    }
-  }
-
-  // Helper to get the label color based on BMI
-  Color _getBMILabelColor(double bmi) {
-    if (bmi < 18.5) {
-      return Colors.blue;
-    } else if (bmi >= 18.5 && bmi < 25) {
-      return Colors.green;
-    } else if (bmi >= 25 && bmi < 30) {
-      return Colors.orange;
-    } else {
-      return Colors.red;
-    }
-  }
-
-  // Helper to calculate the indicator's position on the bar
-  double _calculateIndicatorPosition(double bmi, double barWidth) {
-    const double minBMI = 5;
-    const double maxBMI = 40;
-
-    if (bmi <= minBMI) return 0;
-    if (bmi >= maxBMI) return barWidth;
-
-    return ((bmi - minBMI) / (maxBMI - minBMI)) * barWidth;
-  }
 }

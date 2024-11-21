@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
+import 'package:indigo/presentation/widgets/shadow.dart';
 
 class NotesCard extends StatelessWidget {
   final String notes;
@@ -20,13 +21,7 @@ class NotesCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFFFF7EC), // Light orange background
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: smallSpacing,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: [standardShadow],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

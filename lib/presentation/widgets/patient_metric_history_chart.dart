@@ -4,6 +4,7 @@ import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart'
 import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/presentation/widgets/paddings.dart';
+import 'package:indigo/presentation/widgets/shadow.dart';
 
 class PatientMetricHistoryChart extends StatelessWidget {
   final List<PatientHealthMetric> metrics;
@@ -31,13 +32,7 @@ class PatientMetricHistoryChart extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: [standardShadow],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,13 +47,7 @@ class PatientMetricHistoryChart extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: curveColor.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                    boxShadow: [standardShadow],
                   ),
                   child: Icon(icon, color: curveColor),
                 ),
