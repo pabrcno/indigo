@@ -49,7 +49,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
       backgroundColor: const Color(0xFFF5F7FB), // Light background
       body: Container(
         margin: kPadding,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        padding: kPadding,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
