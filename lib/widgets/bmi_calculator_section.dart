@@ -26,6 +26,13 @@ class BMICalculatorSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Text(
+          "Calculadora BMI",
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge, // Use a predefined text style
+        ),
+        const SizedBox(height: 16),
         // Top row with two ruler widgets
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -102,6 +102,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                         flex: 1,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             NotesCard(
                               notes: widget.patient.notes ?? '',
@@ -109,13 +110,12 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                                 // Handle note creation
                               },
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 48),
                             if (screenWidth >
                                 1200) // Show image only for wide screens
                               Image.asset(
                                 "assets/images/patient.png",
-                                height: 500,
-                                fit: BoxFit.contain,
+                                fit: BoxFit.fitHeight,
                               ),
                           ],
                         ),
