@@ -3,6 +3,7 @@ import 'package:indigo/models/patient/patient.dart';
 import 'package:indigo/screens/patient_profile.dart';
 import 'package:indigo/screens/patients_screen.dart';
 import 'package:indigo/widgets/custom_app_bar.dart';
+import 'package:indigo/widgets/paddings.dart';
 
 class CustomNavigationRail extends StatefulWidget {
   const CustomNavigationRail({super.key});
@@ -43,6 +44,12 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
               selectedIconTheme: const IconThemeData(color: Color(0xFF4263EB)),
               unselectedIconTheme: const IconThemeData(color: Colors.white),
               selectedIndex: _selectedIndex,
+              leading: Padding(
+                  padding: kPadding,
+                  child: Image.asset(
+                    "assets/images/indigo_logo.png",
+                    height: 35,
+                  )),
               onDestinationSelected: (index) {
                 setState(() {
                   _selectedIndex = index;
