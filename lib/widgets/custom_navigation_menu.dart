@@ -1,73 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/models/patient/patient.dart';
+import 'package:indigo/screens/patient_profile.dart';
+import 'package:indigo/screens/patients_screen.dart';
 import 'package:indigo/widgets/custom_app_bar.dart';
 
 class CustomNavigationRail extends StatefulWidget {
   const CustomNavigationRail({super.key});
 
   @override
-  _CustomNavigationRailState createState() => _CustomNavigationRailState();
+  State<CustomNavigationRail> createState() => _CustomNavigationRailState();
 }
 
 class _CustomNavigationRailState extends State<CustomNavigationRail> {
-  int _selectedIndex = 1; // Default selected index for "Usuarios"
+  int _selectedIndex = 0;
 
-  final List<NavigationRailDestination> _menuOptions = [
-    const NavigationRailDestination(
-      icon: Icon(Icons.home),
-      selectedIcon: Icon(
-        Icons.home,
-        color: Color(0xFF4263EB),
-      ),
-      label: Text('Inicio'),
-    ),
-    const NavigationRailDestination(
-      icon: Icon(Icons.people),
-      selectedIcon: Icon(
-        Icons.people,
-        color: Color(0xFF4263EB),
-      ),
-      label: Text('Usuarios'),
-    ),
-    const NavigationRailDestination(
-      icon: Icon(Icons.calendar_today),
-      selectedIcon: Icon(
-        Icons.calendar_today,
-        color: Color(0xFF4263EB),
-      ),
-      label: Text('Planes'),
-    ),
-    const NavigationRailDestination(
-      icon: Icon(Icons.person),
-      selectedIcon: Icon(
-        Icons.person,
-        color: Color(0xFF4263EB),
-      ),
-      label: Text('Perfil'),
-    ),
-    const NavigationRailDestination(
-      icon: Icon(Icons.settings),
-      selectedIcon: Icon(
-        Icons.settings,
-        color: Color(0xFF4263EB),
-      ),
-      label: Text('Configuracion'),
-    ),
-    const NavigationRailDestination(
-      icon: Icon(Icons.email),
-      selectedIcon: Icon(
-        Icons.email,
-        color: Color(0xFF4263EB),
-      ),
-      label: Text('Correos'),
-    ),
-    const NavigationRailDestination(
-      icon: Icon(Icons.chat),
-      selectedIcon: Icon(
-        Icons.chat,
-        color: Color(0xFF4263EB),
-      ),
-      label: Text('Chats'),
-    ),
+  final List<_MenuOption> _menuOptions = [
+    const _MenuOption(icon: Icon(Icons.home), label: 'Inicio'),
+    const _MenuOption(icon: Icon(Icons.people), label: 'Pacientes'),
+    const _MenuOption(icon: Icon(Icons.calendar_today), label: 'Planes'),
+    const _MenuOption(icon: Icon(Icons.person), label: 'Perfil'),
+    const _MenuOption(icon: Icon(Icons.settings), label: 'Configuracion'),
+    const _MenuOption(icon: Icon(Icons.email), label: 'Correos'),
+    const _MenuOption(icon: Icon(Icons.chat), label: 'Chats'),
   ];
 
   @override
@@ -76,13 +30,18 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
 
     return Scaffold(
       appBar: const CustomAppBar(
-        userAvatarUrl:
-            'https://example.com/avatar.png', // Replace with your URL
+        userAvatarUrl: 'https://example.com/avatar.png',
       ),
       body: Row(
         children: [
           if (isWideScreen)
             NavigationRail(
+              backgroundColor: const Color(0xFF4263EB),
+              indicatorColor: Colors.white,
+              unselectedLabelTextStyle: const TextStyle(color: Colors.white),
+              selectedLabelTextStyle: const TextStyle(color: Colors.white),
+              selectedIconTheme: const IconThemeData(color: Color(0xFF4263EB)),
+              unselectedIconTheme: const IconThemeData(color: Colors.white),
               selectedIndex: _selectedIndex,
               onDestinationSelected: (index) {
                 setState(() {
@@ -90,29 +49,27 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
                 });
               },
               labelType: NavigationRailLabelType.all,
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/indigo_logo.png', // Replace with your logo path
-                      height: 40,
-                    ),
-                  ],
-                ),
-              ),
-              backgroundColor: const Color(0xFF4263EB),
-              selectedIconTheme: const IconThemeData(color: Color(0xFF4263EB)),
-              unselectedIconTheme: const IconThemeData(color: Colors.white),
-              selectedLabelTextStyle: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-              unselectedLabelTextStyle: const TextStyle(
-                color: Colors.white,
-              ),
-              destinations: _menuOptions,
+              destinations: _menuOptions
+                  .map((option) => NavigationRailDestination(
+                        icon: option.icon,
+                        label: Text(option.label),
+                      ))
+                  .toList(),
             ),
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: [
+                const Center(child: Text('Inicio')),
+                _buildPatientsNavigator(), // Patients section with inner navigation
+                const Center(child: Text('Planes')),
+                const Center(child: Text('Perfil')),
+                const Center(child: Text('Configuracion')),
+                const Center(child: Text('Correos')),
+                const Center(child: Text('Chats')),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: !isWideScreen
@@ -123,13 +80,13 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
                   _selectedIndex = index;
                 });
               },
-              fixedColor: const Color(0xFF4263EB),
-              unselectedItemColor: const Color(0xFF4263EB),
+              selectedItemColor: const Color(0xFF4263EB),
+              unselectedItemColor: const Color(0xFF4263EB).withOpacity(0.6),
               items: _menuOptions
                   .map(
-                    (destination) => BottomNavigationBarItem(
-                      icon: destination.icon,
-                      label: "",
+                    (option) => BottomNavigationBarItem(
+                      icon: option.icon,
+                      label: option.label,
                     ),
                   )
                   .toList(),
@@ -137,4 +94,28 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
           : null,
     );
   }
+
+  Widget _buildPatientsNavigator() {
+    return Navigator(
+      onGenerateRoute: (settings) {
+        Widget page;
+
+        if (settings.name == '/patientProfile') {
+          final args = settings.arguments as Patient;
+          page = PatientProfileScreen(patient: args);
+        } else {
+          page = const PatientsScreen(); // Default route
+        }
+
+        return MaterialPageRoute(builder: (_) => page);
+      },
+    );
+  }
+}
+
+class _MenuOption {
+  final Icon icon;
+  final String label;
+
+  const _MenuOption({required this.icon, required this.label});
 }
