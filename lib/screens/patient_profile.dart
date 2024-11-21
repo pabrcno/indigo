@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient/patient.dart';
-import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
-import 'package:indigo/utils/calculate_bmi.dart';
-import 'package:indigo/utils/patient_metics_ui_mapper.dart';
-import 'package:indigo/widgets/bmi_indicator.dart';
-import 'package:indigo/widgets/body_metrics_card.dart';
+import 'package:indigo/widgets/metrics_cards_section.dart';
+import 'package:indigo/widgets/rulers_section.dart';
+import 'package:indigo/widgets/body_metrics_section.dart';
 import 'package:indigo/widgets/notes_card.dart';
-import 'package:indigo/widgets/patient_metric_history_chart.dart';
-import 'package:indigo/widgets/ruler_widget.dart';
+import 'package:indigo/widgets/show_edit_modal.dart';
 
 class PatientProfileScreen extends ConsumerStatefulWidget {
   final Patient patient;
@@ -35,10 +32,6 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final patientMetrics = ref.watch(patientMetricsNotifierProvider);
-    final currentHeight =
-        patientMetrics[EPatientHealthMetricField.height]?.last.value ?? 0;
-    final currentWeight =
-        patientMetrics[EPatientHealthMetricField.weight]?.last.value ?? 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -56,179 +49,44 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
           }
           if (snapshot.hasError) {
             return Center(
-              child: Text(
-                'Error loading metrics. ${snapshot.error.toString()}',
-              ),
+              child:
+                  Text('Error loading metrics. ${snapshot.error.toString()}'),
             );
           }
+
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView(
               children: [
-                // Metrics Cards
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: [
-                    for (var metricType in [
-                      EPatientHealthMetricField.glucose,
-                      EPatientHealthMetricField.bloodPressure,
-                      EPatientHealthMetricField.temperature,
-                      EPatientHealthMetricField.respiratoryRate,
-                    ])
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 200),
-                        child: InkWell(
-                          onTap: () {
-                            showEditModal(context, ref, metricType);
-                          },
-                          child: PatientMetricHistoryChart(
-                            icon: getIconForMetric(metricType),
-                            unit: getUnitForMetric(metricType),
-                            label: getLabelForMetric(metricType),
-                            metrics: patientMetrics[metricType] ?? [],
-                            curveColor: getColorForMetric(metricType),
-                          ),
-                        ),
-                      ),
-                  ],
+                MetricsCardsSection(
+                  patientMetrics: patientMetrics,
+                  onEdit: (metricType) => showEditModal(
+                      context, ref, metricType, widget.patient.id),
                 ),
                 const SizedBox(height: 16),
-
-                // Rulers for Weight and Height
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: [
-                    for (var metricType in [
-                      EPatientHealthMetricField.weight,
-                      EPatientHealthMetricField.height,
-                    ])
-                      InkWell(
-                        onTap: () {
-                          showEditModal(context, ref, metricType);
-                        },
-                        child: RulerWidget(
-                          unit: getUnitForMetric(metricType),
-                          label: getLabelForMetric(metricType),
-                          value: patientMetrics[metricType]?.last.value ?? 0.0,
-                          backgroundColor: getColorForMetric(metricType),
-                        ),
-                      ),
-                  ],
+                RulersSection(
+                  patientMetrics: patientMetrics,
+                  onEdit: (metricType) => showEditModal(
+                      context, ref, metricType, widget.patient.id),
                 ),
                 const SizedBox(height: 16),
-
-                // Body Metrics
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: [
-                    for (var metricType in [
-                      EPatientHealthMetricField.chest,
-                      EPatientHealthMetricField.waist,
-                      EPatientHealthMetricField.hips,
-                    ])
-                      InkWell(
-                        onTap: () {
-                          showEditModal(context, ref, metricType);
-                        },
-                        child: BodyMetricsCard(
-                          label: getLabelForMetric(metricType),
-                          value: patientMetrics[metricType]?.last.value ?? 0.0,
-                          previousValue:
-                              patientMetrics[metricType]?.first.value ?? 0.0,
-                        ),
-                      ),
-                  ],
+                BodyMetricsSection(
+                  patientMetrics: patientMetrics,
+                  onEdit: (metricType) => showEditModal(
+                      context, ref, metricType, widget.patient.id),
                 ),
                 const SizedBox(height: 16),
-
-                // BMI Indicator
-                if (currentHeight > 0 && currentWeight > 0)
-                  BMIIndicator(
-                    bmiValue: calculateBMI(
-                        heightInCM: currentHeight, weightInKG: currentWeight),
-                  ),
-                const SizedBox(height: 16),
-
-                // Notes Section
                 NotesCard(
                   notes: widget.patient.notes ?? '',
                   onCreate: () {
-                    // TODO: Handle note creation
+                    // Handle note creation
                   },
-                ),
-                const SizedBox(height: 16),
-
-                // Patient Image
-                Image.asset(
-                  'assets/images/patient.png',
-                  height: 200,
                 ),
               ],
             ),
           );
         },
       ),
-    );
-  }
-
-  void showEditModal(
-    BuildContext context,
-    WidgetRef ref,
-    EPatientHealthMetricField field,
-  ) {
-    final controller = TextEditingController();
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        final label = getLabelForMetric(field);
-        return Padding(
-          padding: MediaQuery.of(context).viewInsets,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Create new entry for $label',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: controller,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: label,
-                    border: const OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    final value = double.tryParse(controller.text);
-                    if (value != null) {
-                      await ref
-                          .read(patientMetricsNotifierProvider.notifier)
-                          .addMetric(
-                            patientId: widget.patient.id,
-                            metricType: field,
-                            value: value,
-                          );
-                    }
-                    if (context.mounted) Navigator.of(context).pop();
-                  },
-                  child: const Text('Save'),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

@@ -33,9 +33,7 @@ class RulerWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 8),
-          // Stack for the ruler
           Stack(
-            alignment: Alignment.center,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,7 +42,7 @@ class RulerWidget extends StatelessWidget {
                   (index) {
                     final opacity = 1.0 - (index - 5).abs() / 10.0;
                     return Container(
-                      height: index == 5 ? 30 : 15,
+                      height: index == 5 ? 20 : 12,
                       width: 2,
                       color: index == 5
                           ? Colors.red
@@ -53,25 +51,17 @@ class RulerWidget extends StatelessWidget {
                   },
                 ),
               ),
-              // Cover the left half of the ruler
-              Positioned(
-                left: 0,
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 3, // Adjust width
-                  height: 30,
-                  color: backgroundColor,
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 8),
-          // Row for label and measurement
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 label,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
               Text(
                 '${value.toStringAsFixed(1)} $unit',
