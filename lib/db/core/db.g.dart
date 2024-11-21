@@ -384,17 +384,17 @@ class $PatientHealthMetricsTableTable extends PatientHealthMetricsTable
       type: DriftSqlType.double,
       requiredDuringInsert: false,
       defaultValue: const Constant(0.0));
-  static const VerificationMeta _recordedAtMeta =
-      const VerificationMeta('recordedAt');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   @override
-  late final GeneratedColumn<DateTime> recordedAt = GeneratedColumn<DateTime>(
-      'recorded_at', aliasedName, false,
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
       type: DriftSqlType.dateTime,
       requiredDuringInsert: false,
       defaultValue: currentDateAndTime);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, patientId, metricType, value, recordedAt];
+      [id, patientId, metricType, value, createdAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -427,11 +427,9 @@ class $PatientHealthMetricsTableTable extends PatientHealthMetricsTable
       context.handle(
           _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
     }
-    if (data.containsKey('recorded_at')) {
-      context.handle(
-          _recordedAtMeta,
-          recordedAt.isAcceptableOrUnknown(
-              data['recorded_at']!, _recordedAtMeta));
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     }
     return context;
   }
@@ -451,8 +449,8 @@ class $PatientHealthMetricsTableTable extends PatientHealthMetricsTable
           .read(DriftSqlType.string, data['${effectivePrefix}metric_type'])!,
       value: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}value'])!,
-      recordedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}recorded_at'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
     );
   }
 
@@ -468,13 +466,13 @@ class PatientHealthMetricRecord extends DataClass
   final int patientId;
   final String metricType;
   final double value;
-  final DateTime recordedAt;
+  final DateTime createdAt;
   const PatientHealthMetricRecord(
       {required this.id,
       required this.patientId,
       required this.metricType,
       required this.value,
-      required this.recordedAt});
+      required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -482,7 +480,7 @@ class PatientHealthMetricRecord extends DataClass
     map['patient_id'] = Variable<int>(patientId);
     map['metric_type'] = Variable<String>(metricType);
     map['value'] = Variable<double>(value);
-    map['recorded_at'] = Variable<DateTime>(recordedAt);
+    map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
 
@@ -492,7 +490,7 @@ class PatientHealthMetricRecord extends DataClass
       patientId: Value(patientId),
       metricType: Value(metricType),
       value: Value(value),
-      recordedAt: Value(recordedAt),
+      createdAt: Value(createdAt),
     );
   }
 
@@ -504,7 +502,7 @@ class PatientHealthMetricRecord extends DataClass
       patientId: serializer.fromJson<int>(json['patientId']),
       metricType: serializer.fromJson<String>(json['metricType']),
       value: serializer.fromJson<double>(json['value']),
-      recordedAt: serializer.fromJson<DateTime>(json['recordedAt']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
   @override
@@ -515,7 +513,7 @@ class PatientHealthMetricRecord extends DataClass
       'patientId': serializer.toJson<int>(patientId),
       'metricType': serializer.toJson<String>(metricType),
       'value': serializer.toJson<double>(value),
-      'recordedAt': serializer.toJson<DateTime>(recordedAt),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
 
@@ -524,13 +522,13 @@ class PatientHealthMetricRecord extends DataClass
           int? patientId,
           String? metricType,
           double? value,
-          DateTime? recordedAt}) =>
+          DateTime? createdAt}) =>
       PatientHealthMetricRecord(
         id: id ?? this.id,
         patientId: patientId ?? this.patientId,
         metricType: metricType ?? this.metricType,
         value: value ?? this.value,
-        recordedAt: recordedAt ?? this.recordedAt,
+        createdAt: createdAt ?? this.createdAt,
       );
   PatientHealthMetricRecord copyWithCompanion(
       PatientHealthMetricsTableCompanion data) {
@@ -540,8 +538,7 @@ class PatientHealthMetricRecord extends DataClass
       metricType:
           data.metricType.present ? data.metricType.value : this.metricType,
       value: data.value.present ? data.value.value : this.value,
-      recordedAt:
-          data.recordedAt.present ? data.recordedAt.value : this.recordedAt,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
 
@@ -552,13 +549,13 @@ class PatientHealthMetricRecord extends DataClass
           ..write('patientId: $patientId, ')
           ..write('metricType: $metricType, ')
           ..write('value: $value, ')
-          ..write('recordedAt: $recordedAt')
+          ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, patientId, metricType, value, recordedAt);
+  int get hashCode => Object.hash(id, patientId, metricType, value, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -567,7 +564,7 @@ class PatientHealthMetricRecord extends DataClass
           other.patientId == this.patientId &&
           other.metricType == this.metricType &&
           other.value == this.value &&
-          other.recordedAt == this.recordedAt);
+          other.createdAt == this.createdAt);
 }
 
 class PatientHealthMetricsTableCompanion
@@ -576,20 +573,20 @@ class PatientHealthMetricsTableCompanion
   final Value<int> patientId;
   final Value<String> metricType;
   final Value<double> value;
-  final Value<DateTime> recordedAt;
+  final Value<DateTime> createdAt;
   const PatientHealthMetricsTableCompanion({
     this.id = const Value.absent(),
     this.patientId = const Value.absent(),
     this.metricType = const Value.absent(),
     this.value = const Value.absent(),
-    this.recordedAt = const Value.absent(),
+    this.createdAt = const Value.absent(),
   });
   PatientHealthMetricsTableCompanion.insert({
     this.id = const Value.absent(),
     required int patientId,
     required String metricType,
     this.value = const Value.absent(),
-    this.recordedAt = const Value.absent(),
+    this.createdAt = const Value.absent(),
   })  : patientId = Value(patientId),
         metricType = Value(metricType);
   static Insertable<PatientHealthMetricRecord> custom({
@@ -597,14 +594,14 @@ class PatientHealthMetricsTableCompanion
     Expression<int>? patientId,
     Expression<String>? metricType,
     Expression<double>? value,
-    Expression<DateTime>? recordedAt,
+    Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (patientId != null) 'patient_id': patientId,
       if (metricType != null) 'metric_type': metricType,
       if (value != null) 'value': value,
-      if (recordedAt != null) 'recorded_at': recordedAt,
+      if (createdAt != null) 'created_at': createdAt,
     });
   }
 
@@ -613,13 +610,13 @@ class PatientHealthMetricsTableCompanion
       Value<int>? patientId,
       Value<String>? metricType,
       Value<double>? value,
-      Value<DateTime>? recordedAt}) {
+      Value<DateTime>? createdAt}) {
     return PatientHealthMetricsTableCompanion(
       id: id ?? this.id,
       patientId: patientId ?? this.patientId,
       metricType: metricType ?? this.metricType,
       value: value ?? this.value,
-      recordedAt: recordedAt ?? this.recordedAt,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -638,8 +635,8 @@ class PatientHealthMetricsTableCompanion
     if (value.present) {
       map['value'] = Variable<double>(value.value);
     }
-    if (recordedAt.present) {
-      map['recorded_at'] = Variable<DateTime>(recordedAt.value);
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     return map;
   }
@@ -651,7 +648,7 @@ class PatientHealthMetricsTableCompanion
           ..write('patientId: $patientId, ')
           ..write('metricType: $metricType, ')
           ..write('value: $value, ')
-          ..write('recordedAt: $recordedAt')
+          ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
   }
@@ -953,7 +950,7 @@ typedef $$PatientHealthMetricsTableTableCreateCompanionBuilder
   required int patientId,
   required String metricType,
   Value<double> value,
-  Value<DateTime> recordedAt,
+  Value<DateTime> createdAt,
 });
 typedef $$PatientHealthMetricsTableTableUpdateCompanionBuilder
     = PatientHealthMetricsTableCompanion Function({
@@ -961,7 +958,7 @@ typedef $$PatientHealthMetricsTableTableUpdateCompanionBuilder
   Value<int> patientId,
   Value<String> metricType,
   Value<double> value,
-  Value<DateTime> recordedAt,
+  Value<DateTime> createdAt,
 });
 
 final class $$PatientHealthMetricsTableTableReferences extends BaseReferences<
@@ -1002,8 +999,8 @@ class $$PatientHealthMetricsTableTableFilterComposer
   ColumnFilters<double> get value => $composableBuilder(
       column: $table.value, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get recordedAt => $composableBuilder(
-      column: $table.recordedAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
   $$PatientsTableTableFilterComposer get patientId {
     final $$PatientsTableTableFilterComposer composer = $composerBuilder(
@@ -1044,8 +1041,8 @@ class $$PatientHealthMetricsTableTableOrderingComposer
   ColumnOrderings<double> get value => $composableBuilder(
       column: $table.value, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get recordedAt => $composableBuilder(
-      column: $table.recordedAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   $$PatientsTableTableOrderingComposer get patientId {
     final $$PatientsTableTableOrderingComposer composer = $composerBuilder(
@@ -1086,8 +1083,8 @@ class $$PatientHealthMetricsTableTableAnnotationComposer
   GeneratedColumn<double> get value =>
       $composableBuilder(column: $table.value, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get recordedAt => $composableBuilder(
-      column: $table.recordedAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
   $$PatientsTableTableAnnotationComposer get patientId {
     final $$PatientsTableTableAnnotationComposer composer = $composerBuilder(
@@ -1141,28 +1138,28 @@ class $$PatientHealthMetricsTableTableTableManager extends RootTableManager<
             Value<int> patientId = const Value.absent(),
             Value<String> metricType = const Value.absent(),
             Value<double> value = const Value.absent(),
-            Value<DateTime> recordedAt = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
           }) =>
               PatientHealthMetricsTableCompanion(
             id: id,
             patientId: patientId,
             metricType: metricType,
             value: value,
-            recordedAt: recordedAt,
+            createdAt: createdAt,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int patientId,
             required String metricType,
             Value<double> value = const Value.absent(),
-            Value<DateTime> recordedAt = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
           }) =>
               PatientHealthMetricsTableCompanion.insert(
             id: id,
             patientId: patientId,
             metricType: metricType,
             value: value,
-            recordedAt: recordedAt,
+            createdAt: createdAt,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (

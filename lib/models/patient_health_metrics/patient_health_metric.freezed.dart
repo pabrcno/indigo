@@ -25,7 +25,7 @@ mixin _$PatientHealthMetric {
   EPatientHealthMetricField get metricType =>
       throw _privateConstructorUsedError;
   double get value => throw _privateConstructorUsedError; // Value of the metric
-  DateTime get recordedAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this PatientHealthMetric to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $PatientHealthMetricCopyWith<$Res> {
       int patientId,
       EPatientHealthMetricField metricType,
       double value,
-      DateTime recordedAt});
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -70,7 +70,7 @@ class _$PatientHealthMetricCopyWithImpl<$Res, $Val extends PatientHealthMetric>
     Object? patientId = null,
     Object? metricType = null,
     Object? value = null,
-    Object? recordedAt = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -89,9 +89,9 @@ class _$PatientHealthMetricCopyWithImpl<$Res, $Val extends PatientHealthMetric>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
-      recordedAt: null == recordedAt
-          ? _value.recordedAt
-          : recordedAt // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
   }
@@ -110,7 +110,7 @@ abstract class _$$PatientHealthMetricImplCopyWith<$Res>
       int patientId,
       EPatientHealthMetricField metricType,
       double value,
-      DateTime recordedAt});
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -130,7 +130,7 @@ class __$$PatientHealthMetricImplCopyWithImpl<$Res>
     Object? patientId = null,
     Object? metricType = null,
     Object? value = null,
-    Object? recordedAt = null,
+    Object? createdAt = null,
   }) {
     return _then(_$PatientHealthMetricImpl(
       id: freezed == id
@@ -149,9 +149,9 @@ class __$$PatientHealthMetricImplCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
-      recordedAt: null == recordedAt
-          ? _value.recordedAt
-          : recordedAt // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ));
   }
@@ -165,7 +165,7 @@ class _$PatientHealthMetricImpl implements _PatientHealthMetric {
       required this.patientId,
       required this.metricType,
       required this.value,
-      required this.recordedAt});
+      required this.createdAt});
 
   factory _$PatientHealthMetricImpl.fromJson(Map<String, dynamic> json) =>
       _$$PatientHealthMetricImplFromJson(json);
@@ -181,11 +181,11 @@ class _$PatientHealthMetricImpl implements _PatientHealthMetric {
   final double value;
 // Value of the metric
   @override
-  final DateTime recordedAt;
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'PatientHealthMetric(id: $id, patientId: $patientId, metricType: $metricType, value: $value, recordedAt: $recordedAt)';
+    return 'PatientHealthMetric(id: $id, patientId: $patientId, metricType: $metricType, value: $value, createdAt: $createdAt)';
   }
 
   @override
@@ -199,14 +199,14 @@ class _$PatientHealthMetricImpl implements _PatientHealthMetric {
             (identical(other.metricType, metricType) ||
                 other.metricType == metricType) &&
             (identical(other.value, value) || other.value == value) &&
-            (identical(other.recordedAt, recordedAt) ||
-                other.recordedAt == recordedAt));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, patientId, metricType, value, recordedAt);
+      Object.hash(runtimeType, id, patientId, metricType, value, createdAt);
 
   /// Create a copy of PatientHealthMetric
   /// with the given fields replaced by the non-null parameter values.
@@ -231,7 +231,7 @@ abstract class _PatientHealthMetric implements PatientHealthMetric {
       required final int patientId,
       required final EPatientHealthMetricField metricType,
       required final double value,
-      required final DateTime recordedAt}) = _$PatientHealthMetricImpl;
+      required final DateTime createdAt}) = _$PatientHealthMetricImpl;
 
   factory _PatientHealthMetric.fromJson(Map<String, dynamic> json) =
       _$PatientHealthMetricImpl.fromJson;
@@ -245,7 +245,7 @@ abstract class _PatientHealthMetric implements PatientHealthMetric {
   @override
   double get value; // Value of the metric
   @override
-  DateTime get recordedAt;
+  DateTime get createdAt;
 
   /// Create a copy of PatientHealthMetric
   /// with the given fields replaced by the non-null parameter values.

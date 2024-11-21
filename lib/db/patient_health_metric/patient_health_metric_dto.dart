@@ -7,14 +7,14 @@ class PatientHealthMetricDTO {
   final int patientId;
   final String metricType;
   final double value;
-  final DateTime recordedAt;
+  final DateTime createdAt;
 
   PatientHealthMetricDTO({
     this.id,
     required this.patientId,
     required this.metricType,
     required this.value,
-    required this.recordedAt,
+    required this.createdAt,
   });
 
   /// Map from Drift's PatientHealthMetricsTableData (DataClass) to DTO
@@ -24,7 +24,7 @@ class PatientHealthMetricDTO {
       patientId: data.patientId,
       metricType: data.metricType,
       value: data.value,
-      recordedAt: data.recordedAt,
+      createdAt: data.createdAt,
     );
   }
 
@@ -35,7 +35,7 @@ class PatientHealthMetricDTO {
       patientId: patientId,
       metricType: metricTypeFromJson(metricType),
       value: value,
-      recordedAt: recordedAt,
+      createdAt: createdAt,
     );
   }
 
@@ -45,7 +45,7 @@ class PatientHealthMetricDTO {
       patientId: metric.patientId,
       metricType: metric.metricType.name,
       value: metric.value,
-      recordedAt: metric.recordedAt,
+      createdAt: metric.createdAt,
     );
   }
 
@@ -55,7 +55,7 @@ class PatientHealthMetricDTO {
       patientId: Value(patientId),
       metricType: Value(metricType),
       value: Value(value),
-      recordedAt: Value(recordedAt),
+      createdAt: Value(createdAt),
     );
   }
 }

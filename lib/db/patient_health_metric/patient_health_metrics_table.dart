@@ -10,5 +10,5 @@ class PatientHealthMetricsTable extends Table {
       text()(); // Type of metric (e.g., 'glucose', 'bloodPressure')
   RealColumn get value =>
       real().withDefault(const Constant(0.0))(); // Metric value
-  DateTimeColumn get recordedAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }

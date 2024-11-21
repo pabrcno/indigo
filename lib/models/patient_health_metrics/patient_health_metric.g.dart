@@ -14,7 +14,7 @@ _$PatientHealthMetricImpl _$$PatientHealthMetricImplFromJson(
       metricType:
           $enumDecode(_$EPatientHealthMetricFieldEnumMap, json['metricType']),
       value: (json['value'] as num).toDouble(),
-      recordedAt: DateTime.parse(json['recordedAt'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$PatientHealthMetricImplToJson(
@@ -24,7 +24,7 @@ Map<String, dynamic> _$$PatientHealthMetricImplToJson(
       'patientId': instance.patientId,
       'metricType': _$EPatientHealthMetricFieldEnumMap[instance.metricType]!,
       'value': instance.value,
-      'recordedAt': instance.recordedAt.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
     };
 
 const _$EPatientHealthMetricFieldEnumMap = {

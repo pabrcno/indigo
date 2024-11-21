@@ -30,14 +30,14 @@ void main() {
               patientId: 1,
               metricType: EPatientHealthMetricField.glucose,
               value: 90.0,
-              recordedAt: DateTime.now(),
+              createdAt: DateTime.now(),
             ),
             PatientHealthMetric(
               id: 2,
               patientId: 1,
               metricType: EPatientHealthMetricField.bloodPressure,
               value: 120.0,
-              recordedAt: DateTime.now(),
+              createdAt: DateTime.now(),
             ),
           ]);
 
@@ -62,7 +62,7 @@ void main() {
               patientId: 1,
               metricType: EPatientHealthMetricField.glucose,
               value: 90.0,
-              recordedAt: DateTime.now(),
+              createdAt: DateTime.now(),
             ),
           ]);
 
@@ -87,7 +87,7 @@ void main() {
         patientId: 1,
         metricType: EPatientHealthMetricField.glucose,
         value: 90.0,
-        recordedAt: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       notifier.state = {

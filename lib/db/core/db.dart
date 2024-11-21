@@ -75,7 +75,7 @@ class AppDatabase extends _$AppDatabase {
             value: Value(100 +
                 20 * sin(j / 5) +
                 random.nextDouble() * 5), // Baseline with sine wave
-            recordedAt: Value(now.subtract(Duration(days: j))),
+            createdAt: Value(now.subtract(Duration(days: j))),
           ),
         );
 
@@ -87,7 +87,7 @@ class AppDatabase extends _$AppDatabase {
             value: Value(120 +
                 10 * cos(j / 4) +
                 random.nextDouble() * 3), // Baseline with cosine wave
-            recordedAt: Value(now.subtract(Duration(days: j))),
+            createdAt: Value(now.subtract(Duration(days: j))),
           ),
         );
 
@@ -99,7 +99,7 @@ class AppDatabase extends _$AppDatabase {
             value: Value(36.8 +
                 0.5 * sin(j / 6) +
                 random.nextDouble() * 0.1), // Baseline with sine wave
-            recordedAt: Value(now.subtract(Duration(days: j))),
+            createdAt: Value(now.subtract(Duration(days: j))),
           ),
         );
       }

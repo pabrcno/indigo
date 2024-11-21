@@ -37,7 +37,7 @@ class PatientMetricsNotifier extends StateNotifier<
       patientId: patientId,
       metricType: metricType,
       value: value,
-      recordedAt: DateTime.now(),
+      createdAt: DateTime.now(),
     );
 
     await _repo.insertMetricRecord(newMetric);

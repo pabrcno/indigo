@@ -22,7 +22,7 @@ class PatientMetricHistoryChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sortedMetrics = [...metrics]
-      ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
     final latestMetric = sortedMetrics.isNotEmpty ? sortedMetrics.last : null;
 
     return Container(
@@ -178,7 +178,7 @@ class PatientMetricHistoryChart extends StatelessWidget {
                         final metric = sortedMetrics[index];
                         if (spot.barIndex == 0) {
                           return LineTooltipItem(
-                            '${metric.recordedAt.day}/${metric.recordedAt.month}/${metric.recordedAt.year}',
+                            '${metric.createdAt.day}/${metric.createdAt.month}/${metric.createdAt.year}',
                             const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,

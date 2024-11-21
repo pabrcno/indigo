@@ -10,7 +10,7 @@ class PatientHealthMetric with _$PatientHealthMetric {
     required int patientId, // Foreign k
     required EPatientHealthMetricField metricType,
     required double value, // Value of the metric
-    required DateTime recordedAt, // Timestamp for when the metric was recorded
+    required DateTime createdAt, // Timestamp for when the metric was recorded
   }) = _PatientHealthMetric;
 
   factory PatientHealthMetric.fromJson(Map<String, dynamic> json) =>
