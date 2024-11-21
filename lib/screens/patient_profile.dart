@@ -43,9 +43,12 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Perfil de ${widget.patient.name}'),
+          backgroundColor: const Color(0xFF4263EB),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.of(context)
                   .pop(); // Navigate back to the previous screen
@@ -65,88 +68,85 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                 ),
               );
             }
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView(
-                children: [
-                  ...[
-                    EPatientHealthMetricField.glucose,
-                    EPatientHealthMetricField.bloodPressure,
-                    EPatientHealthMetricField.temperature,
-                    EPatientHealthMetricField.respiratoryRate
-                  ].map((metricType) {
-                    final history = patientMetrics[metricType] ?? [];
+            return ListView(
+              children: [
+                ...[
+                  EPatientHealthMetricField.glucose,
+                  EPatientHealthMetricField.bloodPressure,
+                  EPatientHealthMetricField.temperature,
+                  EPatientHealthMetricField.respiratoryRate
+                ].map((metricType) {
+                  final history = patientMetrics[metricType] ?? [];
 
-                    return InkWell(
-                      onTap: () {
-                        showEditModal(context, ref, metricType);
-                      },
-                      child: PatientMetricHistoryChart(
-                        icon: getIconForMetric(metricType),
-                        unit: getUnitForMetric(metricType),
-                        label: getLabelForMetric(metricType),
-                        metrics: history,
-                        curveColor: getColorForMetric(metricType),
-                      ),
-                    );
-                  }),
-                  ...[
-                    EPatientHealthMetricField.weight,
-                    EPatientHealthMetricField.height,
-                  ].map((metricType) {
-                    final history = patientMetrics[metricType] ?? [];
+                  return InkWell(
+                    onTap: () {
+                      showEditModal(context, ref, metricType);
+                    },
+                    child: PatientMetricHistoryChart(
+                      icon: getIconForMetric(metricType),
+                      unit: getUnitForMetric(metricType),
+                      label: getLabelForMetric(metricType),
+                      metrics: history,
+                      curveColor: getColorForMetric(metricType),
+                    ),
+                  );
+                }),
+                ...[
+                  EPatientHealthMetricField.weight,
+                  EPatientHealthMetricField.height,
+                ].map((metricType) {
+                  final history = patientMetrics[metricType] ?? [];
 
-                    return InkWell(
-                      onTap: () {
-                        showEditModal(context, ref, metricType);
-                      },
-                      child: RulerWidget(
-                        unit: getUnitForMetric(metricType),
-                        label: getLabelForMetric(metricType),
-                        value: history.isNotEmpty
-                            ? history.last.value
-                            : 0.0, // Default to 0 if history is empty
-                        backgroundColor: getColorForMetric(metricType),
-                      ),
-                    );
-                  }),
-                  ...[
-                    EPatientHealthMetricField.chest,
-                    EPatientHealthMetricField.waist,
-                    EPatientHealthMetricField.hips
-                  ].map((metricType) {
-                    final history = patientMetrics[metricType] ?? [];
+                  return InkWell(
+                    onTap: () {
+                      showEditModal(context, ref, metricType);
+                    },
+                    child: RulerWidget(
+                      unit: getUnitForMetric(metricType),
+                      label: getLabelForMetric(metricType),
+                      value: history.isNotEmpty
+                          ? history.last.value
+                          : 0.0, // Default to 0 if history is empty
+                      backgroundColor: getColorForMetric(metricType),
+                    ),
+                  );
+                }),
+                ...[
+                  EPatientHealthMetricField.chest,
+                  EPatientHealthMetricField.waist,
+                  EPatientHealthMetricField.hips
+                ].map((metricType) {
+                  final history = patientMetrics[metricType] ?? [];
 
-                    return InkWell(
-                      onTap: () {
-                        showEditModal(context, ref, metricType);
-                      },
-                      child: BodyMetricsCard(
-                        label: getLabelForMetric(metricType),
-                        value: history.isNotEmpty
-                            ? history.last.value
-                            : 0.0, // Default to 0 if history is empty
-                        previousValue:
-                            history.isNotEmpty ? history.first.value : 0.0,
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 16),
-                  BMIIndicator(
-                    bmiValue: calculateBMI(
-                        heightInCM: currentHeight, weightInKG: currentWeight),
-                  ),
-                  NotesCard(
-                      notes: widget.patient.notes ?? '',
-                      onCreate: () => {
-                            //TODO: IMPLEMENT FUNCTION HERE
-                          }),
-                  Image.asset(
-                    'assets/images/patient.png',
-                    height: 200,
-                  ),
-                ],
-              ),
+                  return InkWell(
+                    onTap: () {
+                      showEditModal(context, ref, metricType);
+                    },
+                    child: BodyMetricsCard(
+                      label: getLabelForMetric(metricType),
+                      value: history.isNotEmpty
+                          ? history.last.value
+                          : 0.0, // Default to 0 if history is empty
+                      previousValue:
+                          history.isNotEmpty ? history.first.value : 0.0,
+                    ),
+                  );
+                }),
+                const SizedBox(height: 16),
+                BMIIndicator(
+                  bmiValue: calculateBMI(
+                      heightInCM: currentHeight, weightInKG: currentWeight),
+                ),
+                NotesCard(
+                    notes: widget.patient.notes ?? '',
+                    onCreate: () => {
+                          //TODO: IMPLEMENT FUNCTION HERE
+                        }),
+                Image.asset(
+                  'assets/images/patient.png',
+                  height: 200,
+                ),
+              ],
             );
           },
         ));
