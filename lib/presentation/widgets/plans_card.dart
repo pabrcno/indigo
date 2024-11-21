@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 
 class PlansCard extends StatelessWidget {
   const PlansCard({super.key});
@@ -17,10 +18,11 @@ class PlansCard extends StatelessWidget {
           // Header Section
           const Text(
             'Planes Activos',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: standardSpacing, fontWeight: FontWeight.bold),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: standardSpacing),
 
           // List of Plans
           ConstrainedBox(
@@ -31,12 +33,13 @@ class PlansCard extends StatelessWidget {
               itemBuilder: (context, index) => ListTile(
                 title: Text('Plan ${index + 1}'),
                 subtitle: const Text('Details of the plan'),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                trailing:
+                    const Icon(Icons.arrow_forward_ios, size: standardSpacing),
               ),
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: standardSpacing),
 
           // Create Plan Button
           SizedBox(
@@ -44,7 +47,7 @@ class PlansCard extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: standardSpacing),
               ),
               child: const Text(
                 'Crear Nuevo Plan',

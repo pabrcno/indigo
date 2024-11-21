@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:indigo/presentation/constants/colors.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/paddings.dart';
 import 'package:indigo/providers/patient/patients_notifier_provider.dart';
 
@@ -79,11 +81,11 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                   ),
                 )),
             const SizedBox(
-              height: 16,
+              height: standardSpacing,
             ),
             // Table Header Row
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: standardSpacing),
               child: Row(
                 children: [
                   const Expanded(
@@ -92,7 +94,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                       'Número',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF4263EB),
+                        color: darkPurple,
                       ),
                     ),
                   ),
@@ -102,7 +104,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                       'Nombre',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF4263EB),
+                        color: darkPurple,
                       ),
                     ),
                   ),
@@ -112,7 +114,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                       'Apellido',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF4263EB),
+                        color: darkPurple,
                       ),
                     ),
                   ),
@@ -122,7 +124,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                       'ID',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF4263EB),
+                        color: darkPurple,
                       ),
                     ),
                   ),
@@ -133,7 +135,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                         'Aclaraciones',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF4263EB),
+                          color: darkPurple,
                         ),
                       ),
                     ),
@@ -182,7 +184,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 12,
-                                  horizontal: 16,
+                                  horizontal: standardSpacing,
                                 ),
                                 decoration: BoxDecoration(
                                   color: hovered

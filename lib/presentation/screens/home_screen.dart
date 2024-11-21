@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/plans_card.dart';
 import 'package:indigo/presentation/widgets/recent_conversation.dart';
 import 'package:indigo/presentation/widgets/task_card.dart';
@@ -23,16 +24,16 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         TaskCard(),
-                        SizedBox(height: 16),
+                        SizedBox(height: standardSpacing),
                         ViewUsersWidget(),
-                        SizedBox(height: 16),
+                        SizedBox(height: standardSpacing),
                         Expanded(
                             child:
                                 RecentConversations()), // Add expansion for wide screens
                       ],
                     ),
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: standardSpacing),
                   Expanded(flex: 1, child: PlansCard()),
                 ],
               )
@@ -40,11 +41,11 @@ class HomeScreen extends StatelessWidget {
                 // Make the layout scrollable on small screens
                 children: const [
                   TaskCard(),
-                  SizedBox(height: 16),
+                  SizedBox(height: standardSpacing),
                   ViewUsersWidget(),
-                  SizedBox(height: 16),
+                  SizedBox(height: standardSpacing),
                   RecentConversations(),
-                  SizedBox(height: 16),
+                  SizedBox(height: standardSpacing),
                   PlansCard(),
                 ],
               ),

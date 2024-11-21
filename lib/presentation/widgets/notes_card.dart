@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 
 class NotesCard extends StatelessWidget {
   final String notes;
@@ -22,7 +23,7 @@ class NotesCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
+            blurRadius: smallSpacing,
             offset: const Offset(0, 4),
           ),
         ],
@@ -44,18 +45,19 @@ class NotesCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: smallSpacing),
           // Notes text
           Text(
             notes,
             style: theme.textTheme.bodyMedium,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: standardSpacing),
           // Add comments button
           InkWell(
             onTap: onCreate,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                  vertical: 12, horizontal: standardSpacing),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: const Color(0xFFFFA500), // Dashed border color
@@ -71,7 +73,7 @@ class NotesCard extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(Icons.add, color: Color(0xFFFFA500)),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: smallSpacing),
                       Text(
                         'Añadir comentarios',
                         style: theme.textTheme.bodyMedium?.copyWith(
@@ -82,7 +84,7 @@ class NotesCard extends StatelessWidget {
                   ),
                   const Icon(
                     Icons.arrow_forward_ios,
-                    size: 16,
+                    size: standardSpacing,
                     color: Color(0xFFFFA500),
                   ),
                 ],

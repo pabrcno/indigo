@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 
 class RulerWidget extends StatelessWidget {
   final String label;
@@ -17,14 +18,15 @@ class RulerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      padding:
+          const EdgeInsets.symmetric(vertical: standardSpacing, horizontal: 12),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
+            blurRadius: smallSpacing,
             offset: const Offset(0, 4),
           ),
         ],
@@ -32,7 +34,7 @@ class RulerWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 8),
+          const SizedBox(height: smallSpacing),
           Stack(
             children: [
               Row(
@@ -53,20 +55,20 @@ class RulerWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: smallSpacing),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 label,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: standardSpacing,
                 ),
               ),
               Text(
                 '${value.toStringAsFixed(1)} $unit',
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: standardSpacing,
                 ),
               ),
               const SizedBox()

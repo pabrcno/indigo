@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient/patient.dart';
+import 'package:indigo/presentation/constants/colors.dart';
 import 'package:indigo/presentation/screens/home_screen.dart';
 import 'package:indigo/presentation/screens/patient_profile_screen.dart';
 import 'package:indigo/presentation/screens/patients_screen.dart';
@@ -38,11 +39,11 @@ class _NavigationWidgetState extends State<NavigationWidget> {
         children: [
           if (isWideScreen)
             NavigationRail(
-              backgroundColor: const Color(0xFF4263EB),
+              backgroundColor: darkPurple,
               indicatorColor: Colors.white,
               unselectedLabelTextStyle: const TextStyle(color: Colors.white),
               selectedLabelTextStyle: const TextStyle(color: Colors.white),
-              selectedIconTheme: const IconThemeData(color: Color(0xFF4263EB)),
+              selectedIconTheme: const IconThemeData(color: darkPurple),
               unselectedIconTheme: const IconThemeData(color: Colors.white),
               selectedIndex: _selectedIndex,
               leading: Padding(
@@ -88,8 +89,8 @@ class _NavigationWidgetState extends State<NavigationWidget> {
                   _selectedIndex = index;
                 });
               },
-              selectedItemColor: const Color(0xFF4263EB),
-              unselectedItemColor: const Color(0xFF4263EB).withOpacity(0.6),
+              selectedItemColor: darkPurple,
+              unselectedItemColor: darkPurple.withOpacity(0.6),
               items: _menuOptions
                   .map(
                     (option) => BottomNavigationBarItem(

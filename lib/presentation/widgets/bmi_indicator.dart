@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/paddings.dart';
 
 class BMIIndicator extends StatelessWidget {
@@ -23,7 +24,7 @@ class BMIIndicator extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
+            blurRadius: smallSpacing,
             offset: const Offset(0, 4),
           ),
         ],
@@ -34,12 +35,12 @@ class BMIIndicator extends StatelessWidget {
           const Text(
             'Índice de masa corporal (IMC)',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: standardSpacing,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: smallSpacing),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -68,7 +69,7 @@ class BMIIndicator extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: standardSpacing),
           LayoutBuilder(builder: (context, constraints) {
             final barWidth = constraints.maxWidth;
 
@@ -107,7 +108,7 @@ class BMIIndicator extends StatelessWidget {
               ],
             );
           }),
-          const SizedBox(height: 8),
+          const SizedBox(height: smallSpacing),
           // Labels for the bar
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

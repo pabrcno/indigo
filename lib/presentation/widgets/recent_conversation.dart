@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 
 class RecentConversations extends StatelessWidget {
   const RecentConversations({super.key});
@@ -17,14 +18,15 @@ class RecentConversations extends StatelessWidget {
             children: [
               const Text(
                 'Conversaciones Recientes',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: standardSpacing, fontWeight: FontWeight.bold),
               ),
               TextButton(onPressed: () {}, child: const Text('Ver todo')),
             ],
           ),
 
           // Conversations List
-          const SizedBox(height: 16),
+          const SizedBox(height: standardSpacing),
           SizedBox(
             height: 200, // Set a fixed height for the list
             child: ListView.builder(
@@ -59,7 +61,7 @@ class _ConversationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: smallSpacing),
       child: Row(
         children: [
           // User Avatar

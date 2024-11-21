@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/presentation/widgets/paddings.dart';
 
@@ -114,7 +115,7 @@ class PatientMetricHistoryChart extends StatelessWidget {
                         ),
                       ),
                     ])),
-            const SizedBox(height: 16),
+            const SizedBox(height: standardSpacing),
             // Line chart
             Expanded(
               child: LineChart(

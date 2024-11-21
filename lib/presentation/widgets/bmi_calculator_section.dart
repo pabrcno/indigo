@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/presentation/widgets/ruler_widget.dart';
 import 'package:indigo/presentation/widgets/bmi_indicator.dart';
@@ -32,7 +33,7 @@ class BMICalculatorSection extends StatelessWidget {
               .textTheme
               .titleLarge, // Use a predefined text style
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: standardSpacing),
         // Top row with two ruler widgets
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +65,7 @@ class BMICalculatorSection extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16), // Spacing between rows
+        const SizedBox(height: standardSpacing), // Spacing between rows
 
         // Bottom row with the BMI Indicator
         if (height > 0 && weight > 0)

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient/patient.dart';
+import 'package:indigo/presentation/constants/colors.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 
 import 'package:indigo/presentation/widgets/metrics_cards_section.dart';
@@ -39,7 +41,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF4263EB),
+        backgroundColor: darkPurple,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -82,13 +84,13 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                               onEdit: (metricType) => showEditModal(
                                   context, ref, metricType, widget.patient.id),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: standardSpacing),
                             BMICalculatorSection(
                               patientMetrics: patientMetrics,
                               onEdit: (metricType) => showEditModal(
                                   context, ref, metricType, widget.patient.id),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: standardSpacing),
                             BodyMetricsSection(
                               patientMetrics: patientMetrics,
                               onEdit: (metricType) => showEditModal(
@@ -97,7 +99,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: standardSpacing),
                       Expanded(
                         flex: 1,
                         child: Column(
@@ -132,19 +134,19 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                         onEdit: (metricType) => showEditModal(
                             context, ref, metricType, widget.patient.id),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: standardSpacing),
                       BMICalculatorSection(
                         patientMetrics: patientMetrics,
                         onEdit: (metricType) => showEditModal(
                             context, ref, metricType, widget.patient.id),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: standardSpacing),
                       BodyMetricsSection(
                         patientMetrics: patientMetrics,
                         onEdit: (metricType) => showEditModal(
                             context, ref, metricType, widget.patient.id),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: standardSpacing),
                       NotesCard(
                         notes: widget.patient.notes ?? '',
                         onCreate: () {
@@ -163,19 +165,19 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
                         onEdit: (metricType) => showEditModal(
                             context, ref, metricType, widget.patient.id),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: standardSpacing),
                       BMICalculatorSection(
                         patientMetrics: patientMetrics,
                         onEdit: (metricType) => showEditModal(
                             context, ref, metricType, widget.patient.id),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: standardSpacing),
                       BodyMetricsSection(
                         patientMetrics: patientMetrics,
                         onEdit: (metricType) => showEditModal(
                             context, ref, metricType, widget.patient.id),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: standardSpacing),
                       NotesCard(
                         notes: widget.patient.notes ?? '',
                         onCreate: () {

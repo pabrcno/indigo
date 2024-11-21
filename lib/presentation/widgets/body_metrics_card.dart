@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 
 class BodyMetricsCard extends StatelessWidget {
   final String label;
@@ -29,7 +30,8 @@ class BodyMetricsCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      padding:
+          const EdgeInsets.symmetric(vertical: standardSpacing, horizontal: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -47,8 +49,8 @@ class BodyMetricsCard extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
-          const SizedBox(height: 12),
-          // Value and icon
+          const SizedBox(height: standardSpacing),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -60,7 +62,7 @@ class BodyMetricsCard extends StatelessWidget {
                   color: Colors.black87,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: smallSpacing),
               Icon(
                 arrowIcon,
                 color: arrowColor,

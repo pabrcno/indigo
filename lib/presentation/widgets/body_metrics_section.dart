@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/utils/determine_body_shape.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/presentation/widgets/body_metrics_card.dart';
@@ -45,12 +46,13 @@ class BodyMetricsSection extends StatelessWidget {
           "Medidas corporales",
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: smallSpacing),
 
         // Body shape tag
         if (bodyShape.isNotEmpty)
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(
+                horizontal: smallSpacing, vertical: 4),
             decoration: BoxDecoration(
               color: Colors.grey.shade200,
               borderRadius: BorderRadius.circular(8),
@@ -63,7 +65,7 @@ class BodyMetricsSection extends StatelessWidget {
                   ),
             ),
           ),
-        const SizedBox(height: 16),
+        const SizedBox(height: standardSpacing),
         // Grid of body metrics
         GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

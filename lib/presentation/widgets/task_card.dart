@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({super.key});
@@ -6,7 +7,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: standardSpacing),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
@@ -23,7 +24,7 @@ class TaskCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: standardSpacing),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -52,11 +53,11 @@ class TaskCard extends StatelessWidget {
                       ),
                     ),
                     TextButton(onPressed: () {}, child: const Text('Ver todo')),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: standardSpacing),
                     const _TaskCounter(label: 'Usuarios', count: 20),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: smallSpacing),
                     const _TaskCounter(label: 'Mensajes', count: 15),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: smallSpacing),
                     const _TaskCounter(label: 'Seguimientos', count: 27),
                   ],
                 ),
@@ -104,7 +105,7 @@ class _TaskCounter extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: smallSpacing),
         Expanded(
           child: Text(
             label,

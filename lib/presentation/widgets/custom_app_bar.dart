@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String userAvatarUrl; // Avatar image URL
@@ -12,8 +13,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0xFF7B61FF),
-            Color(0xFF4263EB),
+            lightPurple,
+            darkPurple,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 
 class ViewUsersWidget extends StatelessWidget {
   const ViewUsersWidget({super.key});
@@ -30,7 +31,7 @@ class ViewUsersWidget extends StatelessWidget {
                 return Positioned(
                   left: index * 20.0, // Overlapping offset
                   child: CircleAvatar(
-                    radius: 16,
+                    radius: standardSpacing,
                     backgroundColor: avatar['color'],
                     child: Text(
                       avatar['initial'],
