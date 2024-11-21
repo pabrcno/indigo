@@ -54,8 +54,8 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
+            topLeft: Radius.circular(standardSpacing),
+            topRight: Radius.circular(standardSpacing),
           ),
         ),
         child: Column(

@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(standardSpacing),
         child: isWideScreen
             ? const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: standardSpacing),
-                  Expanded(flex: 1, child: PlansCard()),
+                  PlansCard(),
                 ],
               )
             : ListView(

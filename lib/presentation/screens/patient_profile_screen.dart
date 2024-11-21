@@ -65,7 +65,7 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
           }
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(standardSpacing),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

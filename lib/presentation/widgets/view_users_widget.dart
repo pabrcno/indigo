@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
+import 'package:indigo/presentation/widgets/shadow.dart';
 
 class ViewUsersWidget extends StatelessWidget {
   const ViewUsersWidget({super.key});
@@ -15,7 +16,12 @@ class ViewUsersWidget extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(standardSpacing),
+      decoration: BoxDecoration(
+        color: Colors.white, // Optional: Background color
+        borderRadius: BorderRadius.circular(standardSpacing),
+        boxShadow: [standardShadow],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

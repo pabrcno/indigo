@@ -35,16 +35,17 @@ class TaskCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          const Flexible(
+                              child: Text(
                             'Tareas asignadas recientemente',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
-                          ),
+                          )),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
+                                horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),

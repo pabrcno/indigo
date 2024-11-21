@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
+import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 
@@ -16,7 +17,7 @@ void showEditModal(BuildContext context, WidgetRef ref,
       return Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(standardSpacing),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

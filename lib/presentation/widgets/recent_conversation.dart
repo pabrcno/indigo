@@ -1,49 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
+import 'package:indigo/presentation/widgets/shadow.dart';
 
 class RecentConversations extends StatelessWidget {
   const RecentConversations({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min, // Shrink the column to fit its children
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Section
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 350,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(standardSpacing),
+          decoration: BoxDecoration(
+            color: Colors.white, // Optional: Background color
+            borderRadius: BorderRadius.circular(standardSpacing),
+            boxShadow: [standardShadow],
+          ),
+          child: Column(
+            mainAxisSize:
+                MainAxisSize.min, // Shrink the column to fit its children
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Conversaciones Recientes',
-                style: TextStyle(
-                    fontSize: standardSpacing, fontWeight: FontWeight.bold),
+              // Header Section
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Conversaciones Recientes',
+                    style: TextStyle(
+                        fontSize: standardSpacing, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(onPressed: () {}, child: const Text('Ver todo')),
+                ],
               ),
-              TextButton(onPressed: () {}, child: const Text('Ver todo')),
+
+              // Conversations List
+              const SizedBox(height: standardSpacing),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 5, // Number of conversations
+                  itemBuilder: (context, index) {
+                    return _ConversationItem(
+                      avatarUrl:
+                          'https://via.placeholder.com/40', // Placeholder avatar
+                      name: 'User Name $index',
+                      lastMessageTime: '24 Jan 2023 | 04:00 PM',
+                    );
+                  },
+                ),
+              ),
             ],
           ),
-
-          // Conversations List
-          const SizedBox(height: standardSpacing),
-          SizedBox(
-            height: 200, // Set a fixed height for the list
-            child: ListView.builder(
-              itemCount: 5, // Number of conversations
-              itemBuilder: (context, index) {
-                return _ConversationItem(
-                  avatarUrl:
-                      'https://via.placeholder.com/40', // Placeholder avatar
-                  name: 'User Name $index',
-                  lastMessageTime: '24 Jan 2023 | 04:00 PM',
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
