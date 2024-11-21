@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:indigo/widgets/paddings.dart';
 
 class BodyMetricsCard extends StatelessWidget {
   final String label;
@@ -30,21 +29,16 @@ class BodyMetricsCard extends StatelessWidget {
     }
 
     return Container(
-      padding: kPadding,
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300, width: 1),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Metric label
           Text(
             label,
             style: const TextStyle(
@@ -53,20 +47,25 @@ class BodyMetricsCard extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
+          // Value and icon
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 value.toStringAsFixed(1),
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
               const SizedBox(width: 8),
-              Icon(arrowIcon, color: arrowColor, size: 20),
+              Icon(
+                arrowIcon,
+                color: arrowColor,
+                size: 24,
+              ),
             ],
           ),
         ],

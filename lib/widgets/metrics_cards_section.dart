@@ -16,30 +16,43 @@ class MetricsCardsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: [
-        for (var metricType in [
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Determine the number of columns based on screen width
+    final int crossAxisCount = screenWidth > 1200
+        ? 4
+        : screenWidth > 800
+            ? 2
+            : 1;
+
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      shrinkWrap: true, // Ensures GridView doesn't expand infinitely
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 4, // Total number of metrics to display
+      itemBuilder: (context, index) {
+        final metricType = [
           EPatientHealthMetricField.glucose,
           EPatientHealthMetricField.bloodPressure,
           EPatientHealthMetricField.temperature,
           EPatientHealthMetricField.respiratoryRate,
-        ])
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 200),
-            child: InkWell(
-              onTap: () => onEdit(metricType),
-              child: PatientMetricHistoryChart(
-                icon: getIconForMetric(metricType),
-                unit: getUnitForMetric(metricType),
-                label: getLabelForMetric(metricType),
-                metrics: patientMetrics[metricType] ?? [],
-                curveColor: getColorForMetric(metricType),
-              ),
-            ),
+        ][index];
+
+        return InkWell(
+          onTap: () => onEdit(metricType),
+          child: PatientMetricHistoryChart(
+            icon: getIconForMetric(metricType),
+            unit: getUnitForMetric(metricType),
+            label: getLabelForMetric(metricType),
+            metrics: patientMetrics[metricType] ?? [],
+            curveColor: getColorForMetric(metricType),
           ),
-      ],
+        );
+      },
     );
   }
 }

@@ -16,27 +16,42 @@ class BodyMetricsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: [
-        for (var metricType in [
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Determine the number of columns based on screen width
+    final int crossAxisCount = screenWidth > 1200
+        ? 3
+        : screenWidth > 800
+            ? 2
+            : 1;
+
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 2, // Adjust as needed based on card design
+      ),
+      shrinkWrap: true, // Ensures GridView fits the available space
+      physics:
+          const NeverScrollableScrollPhysics(), // Prevent internal scrolling
+      itemCount: 3, // Number of metrics to display
+      itemBuilder: (context, index) {
+        final metricType = [
           EPatientHealthMetricField.chest,
           EPatientHealthMetricField.waist,
           EPatientHealthMetricField.hips,
-        ])
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 200),
-            child: InkWell(
-              onTap: () => onEdit(metricType),
-              child: BodyMetricsCard(
-                label: getLabelForMetric(metricType),
-                value: patientMetrics[metricType]?.last.value ?? 0.0,
-                previousValue: patientMetrics[metricType]?.first.value ?? 0.0,
-              ),
-            ),
+        ][index];
+
+        return InkWell(
+          onTap: () => onEdit(metricType),
+          child: BodyMetricsCard(
+            label: getLabelForMetric(metricType),
+            value: patientMetrics[metricType]?.last.value ?? 0.0,
+            previousValue: patientMetrics[metricType]?.first.value ?? 0.0,
           ),
-      ],
+        );
+      },
     );
   }
 }

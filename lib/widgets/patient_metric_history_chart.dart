@@ -115,8 +115,7 @@ class PatientMetricHistoryChart extends StatelessWidget {
                     ])),
             const SizedBox(height: 16),
             // Line chart
-            SizedBox(
-              height: 80,
+            Expanded(
               child: LineChart(
                 LineChartData(
                   gridData: const FlGridData(show: false),
