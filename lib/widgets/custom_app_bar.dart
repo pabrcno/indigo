@@ -32,13 +32,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
 
             // User Avatar
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(userAvatarUrl),
-                radius: 20,
-              ),
+            const CircleAvatar(
+              backgroundColor: Colors.white,
+              foregroundImage: AssetImage("assets/images/coach.png"),
+              radius: 20,
             ),
+
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                )),
           ],
         ),
       ),
