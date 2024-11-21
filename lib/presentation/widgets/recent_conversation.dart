@@ -44,7 +44,7 @@ class RecentConversations extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return _ConversationItem(
                       avatarUrl:
-                          'https://via.placeholder.com/40', // Placeholder avatar
+                          'https://avatar.iran.liara.run/public', // Placeholder avatar
                       name: 'User Name $index',
                       lastMessageTime: '24 Jan 2023 | 04:00 PM',
                     );
