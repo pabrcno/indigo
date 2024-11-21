@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
+import 'package:indigo/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/widgets/paddings.dart';
 
 class PatientMetricHistoryChart extends StatelessWidget {
@@ -214,41 +215,5 @@ class PatientMetricHistoryChart extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String getStatusForMetric(EPatientHealthMetricField metric, double value) {
-    switch (metric) {
-      case EPatientHealthMetricField.glucose:
-        if (value < 70) return 'Bajo';
-        if (value <= 140) return 'Normal';
-        return 'Alto';
-      case EPatientHealthMetricField.bloodPressure:
-        if (value < 90) return 'Bajo';
-        if (value <= 120) return 'Normal';
-        return 'Alto';
-      case EPatientHealthMetricField.temperature:
-        if (value < 36.5) return 'Bajo';
-        if (value <= 37.5) return 'Normal';
-        return 'Alto';
-      case EPatientHealthMetricField.respiratoryRate:
-        if (value < 12) return 'Bajo';
-        if (value <= 20) return 'Normal';
-        return 'Alto';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  Color getStatusColor(String status) {
-    switch (status) {
-      case 'Bajo':
-        return Colors.blue;
-      case 'Normal':
-        return Colors.green;
-      case 'Alto':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
   }
 }

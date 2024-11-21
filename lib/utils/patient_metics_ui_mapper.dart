@@ -80,3 +80,39 @@ String getLabelForMetric(EPatientHealthMetricField metric) {
       return 'Desconocido';
   }
 }
+
+String getStatusForMetric(EPatientHealthMetricField metric, double value) {
+  switch (metric) {
+    case EPatientHealthMetricField.glucose:
+      if (value < 70) return 'Bajo';
+      if (value <= 140) return 'Normal';
+      return 'Alto';
+    case EPatientHealthMetricField.bloodPressure:
+      if (value < 90) return 'Bajo';
+      if (value <= 120) return 'Normal';
+      return 'Alto';
+    case EPatientHealthMetricField.temperature:
+      if (value < 36.5) return 'Bajo';
+      if (value <= 37.5) return 'Normal';
+      return 'Alto';
+    case EPatientHealthMetricField.respiratoryRate:
+      if (value < 12) return 'Bajo';
+      if (value <= 20) return 'Normal';
+      return 'Alto';
+    default:
+      return 'Unknown';
+  }
+}
+
+Color getStatusColor(String status) {
+  switch (status) {
+    case 'Bajo':
+      return Colors.blue;
+    case 'Normal':
+      return Colors.green;
+    case 'Alto':
+      return Colors.red;
+    default:
+      return Colors.grey;
+  }
+}
