@@ -83,14 +83,10 @@ class TaskCard extends StatelessWidget {
               if (isWideScreen)
                 Padding(
                   padding: const EdgeInsets.only(top: standardSpacing),
-                  child: Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Image.asset(
-                        "assets/images/coach.png",
-                        fit: BoxFit.contain,
-                      ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      "assets/images/coach.png",
                     ),
                   ),
                 ),
@@ -111,7 +107,7 @@ class _TaskCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.symmetric(
-            horizontal: standardSpacing, vertical: 4),
+            horizontal: standardSpacing, vertical: 8),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: const BorderRadius.all(Radius.circular(smallSpacing)),
