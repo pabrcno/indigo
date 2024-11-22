@@ -9,6 +9,7 @@ class PlansCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
+      key: const Key('plansCard'),
       constraints: const BoxConstraints(
         maxHeight: 375,
       ),
@@ -21,7 +22,7 @@ class PlansCard extends StatelessWidget {
         ),
         child: // Constrained List of Plans
             ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 350),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

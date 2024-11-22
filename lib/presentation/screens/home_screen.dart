@@ -17,19 +17,21 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(standardSpacing),
         child: isWideScreen
             ? const Row(
+                key: Key('homeScreenMainRow'),
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 1,
                     child: Column(
+                      key: Key('homeScreenLeftColumn'),
                       children: [
                         TaskCard(),
                         SizedBox(height: standardSpacing),
                         ViewUsersWidget(),
                         SizedBox(height: standardSpacing),
                         Expanded(
-                            child:
-                                RecentConversations()), // Add expansion for wide screens
+                          child: RecentConversations(),
+                        ),
                       ],
                     ),
                   ),
@@ -38,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               )
             : ListView(
-                // Make the layout scrollable on small screens
+                key: const Key('homeScreenListView'),
                 children: const [
                   TaskCard(),
                   SizedBox(height: standardSpacing),

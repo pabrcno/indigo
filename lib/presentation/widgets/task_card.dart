@@ -11,6 +11,7 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isWideScreen = MediaQuery.of(context).size.width > 1100;
     return Container(
+      key: const Key('taskCard'),
       padding: EdgeInsets.symmetric(
           horizontal: standardSpacing,
           vertical: isWideScreen ? 0 : standardSpacing),

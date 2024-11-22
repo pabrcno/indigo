@@ -16,6 +16,7 @@ class ViewUsersWidget extends StatelessWidget {
     ];
 
     return Container(
+      key: const Key('viewUsersWidget'),
       padding: const EdgeInsets.all(standardSpacing),
       decoration: BoxDecoration(
         color: Colors.white, // Optional: Background color

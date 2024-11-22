@@ -8,6 +8,7 @@ class RecentConversations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
+        key: const Key('recentConversations'),
         constraints: const BoxConstraints(
           maxHeight: 350,
         ),
@@ -24,8 +25,8 @@ class RecentConversations extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header Section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
                 children: [
                   const Text(
                     'Conversaciones Recientes',
