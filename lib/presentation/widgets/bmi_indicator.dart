@@ -74,6 +74,7 @@ class BMIIndicator extends StatelessWidget {
               children: [
                 // Gradient bar
                 Container(
+                  key: const Key("gradientBar"),
                   height: 12,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
