@@ -43,6 +43,7 @@ class BodyMetricsCard extends StatelessWidget {
           // Metric label
           Text(
             label,
+            key: const Key('metricLabel'),
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -56,6 +57,7 @@ class BodyMetricsCard extends StatelessWidget {
             children: [
               Text(
                 value.toStringAsFixed(1),
+                key: const Key('metricValue'),
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -65,6 +67,7 @@ class BodyMetricsCard extends StatelessWidget {
               const SizedBox(width: smallSpacing),
               Icon(
                 arrowIcon,
+                key: const Key('metricArrow'),
                 color: arrowColor,
                 size: 24,
               ),
