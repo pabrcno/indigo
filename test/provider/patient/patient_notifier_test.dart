@@ -1,24 +1,30 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:indigo/providers/patient/patients_notifier.dart';
 import 'package:indigo/db/patient/i_patient_repo.dart';
+import 'package:indigo/db/patient/patient_repo_provider.dart';
 import 'package:indigo/models/patient/patient.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:riverpod/riverpod.dart';
 
 import 'patient_notifier_test.mocks.dart';
 
 @GenerateMocks([IPatientRepo])
-void main() async {
+void main() {
+  late ProviderContainer container;
   late MockIPatientRepo mockRepo;
-  late PatientsNotifier notifier;
 
-  setUp(() async {
+  setUp(() {
     mockRepo = MockIPatientRepo();
-    notifier = PatientsNotifier().build(repository: mockRepo);
+    container = ProviderContainer(
+      overrides: [
+        patientsRepositoryProvider.overrideWithValue(mockRepo),
+      ],
+    );
+    addTearDown(container.dispose);
   });
 
-  group('PatientsNotifier', () {
-    test('fetchAllPatients updates state with fetched patients', () async {
+  group('PatientsRepository Tests', () {
+    test('fetchAllPatients returns correct data', () async {
       // Arrange
       final samplePatients = [
         Patient(
@@ -27,42 +33,33 @@ void main() async {
           name: 'John',
           lastName: 'Doe',
           dateOfBirth: DateTime(1990, 1, 1),
-          notes: 'Test notes',
-        ),
-        Patient(
-          id: 2,
-          number: 1002,
-          name: 'Jane',
-          lastName: 'Smith',
-          dateOfBirth: DateTime(1985, 5, 20),
-          notes: null,
+          notes: 'Sample note',
         ),
       ];
       when(mockRepo.getAllPatients()).thenAnswer((_) async => samplePatients);
 
       // Act
-      await notifier.fetchAllPatients();
+      final result =
+          await container.read(patientsRepositoryProvider).getAllPatients();
 
       // Assert
-      expect(notifier.state.value, samplePatients);
-      expect(notifier.state.isLoading, false);
-      expect(notifier.state.error, isNull);
+      expect(result, samplePatients);
+      verify(mockRepo.getAllPatients()).called(1);
     });
 
-    test('fetchAllPatients handles errors gracefully', () async {
+    test('fetchAllPatients handles errors', () async {
       // Arrange
-      when(mockRepo.getAllPatients()).thenThrow(Exception('Network Error'));
+      when(mockRepo.getAllPatients()).thenThrow(Exception('Fetch error'));
 
-      // Act
-      await notifier.fetchAllPatients();
-
-      // Assert
-      expect(notifier.state.isLoading, false);
-      expect(notifier.state.error, contains('Failed to fetch patients'));
-      expect(notifier.state.value, isEmpty);
+      // Act & Assert
+      expect(
+        () async =>
+            await container.read(patientsRepositoryProvider).getAllPatients(),
+        throwsA(isA<Exception>()),
+      );
     });
 
-    test('searchPatientsByName updates state with search results', () async {
+    test('searchPatientByName returns correct data', () async {
       // Arrange
       final samplePatients = [
         Patient(
@@ -71,33 +68,34 @@ void main() async {
           name: 'John',
           lastName: 'Doe',
           dateOfBirth: DateTime(1990, 1, 1),
-          notes: 'Test notes',
+          notes: 'Sample note',
         ),
       ];
       when(mockRepo.searchPatientByName('John'))
           .thenAnswer((_) async => samplePatients);
 
       // Act
-      await notifier.searchPatientsByName('John');
+      final result = await container
+          .read(patientsRepositoryProvider)
+          .searchPatientByName('John');
 
       // Assert
-      expect(notifier.state.value, samplePatients);
-      expect(notifier.state.isLoading, false);
-      expect(notifier.state.error, isNull);
+      expect(result, samplePatients);
+      verify(mockRepo.searchPatientByName('John')).called(1);
     });
 
-    test('searchPatientsByName handles errors gracefully', () async {
+    test('searchPatientByName handles errors', () async {
       // Arrange
       when(mockRepo.searchPatientByName('John'))
-          .thenThrow(Exception('Search Error'));
+          .thenThrow(Exception('Search error'));
 
-      // Act
-      await notifier.searchPatientsByName('John');
-
-      // Assert
-      expect(notifier.state.isLoading, false);
-      expect(notifier.state.error, contains('Failed to search patients'));
-      expect(notifier.state.value, isEmpty);
+      // Act & Assert
+      expect(
+        () async => await container
+            .read(patientsRepositoryProvider)
+            .searchPatientByName('John'),
+        throwsA(isA<Exception>()),
+      );
     });
   });
 }

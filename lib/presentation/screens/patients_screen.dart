@@ -22,7 +22,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
     super.initState();
     // Fetch all patients when the screen loads
     Future.microtask(() {
-      ref.read(patientsNotifierProvider.call().notifier).fetchAllPatients();
+      ref.read(patientsNotifierProvider.notifier).fetchAllPatients();
     });
   }
 
@@ -42,8 +42,8 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(patientsNotifierProvider.call());
-    final notifier = ref.read(patientsNotifierProvider.call().notifier);
+    final state = ref.watch(patientsNotifierProvider);
+    final notifier = ref.read(patientsNotifierProvider.notifier);
 
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
 

@@ -9,13 +9,11 @@ class PatientsNotifier extends _$PatientsNotifier {
   late final IPatientRepo _repository;
 
   @override
-  FutureOr<List<Patient>> build({IPatientRepo? repository}) async {
-    // Allow repository injection for testing
-    _repository = repository ?? ref.watch(patientsRepositoryProvider);
-    return await _repository.getAllPatients(); // Initialize with default state
+  FutureOr<List<Patient>> build() async {
+    _repository = ref.read(patientsRepositoryProvider); // Inject repository
+    return await _repository.getAllPatients(); // Initialize state
   }
 
-  /// Fetch all patients
   Future<void> fetchAllPatients() async {
     state = const AsyncLoading();
     try {
@@ -27,9 +25,8 @@ class PatientsNotifier extends _$PatientsNotifier {
     }
   }
 
-  /// Search patients by name
   Future<void> searchPatientsByName(String name) async {
-    state = const AsyncLoading(); // Indicate loading state
+    state = const AsyncLoading();
     try {
       final patients = await _repository.searchPatientByName(name);
       state = AsyncData(patients);
