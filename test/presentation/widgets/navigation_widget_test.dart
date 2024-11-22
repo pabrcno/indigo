@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:indigo/presentation/widgets/navigation_widget.dart';
+// import 'package:indigo/presentation/widgets/navigation_widget.dart';
 
 // TODO: IMPLEMENT TESTS WHEN WE FIND OUT HOW TO AVOID dart:js_interop test incompatibility error
 

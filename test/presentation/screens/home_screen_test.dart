@@ -20,18 +20,20 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify the layout
-    expect(find.byKey(const ValueKey('homeScreenMainRow')), findsOneWidget);
-    expect(find.byKey(const ValueKey('homeScreenListView')), findsNothing);
-    expect(find.byKey(const ValueKey('taskCard')), findsOneWidget);
-    expect(find.byKey(const ValueKey('viewUsersWidget')), findsOneWidget);
-    expect(find.byKey(const ValueKey('recentConversations')), findsOneWidget);
-    expect(find.byKey(const ValueKey('plansCard')), findsOneWidget);
+    expect(find.byKey(const Key('homeScreenMainRow')), findsOneWidget);
+    expect(find.byKey(const Key('homeScreenListView')), findsNothing);
+    expect(find.byKey(const Key('taskCard')), findsOneWidget);
+    expect(find.byKey(const Key('viewUsersWidget')), findsOneWidget);
+    expect(find.byKey(const Key('recentConversations')), findsOneWidget);
+    expect(find.byKey(const Key('plansCard')), findsOneWidget);
   });
 
   testWidgets('HomeScreen displays correctly on narrow screens',
       (WidgetTester tester) async {
     await mockNetworkImagesFor(
         () => tester.pumpWidget(const MaterialApp(home: HomeScreen())));
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(600, 1500);
 
     await tester.pumpAndSettle();
 

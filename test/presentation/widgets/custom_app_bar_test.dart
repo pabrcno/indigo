@@ -18,28 +18,6 @@ void main() {
         ),
       );
 
-      testWidgets('has correct gradient background',
-          (WidgetTester tester) async {
-        await tester.pumpWidget(
-          const MaterialApp(
-            home: Scaffold(
-              appBar: CustomAppBar(
-                userAvatarUrl: 'assets/images/coach.png',
-              ),
-            ),
-          ),
-        );
-
-        final container = tester.widget<Container>(
-          find.byKey(const Key('customAppBarContainer')),
-        );
-        final decoration = container.decoration as BoxDecoration;
-        final gradient = decoration.gradient as LinearGradient;
-
-        // Verify the gradient colors
-        expect(gradient.colors, [lightPurple, darkPurple]);
-      });
-
       // Verify the main container exists
       expect(find.byKey(const Key('customAppBarContainer')), findsOneWidget);
 
@@ -52,6 +30,27 @@ void main() {
       // Verify the notification icon is displayed
       expect(find.byKey(const Key('customAppBarNotificationIcon')),
           findsOneWidget);
+    });
+
+    testWidgets('has correct gradient background', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            appBar: CustomAppBar(
+              userAvatarUrl: 'assets/images/coach.png',
+            ),
+          ),
+        ),
+      );
+
+      final container = tester.widget<Container>(
+        find.byKey(const Key('customAppBarContainer')),
+      );
+      final decoration = container.decoration as BoxDecoration;
+      final gradient = decoration.gradient as LinearGradient;
+
+      // Verify the gradient colors
+      expect(gradient.colors, [lightPurple, darkPurple]);
     });
 
     testWidgets('renders avatar with correct image',

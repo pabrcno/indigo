@@ -22,7 +22,7 @@ void showEditModal(BuildContext context, WidgetRef ref,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Create new entry for $label',
+                'Crea una nueva entrada en $label',
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
@@ -50,7 +50,7 @@ void showEditModal(BuildContext context, WidgetRef ref,
                   }
                   if (context.mounted) Navigator.of(context).pop();
                 },
-                child: const Text('Save'),
+                child: const Text('Guardar'),
               ),
             ],
           ),
