@@ -5,7 +5,7 @@ import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 
-void showEditModal(BuildContext context, WidgetRef ref,
+void showEditMetricsModal(BuildContext context, WidgetRef ref,
     EPatientHealthMetricField field, int patientId) {
   final controller = TextEditingController();
 
@@ -39,7 +39,19 @@ void showEditModal(BuildContext context, WidgetRef ref,
               ElevatedButton(
                 onPressed: () async {
                   final value = double.tryParse(controller.text);
-                  if (value != null) {
+
+                  if (value == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text('Invalid value. Please enter a valid number.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                    return;
+                  }
+
+                  try {
                     await ref
                         .read(patientMetricsNotifierProvider.notifier)
                         .addMetric(
@@ -47,8 +59,29 @@ void showEditModal(BuildContext context, WidgetRef ref,
                           metricType: field,
                           value: value,
                         );
+
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Metric added successfully!'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('Failed to add metric: ${e.toString()}'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   }
-                  if (context.mounted) Navigator.of(context).pop();
                 },
                 child: const Text('Guardar'),
               ),
