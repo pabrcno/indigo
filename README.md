@@ -5,6 +5,16 @@
 Puedes probar la aplicación directamente en el siguiente enlace:  
 [Indigo Challenge - Demo en Vivo](https://indigo-challenge-21-11-24.web.app/)
 
+
+https://github.com/user-attachments/assets/bb5bef87-ab64-441c-a356-75ebf1acd6bd
+
+
+
+https://github.com/user-attachments/assets/ed57a82f-4c5c-4a08-b527-868dd9d8b6ba
+
+
+
+
 ## Cómo Descargar e Instalar el Proyecto
 
 Para comenzar con el proyecto, sigue estos pasos:
