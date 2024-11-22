@@ -3,7 +3,7 @@ import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/shadow.dart';
 
 class ViewUsersWidget extends StatelessWidget {
-  const ViewUsersWidget({super.key});
+  const ViewUsersWidget({super.key = const Key('viewUsersWidget')});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,6 @@ class ViewUsersWidget extends StatelessWidget {
     ];
 
     return Container(
-      key: const Key('viewUsersWidget'),
       padding: const EdgeInsets.all(standardSpacing),
       decoration: BoxDecoration(
         color: Colors.white, // Optional: Background color

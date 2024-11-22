@@ -5,13 +5,12 @@ import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/shadow.dart';
 
 class TaskCard extends StatelessWidget {
-  const TaskCard({super.key});
+  const TaskCard({super.key = const Key('taskCard')});
 
   @override
   Widget build(BuildContext context) {
     final bool isWideScreen = MediaQuery.of(context).size.width > 1100;
     return Container(
-      key: const Key('taskCard'),
       padding: EdgeInsets.symmetric(
           horizontal: standardSpacing,
           vertical: isWideScreen ? 0 : standardSpacing),

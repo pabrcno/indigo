@@ -4,12 +4,11 @@ import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/shadow.dart';
 
 class PlansCard extends StatelessWidget {
-  const PlansCard({super.key});
+  const PlansCard({super.key = const Key('plansCard')});
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      key: const Key('plansCard'),
       constraints: const BoxConstraints(
         maxHeight: 375,
       ),

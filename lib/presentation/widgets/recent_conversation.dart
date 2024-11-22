@@ -3,12 +3,11 @@ import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/shadow.dart';
 
 class RecentConversations extends StatelessWidget {
-  const RecentConversations({super.key});
+  const RecentConversations({super.key = const Key('recentConversations')});
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-        key: const Key('recentConversations'),
         constraints: const BoxConstraints(
           maxHeight: 350,
         ),
