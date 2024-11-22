@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift/wasm.dart';
 
-Future<DatabaseConnection> openAsyncConnection() async {
+Future<DatabaseConnection> constructDbConnection() async {
   final result = await WasmDatabase.open(
     databaseName: 'my_database',
     sqlite3Uri: Uri.parse('sqlite3.wasm'),

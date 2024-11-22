@@ -2,27 +2,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:indigo/providers/patient/patients_notifier.dart';
 import 'package:indigo/db/patient/i_patient_repo.dart';
 import 'package:indigo/models/patient/patient.dart';
-import 'package:indigo/providers/patient/patients_notifier_state.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'patient_notifier_test.mocks.dart';
 
 @GenerateMocks([IPatientRepo])
-void main() {
+void main() async {
   late MockIPatientRepo mockRepo;
   late PatientsNotifier notifier;
 
-  setUp(() {
+  setUp(() async {
     mockRepo = MockIPatientRepo();
-    notifier = PatientsNotifier(mockRepo);
+    notifier = PatientsNotifier().build(repository: mockRepo);
   });
 
   group('PatientsNotifier', () {
-    test('Initial state is empty', () {
-      expect(notifier.state, const PatientsNotifierState());
-    });
-
     test('fetchAllPatients updates state with fetched patients', () async {
       // Arrange
       final samplePatients = [
@@ -49,9 +44,9 @@ void main() {
       await notifier.fetchAllPatients();
 
       // Assert
-      expect(notifier.state.patients, samplePatients);
+      expect(notifier.state.value, samplePatients);
       expect(notifier.state.isLoading, false);
-      expect(notifier.state.errorMessage, isNull);
+      expect(notifier.state.error, isNull);
     });
 
     test('fetchAllPatients handles errors gracefully', () async {
@@ -63,8 +58,8 @@ void main() {
 
       // Assert
       expect(notifier.state.isLoading, false);
-      expect(notifier.state.errorMessage, contains('Failed to fetch patients'));
-      expect(notifier.state.patients, isEmpty);
+      expect(notifier.state.error, contains('Failed to fetch patients'));
+      expect(notifier.state.value, isEmpty);
     });
 
     test('searchPatientsByName updates state with search results', () async {
@@ -86,9 +81,9 @@ void main() {
       await notifier.searchPatientsByName('John');
 
       // Assert
-      expect(notifier.state.patients, samplePatients);
+      expect(notifier.state.value, samplePatients);
       expect(notifier.state.isLoading, false);
-      expect(notifier.state.errorMessage, isNull);
+      expect(notifier.state.error, isNull);
     });
 
     test('searchPatientsByName handles errors gracefully', () async {
@@ -101,9 +96,8 @@ void main() {
 
       // Assert
       expect(notifier.state.isLoading, false);
-      expect(
-          notifier.state.errorMessage, contains('Failed to search patients'));
-      expect(notifier.state.patients, isEmpty);
+      expect(notifier.state.error, contains('Failed to search patients'));
+      expect(notifier.state.value, isEmpty);
     });
   });
 }
