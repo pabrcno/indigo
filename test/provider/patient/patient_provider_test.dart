@@ -6,7 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:riverpod/riverpod.dart';
 
-import 'patient_notifier_test.mocks.dart';
+import 'patient_provider_test.mocks.dart';
 
 @GenerateMocks([IPatientRepo])
 void main() {

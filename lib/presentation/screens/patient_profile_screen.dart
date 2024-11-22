@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/models/patient/patient.dart';
+import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/presentation/constants/colors.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
+import 'package:indigo/presentation/widgets/show_edit_metrics_modal.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
-
 import 'package:indigo/presentation/widgets/metrics_cards_section.dart';
 import 'package:indigo/presentation/widgets/bmi_calculator_section.dart';
 import 'package:indigo/presentation/widgets/body_metrics_section.dart';
 import 'package:indigo/presentation/widgets/notes_card.dart';
-import 'package:indigo/presentation/widgets/show_edit_metrics_modal.dart';
 
 class PatientProfileScreen extends ConsumerStatefulWidget {
   final Patient patient;
@@ -28,26 +28,26 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
   void initState() {
     super.initState();
     _fetchMetricsFuture = ref
-        .read(patientMetricsNotifierProvider.notifier)
+        .read(patientMetricsProvider.notifier)
         .fetchPatientMetrics(widget.patient.id);
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isWideScreen = screenWidth > 1200; // Large screens
-    final isMediumScreen = screenWidth > 800 && screenWidth <= 1200; // Medium
-    final patientMetrics = ref.watch(patientMetricsNotifierProvider);
+    final patientMetrics = ref.watch(patientMetricsProvider);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: darkPurple,
         leading: IconButton(
+          key: const Key('back_button'),
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           '${widget.patient.name} ${widget.patient.lastName}',
+          key: const Key('app_bar_title'),
           style: const TextStyle(color: Colors.white),
         ),
       ),
@@ -55,141 +55,164 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
         future: _fetchMetricsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                key: Key('loading_indicator'),
+                child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(
+              key: const Key('error_message'),
               child:
                   Text('Error loading metrics. ${snapshot.error.toString()}'),
             );
           }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(standardSpacing),
+          if (screenWidth > 1200) {
+            return WideScreenLayout(
+              patient: widget.patient,
+              patientMetrics: patientMetrics,
+              onEditMetric: (metricType) => showEditMetricsModal(
+                context: context,
+                fieldLabel: metricType.name,
+                onSave: (value) async {
+                  await ref.read(patientMetricsProvider.notifier).addMetric(
+                        patientId: widget.patient.id,
+                        metricType: metricType,
+                        value: value,
+                      );
+                },
+              ),
+            );
+          } else {
+            return MediumScreenLayout(
+              patient: widget.patient,
+              patientMetrics: patientMetrics,
+              onEditMetric: (metricType) => showEditMetricsModal(
+                context: context,
+                fieldLabel: metricType.name,
+                onSave: (value) async {
+                  await ref.read(patientMetricsProvider.notifier).addMetric(
+                        patientId: widget.patient.id,
+                        metricType: metricType,
+                        value: value,
+                      );
+                },
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class WideScreenLayout extends StatelessWidget {
+  final Patient patient;
+  final dynamic patientMetrics;
+  final void Function(EPatientHealthMetricField metricType) onEditMetric;
+
+  const WideScreenLayout({
+    super.key,
+    required this.patient,
+    required this.patientMetrics,
+    required this.onEditMetric,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Metrics sections
-                if (isWideScreen)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            MetricsCardsSection(
-                              patientMetrics: patientMetrics,
-                              onEdit: (metricType) => showEditMetricsModal(
-                                  context, ref, metricType, widget.patient.id),
-                            ),
-                            const SizedBox(height: standardSpacing),
-                            BMICalculatorSection(
-                              patientMetrics: patientMetrics,
-                              onEdit: (metricType) => showEditMetricsModal(
-                                  context, ref, metricType, widget.patient.id),
-                            ),
-                            const SizedBox(height: standardSpacing),
-                            BodyMetricsSection(
-                              patientMetrics: patientMetrics,
-                              onEdit: (metricType) => showEditMetricsModal(
-                                  context, ref, metricType, widget.patient.id),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: standardSpacing),
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            NotesCard(
-                              notes: widget.patient.notes ?? '',
-                              onCreate: () {
-                                // Handle note creation
-                              },
-                            ),
-                            const SizedBox(height: 48),
-                            if (screenWidth >
-                                1200) // Show image only for wide screens
-                              Image.asset(
-                                "assets/images/patient.png",
-                                fit: BoxFit.fitHeight,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-                else if (isMediumScreen)
-                  // Medium Screen: Show Notes at the Bottom
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MetricsCardsSection(
-                        patientMetrics: patientMetrics,
-                        onEdit: (metricType) => showEditMetricsModal(
-                            context, ref, metricType, widget.patient.id),
-                      ),
-                      const SizedBox(height: standardSpacing),
-                      BMICalculatorSection(
-                        patientMetrics: patientMetrics,
-                        onEdit: (metricType) => showEditMetricsModal(
-                            context, ref, metricType, widget.patient.id),
-                      ),
-                      const SizedBox(height: standardSpacing),
-                      BodyMetricsSection(
-                        patientMetrics: patientMetrics,
-                        onEdit: (metricType) => showEditMetricsModal(
-                            context, ref, metricType, widget.patient.id),
-                      ),
-                      const SizedBox(height: standardSpacing),
-                      NotesCard(
-                        notes: widget.patient.notes ?? '',
-                        onCreate: () {
-                          // Handle note creation
-                        },
-                      ),
-                    ],
-                  )
-                else
-                  // Small Screen: Show Notes below all sections
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MetricsCardsSection(
-                        patientMetrics: patientMetrics,
-                        onEdit: (metricType) => showEditMetricsModal(
-                            context, ref, metricType, widget.patient.id),
-                      ),
-                      const SizedBox(height: standardSpacing),
-                      BMICalculatorSection(
-                        patientMetrics: patientMetrics,
-                        onEdit: (metricType) => showEditMetricsModal(
-                            context, ref, metricType, widget.patient.id),
-                      ),
-                      const SizedBox(height: standardSpacing),
-                      BodyMetricsSection(
-                        patientMetrics: patientMetrics,
-                        onEdit: (metricType) => showEditMetricsModal(
-                            context, ref, metricType, widget.patient.id),
-                      ),
-                      const SizedBox(height: standardSpacing),
-                      NotesCard(
-                        notes: widget.patient.notes ?? '',
-                        onCreate: () {
-                          // Handle note creation
-                        },
-                      ),
-                    ],
-                  ),
+                MetricsCardsSection(
+                  patientMetrics: patientMetrics,
+                  onEdit: onEditMetric,
+                ),
+                const SizedBox(height: standardSpacing),
+                BMICalculatorSection(
+                  patientMetrics: patientMetrics,
+                  onEdit: onEditMetric,
+                ),
+                const SizedBox(height: standardSpacing),
+                BodyMetricsSection(
+                  patientMetrics: patientMetrics,
+                  onEdit: onEditMetric,
+                ),
               ],
             ),
-          );
-        },
+          ),
+          const SizedBox(width: standardSpacing),
+          Expanded(
+            flex: 1,
+            child: Column(
+              children: [
+                NotesCard(
+                  notes: patient.notes ?? '',
+                  onCreate: () {
+                    // Handle note creation
+                  },
+                ),
+                const SizedBox(height: 48),
+                Image.asset(
+                  "assets/images/patient.png",
+                  fit: BoxFit.fitHeight,
+                  key: const Key('patient_image'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MediumScreenLayout extends StatelessWidget {
+  final Patient patient;
+  final dynamic patientMetrics;
+  final void Function(EPatientHealthMetricField metricType) onEditMetric;
+
+  const MediumScreenLayout({
+    super.key,
+    required this.patient,
+    required this.patientMetrics,
+    required this.onEditMetric,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(standardSpacing),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MetricsCardsSection(
+            patientMetrics: patientMetrics,
+            onEdit: onEditMetric,
+          ),
+          const SizedBox(height: standardSpacing),
+          BMICalculatorSection(
+            patientMetrics: patientMetrics,
+            onEdit: onEditMetric,
+          ),
+          const SizedBox(height: standardSpacing),
+          BodyMetricsSection(
+            patientMetrics: patientMetrics,
+            onEdit: onEditMetric,
+          ),
+          const SizedBox(height: standardSpacing),
+          NotesCard(
+            notes: patient.notes ?? '',
+            onCreate: () {
+              // Handle note creation
+            },
+          ),
+        ],
       ),
     );
   }

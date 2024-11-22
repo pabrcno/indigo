@@ -2,10 +2,10 @@ import 'package:indigo/db/patient/i_patient_repo.dart';
 import 'package:indigo/db/patient/patient_repo_provider.dart';
 import 'package:indigo/models/patient/patient.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'patients_notifier.g.dart';
+part 'patients_provider.g.dart';
 
 @riverpod
-class PatientsNotifier extends _$PatientsNotifier {
+class Patients extends _$Patients {
   late final IPatientRepo _repository;
 
   @override

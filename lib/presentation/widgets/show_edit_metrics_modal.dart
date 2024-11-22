@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
-import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
-import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 
-void showEditMetricsModal(BuildContext context, WidgetRef ref,
-    EPatientHealthMetricField field, int patientId) {
+void showEditMetricsModal({
+  required BuildContext context,
+  required String fieldLabel,
+  required Future<void> Function(double value) onSave,
+}) {
   final controller = TextEditingController();
 
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (context) {
-      final label = getLabelForMetric(field);
       return Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Padding(
@@ -22,7 +20,7 @@ void showEditMetricsModal(BuildContext context, WidgetRef ref,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Crea una nueva entrada en $label',
+                'Crea una nueva entrada en $fieldLabel',
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
@@ -31,7 +29,7 @@ void showEditMetricsModal(BuildContext context, WidgetRef ref,
                 controller: controller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: label,
+                  labelText: fieldLabel,
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -52,13 +50,7 @@ void showEditMetricsModal(BuildContext context, WidgetRef ref,
                   }
 
                   try {
-                    await ref
-                        .read(patientMetricsNotifierProvider.notifier)
-                        .addMetric(
-                          patientId: patientId,
-                          metricType: field,
-                          value: value,
-                        );
+                    await onSave(value);
 
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +68,7 @@ void showEditMetricsModal(BuildContext context, WidgetRef ref,
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content:
-                              Text('Failed to add metric: ${e.toString()}'),
+                              Text('Failed to save metric: ${e.toString()}'),
                           backgroundColor: Colors.red,
                         ),
                       );

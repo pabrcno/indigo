@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/presentation/constants/colors.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/widgets/paddings.dart';
-import 'package:indigo/providers/patient/patients_notifier.dart';
+import 'package:indigo/providers/patient/patients_provider.dart';
 
 class PatientsScreen extends ConsumerStatefulWidget {
   const PatientsScreen({super.key});
@@ -22,7 +22,7 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
     super.initState();
     // Fetch all patients when the screen loads
     Future.microtask(() {
-      ref.read(patientsNotifierProvider.notifier).fetchAllPatients();
+      ref.read(patientsProvider.notifier).fetchAllPatients();
     });
   }
 
@@ -42,8 +42,8 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(patientsNotifierProvider);
-    final notifier = ref.read(patientsNotifierProvider.notifier);
+    final state = ref.watch(patientsProvider);
+    final notifier = ref.read(patientsProvider.notifier);
 
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
