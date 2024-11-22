@@ -44,6 +44,7 @@ class BodyMetricsSection extends StatelessWidget {
         // Title
         Text(
           "Medidas corporales",
+          key: const Key('bodyMetricsTitle'),
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const SizedBox(height: smallSpacing),
@@ -51,6 +52,7 @@ class BodyMetricsSection extends StatelessWidget {
         // Body shape tag
         if (bodyShape.isNotEmpty)
           Container(
+            key: const Key('bodyShapeTag'),
             padding: const EdgeInsets.symmetric(
                 horizontal: smallSpacing, vertical: 4),
             decoration: BoxDecoration(
@@ -66,8 +68,10 @@ class BodyMetricsSection extends StatelessWidget {
             ),
           ),
         const SizedBox(height: standardSpacing),
+
         // Grid of body metrics
         GridView.builder(
+          key: const Key('bodyMetricsGrid'),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
             crossAxisSpacing: 12,
@@ -86,6 +90,7 @@ class BodyMetricsSection extends StatelessWidget {
             ][index];
 
             return InkWell(
+              key: Key('metricCard_$index'),
               onTap: () => onEdit(metricType),
               child: BodyMetricsCard(
                 label: getLabelForMetric(metricType),

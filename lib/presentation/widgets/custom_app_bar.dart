@@ -9,6 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key('customAppBarContainer'),
       height: preferredSize.height,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -28,21 +29,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Image.asset(
               'assets/images/coach_logo.png',
               height: 50,
+              key: const Key('customAppBarLogo'),
             ),
 
             // User Avatar
-            const CircleAvatar(
+            CircleAvatar(
+              key: const Key('customAppBarAvatar'),
               backgroundColor: Colors.white,
-              foregroundImage: AssetImage("assets/images/coach.png"),
+              foregroundImage: AssetImage(userAvatarUrl),
               radius: 20,
             ),
 
+            // Notification Icon
             IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.notifications,
-                  color: Colors.white,
-                )),
+              key: const Key('customAppBarNotificationIcon'),
+              onPressed: () {},
+              icon: const Icon(
+                Icons.notifications,
+                color: Colors.white,
+              ),
+            ),
           ],
         ),
       ),
@@ -50,6 +56,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      const Size.fromHeight(80); // Adjust height as needed
+  Size get preferredSize => const Size.fromHeight(80);
 }
