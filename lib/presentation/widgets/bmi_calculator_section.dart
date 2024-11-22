@@ -42,6 +42,7 @@ class BMICalculatorSection extends StatelessWidget {
               child: InkWell(
                 onTap: () => onEdit(EPatientHealthMetricField.weight),
                 child: RulerWidget(
+                  key: const Key("weightInput"),
                   unit: getUnitForMetric(EPatientHealthMetricField.weight),
                   label: getLabelForMetric(EPatientHealthMetricField.weight),
                   value: weight,
@@ -55,6 +56,7 @@ class BMICalculatorSection extends StatelessWidget {
               child: InkWell(
                 onTap: () => onEdit(EPatientHealthMetricField.height),
                 child: RulerWidget(
+                  key: const Key("heightInput"),
                   unit: getUnitForMetric(EPatientHealthMetricField.height),
                   label: getLabelForMetric(EPatientHealthMetricField.height),
                   value: height,

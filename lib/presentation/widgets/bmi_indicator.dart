@@ -19,6 +19,7 @@ class BMIIndicator extends StatelessWidget {
     final bmiLabelColor = getBMILabelColor(bmiValue);
 
     return Container(
+      key: const Key("BMIIndicator"),
       padding: kPadding,
       decoration: BoxDecoration(
         color: Colors.white,
