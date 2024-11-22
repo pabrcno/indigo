@@ -23,7 +23,7 @@ Para comenzar con el proyecto, sigue estos pasos:
 
    ```bash
    git clone https://github.com/pabrcno/indigo.git
-   cd indigo_challenge
+   cd indigo
    ```
 
 2. **Instala las dependencias**:
