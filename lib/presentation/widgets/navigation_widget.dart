@@ -33,7 +33,7 @@ class _NavigationWidgetState extends State<NavigationWidget> {
 
     return Scaffold(
       appBar: const CustomAppBar(
-        userAvatarUrl: 'https://example.com/avatar.png',
+        userAvatarUrl: 'assets/images/coach.png',
       ),
       body: Row(
         children: [
