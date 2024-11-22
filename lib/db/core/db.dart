@@ -1,9 +1,6 @@
 import 'dart:math';
 
 import 'package:drift/drift.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:indigo/db/core/web_database.dart';
 import 'package:indigo/db/patient/patients_table.dart';
 import 'package:indigo/db/patient_health_metric/patient_health_metrics_table.dart';
 
@@ -106,9 +103,3 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 }
-
-final appDatabaseProvider = Provider<AppDatabase>((ref) {
-  final connection = DatabaseConnection.delayed(openAsyncConnection());
-
-  return AppDatabase(connection);
-});

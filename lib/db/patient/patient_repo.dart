@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:indigo/db/core/db.dart';
 import 'package:indigo/db/patient/i_patient_repo.dart';
 import 'package:indigo/db/patient/patient_dto.dart';
@@ -50,8 +49,3 @@ class PatientsRepository implements IPatientRepo {
     }).toList();
   }
 }
-
-final patientsRepositoryProvider = Provider<IPatientRepo>((ref) {
-  final db = ref.watch(appDatabaseProvider);
-  return PatientsRepository(db);
-});
