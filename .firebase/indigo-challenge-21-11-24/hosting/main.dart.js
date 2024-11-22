@@ -85119,7 +85119,7 @@ if(a.d===0){s=r.e
 return new A.j5(""+A.aA4(s)+"/"+A.aA5(s)+"/"+A.C_(s),B.i6)}else return new A.j5(B.c.a5(r.d,1)+" "+this.a.f,B.i6)},
 $S:131}
 A.Ov.prototype={
-I(a){var s=null,r=A.d9(16),q=A.b([$.mY()],t.F),p=A.bC(s,B.Wc,B.m,s,s,new A.bz(B.bp,s,s,A.d9(8),s,s,B.G),s,s,s,s,B.es,s,s,1/0),o=A.ed(A.azK(new A.aep(),3),1),n=A.bk(a,s,t.w).w
+I(a){var s=null,r=A.d9(16),q=A.b([$.mY()],t.F),p=A.bC(s,B.Wd,B.m,s,s,new A.bz(B.bp,s,s,A.d9(8),s,s,B.G),s,s,s,s,B.es,s,s,1/0),o=A.ed(A.azK(new A.aep(),3),1),n=A.bk(a,s,t.w).w
 return new A.eu(B.AZ,A.bC(s,new A.eu(B.B_,A.cX(A.b([p,B.a4,o,B.a4,A.ek(A.aE1(B.W0,new A.aeq(),A.aPL(s,s,B.j,s,s,s,s,s,s,B.bp,s,s,s,s,new A.d6(A.d9(8),B.q),B.AL,s,s,s,s)),s,n.a.a)],t.p),B.ad,B.x,B.u),s),B.m,s,s,new A.bz(B.j,s,s,r,q,s,B.G),s,s,s,s,B.bq,s,s,s),s)}}
 A.aep.prototype={
 $2(a,b){return new A.uW(B.EG,B.Nn,B.fV,new A.aeo(),null)},
@@ -85133,7 +85133,7 @@ return A.A(s,s)},
 $S:0}
 A.OS.prototype={
 I(a){var s=null,r=A.d9(16),q=A.b([$.mY()],t.F),p=t.p
-return new A.eu(B.AY,A.bC(s,A.cX(A.b([new A.RJ(B.A3,A.b([B.Wd,A.QP(B.W_,new A.afR(),s)],p),s),B.a4,A.ed(A.azK(new A.afS(),5),1)],p),B.ad,B.x,B.bt),B.m,s,s,new A.bz(B.j,s,s,r,q,s,B.G),s,s,s,s,B.bq,s,s,s),s)}}
+return new A.eu(B.AY,A.bC(s,A.cX(A.b([new A.RJ(B.A3,A.b([B.We,A.QP(B.W_,new A.afR(),s)],p),s),B.a4,A.ed(A.azK(new A.afS(),5),1)],p),B.ad,B.x,B.bt),B.m,s,s,new A.bz(B.j,s,s,r,q,s,B.G),s,s,s,s,B.bq,s,s,s),s)}}
 A.afR.prototype={
 $0(){},
 $S:0}
@@ -85155,7 +85155,7 @@ return A.bC(s,s,B.m,r?B.dx:A.R(B.c.ad(255*(1-Math.abs(a-5)/10)),0,0,0),s,s,s,q,s
 $S:563}
 A.ay3.prototype={
 $1(a){var s=this,r=null,q=s.a,p=A.a0r(q),o=s.b
-return new A.c7(A.bk(a,r,t.w).w.f,new A.c7(B.bq,A.cX(A.b([A.bB("Create new entry for "+p,r,r,r,r,B.TY,r,r),B.QI,A.aGG(o,A.azA(r,B.Nl,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,p,r,r,r,r,r,r,r,r,r,r,r,r,r),B.RB,r),B.QJ,A.aE1(B.We,new A.ay2(o,s.c,s.d,q,a),r)],t.p),B.y,B.x,B.bt),r),r)},
+return new A.c7(A.bk(a,r,t.w).w.f,new A.c7(B.bq,A.cX(A.b([A.bB("Crea una nueva entrada en "+p,r,r,r,r,B.TY,r,r),B.QI,A.aGG(o,A.azA(r,B.Nl,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,p,r,r,r,r,r,r,r,r,r,r,r,r,r),B.RB,r),B.QJ,A.aE1(B.W7,new A.ay2(o,s.c,s.d,q,a),r)],t.p),B.y,B.x,B.bt),r),r)},
 $S:564}
 A.ay2.prototype={
 $0(){var s=0,r=A.L(t.H),q=this,p,o
@@ -92189,8 +92189,8 @@ B.IW=A.b(s([B.H7,B.QH,B.Wn]),t.p)
 B.OF=new A.oe(B.aj,B.x,B.u,B.y,null,B.bi,null,B.IW,null)
 B.za=new A.e3(null,4,null,null)
 B.zF=new A.n(!0,B.J,null,null,null,null,14,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.Wb=new A.c9("Plan de Entrenamiento de Fuerza",null,B.zF,null,null,null,null,null,null)
-B.K1=A.b(s([B.OF,B.za,B.Wb]),t.p)
+B.Wc=new A.c9("Plan de Entrenamiento de Fuerza",null,B.zF,null,null,null,null,null,null)
+B.K1=A.b(s([B.OF,B.za,B.Wc]),t.p)
 B.EG=new A.u0(B.ak,B.x,B.u,B.ad,null,B.bi,null,B.K1,null)
 B.mQ=new A.zh(0,"none")
 B.mR=new A.zh(1,"waiting")
@@ -92421,8 +92421,8 @@ B.Wi=new A.c9("Apellido",null,B.f8,null,null,null,null,null,null)
 B.FZ=new A.i9(2,B.bA,B.Wi,null)
 B.W2=new A.c9("N\xfamero",null,B.f8,null,null,null,null,null,null)
 B.G0=new A.i9(2,B.bA,B.W2,null)
-B.W8=new A.c9("ID",null,B.f8,null,null,null,null,null,null)
-B.G1=new A.i9(1,B.bA,B.W8,null)
+B.W9=new A.c9("ID",null,B.f8,null,null,null,null,null,null)
+B.G1=new A.i9(1,B.bA,B.W9,null)
 B.G2=new A.i9(1,B.bA,B.mj,null)
 B.Wg=new A.c9("Aclaraciones",null,B.f8,null,null,null,null,null,null)
 B.G3=new A.i9(2,B.bA,B.Wg,null)
@@ -93888,11 +93888,11 @@ B.lR=new A.ba(B.k,1,B.C,-1)
 B.Nl=new A.io(4,B.fq,B.lR)
 B.Nm=new A.BM(null)
 B.FI=new A.au(0,8,0,0)
-B.Wa=new A.c9("(4 d\xedas/semana)",null,B.zF,null,null,null,null,null,null)
+B.Wb=new A.c9("(4 d\xedas/semana)",null,B.zF,null,null,null,null,null,null)
 B.kP=new A.e3(16,null,null,null)
 B.T0=new A.n(!0,B.cV,null,null,null,null,14,B.ah,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.W6=new A.c9("Activo",null,B.T0,null,null,null,null,null,null)
-B.IL=A.b(s([B.Wa,B.kP,B.W6]),t.p)
+B.IL=A.b(s([B.Wb,B.kP,B.W6]),t.p)
 B.OG=new A.oe(B.aj,B.x,B.u,B.y,null,B.bi,null,B.IL,null)
 B.Nn=new A.c7(B.FI,B.OG,null)
 B.b7=new A.Oi(0,"fill")
@@ -93993,11 +93993,11 @@ B.yb=new A.vQ(2,"bubble")
 B.yc=new A.hL(null,null)
 B.dV=new A.n(!0,B.eN,null,null,null,null,12,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.VX=new A.c9("15",null,B.dV,null,null,null,null,null,null)
-B.W7=new A.c9("18.5",null,B.dV,null,null,null,null,null,null)
+B.W8=new A.c9("18.5",null,B.dV,null,null,null,null,null,null)
 B.VZ=new A.c9("25",null,B.dV,null,null,null,null,null,null)
-B.W9=new A.c9("30",null,B.dV,null,null,null,null,null,null)
+B.Wa=new A.c9("30",null,B.dV,null,null,null,null,null,null)
 B.Wh=new A.c9("40",null,B.dV,null,null,null,null,null,null)
-B.JO=A.b(s([B.VX,B.W7,B.VZ,B.W9,B.Wh]),t.p)
+B.JO=A.b(s([B.VX,B.W8,B.VZ,B.Wa,B.Wh]),t.p)
 B.OE=new A.oe(B.aj,B.b6,B.u,B.y,null,B.bi,null,B.JO,null)
 B.FX=new A.i9(1,B.bA,B.y7,null)
 B.IG=A.b(s([B.zo,B.a4,B.A_,B.a4,B.FX]),t.p)
@@ -94603,9 +94603,9 @@ B.W0=new A.c9("Crear Nuevo Plan",null,null,null,null,null,null,null,null)
 B.W1=new A.c9("Ver usuarios",null,null,null,null,null,null,null,null)
 B.UN=new A.n(!0,B.bp,null,null,null,null,20,B.ah,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.W3=new A.c9("62",null,B.UN,null,null,null,null,null,null)
-B.Wc=new A.c9("Planes Activos",null,B.zJ,null,null,null,null,null,null)
-B.Wd=new A.c9("Conversaciones Recientes",null,B.kX,null,null,null,null,null,null)
-B.We=new A.c9("Save",null,null,null,null,null,null,null,null)
+B.W7=new A.c9("Guardar",null,null,null,null,null,null,null,null)
+B.Wd=new A.c9("Planes Activos",null,B.zJ,null,null,null,null,null,null)
+B.We=new A.c9("Conversaciones Recientes",null,B.kX,null,null,null,null,null,null)
 B.Wj=new A.c9("Ver todo",null,B.i4,null,null,null,null,null,null)
 B.RX=new A.n(!0,B.H,null,null,null,null,16,B.ah,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.Wl=new A.c9("\xcdndice de masa corporal (IMC)",null,B.RX,null,null,null,null,null,null)
