@@ -34,11 +34,13 @@ class _NavigationWidgetState extends State<NavigationWidget> {
     return Scaffold(
       appBar: const CustomAppBar(
         userAvatarUrl: 'assets/images/coach.png',
+        key: Key('customAppBar'),
       ),
       body: Row(
         children: [
           if (isWideScreen)
             NavigationRail(
+              key: const Key('navigationRail'),
               backgroundColor: darkPurple,
               indicatorColor: Colors.white,
               unselectedLabelTextStyle: const TextStyle(color: Colors.white),
@@ -47,11 +49,13 @@ class _NavigationWidgetState extends State<NavigationWidget> {
               unselectedIconTheme: const IconThemeData(color: Colors.white),
               selectedIndex: _selectedIndex,
               leading: Padding(
-                  padding: kPadding,
-                  child: Image.asset(
-                    "assets/images/indigo_logo.png",
-                    height: 35,
-                  )),
+                padding: kPadding,
+                child: Image.asset(
+                  "assets/images/indigo_logo.png",
+                  height: 35,
+                  key: const Key('navigationRailLogo'),
+                ),
+              ),
               onDestinationSelected: (index) {
                 setState(() {
                   _selectedIndex = index;
@@ -67,15 +71,18 @@ class _NavigationWidgetState extends State<NavigationWidget> {
             ),
           Expanded(
             child: IndexedStack(
+              key: const Key('indexedStack'),
               index: _selectedIndex,
               children: [
-                const HomeScreen(),
-                _buildPatientsNavigator(), // Patients section with inner navigation
-                const Center(child: Text('Planes')),
-                const Center(child: Text('Perfil')),
-                const Center(child: Text('Configuracion')),
-                const Center(child: Text('Correos')),
-                const Center(child: Text('Chats')),
+                const HomeScreen(key: Key('homeScreen')),
+                _buildPatientsNavigator(),
+                const Center(key: Key('planesScreen'), child: Text('Planes')),
+                const Center(key: Key('perfilScreen'), child: Text('Perfil')),
+                const Center(
+                    key: Key('configuracionScreen'),
+                    child: Text('Configuracion')),
+                const Center(key: Key('correosScreen'), child: Text('Correos')),
+                const Center(key: Key('chatsScreen'), child: Text('Chats')),
               ],
             ),
           ),
@@ -83,6 +90,7 @@ class _NavigationWidgetState extends State<NavigationWidget> {
       ),
       bottomNavigationBar: !isWideScreen
           ? BottomNavigationBar(
+              key: const Key('bottomNavigationBar'),
               currentIndex: _selectedIndex,
               onTap: (index) {
                 setState(() {
@@ -106,6 +114,7 @@ class _NavigationWidgetState extends State<NavigationWidget> {
 
   Widget _buildPatientsNavigator() {
     return Navigator(
+      key: const Key('patientsNavigator'),
       onGenerateRoute: (settings) {
         Widget page;
 
