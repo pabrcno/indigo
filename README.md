@@ -122,14 +122,6 @@ class PatientHealthMetric {
 ```
 
 El uso de `EPatientHealthMetricField` permite extender los tipos de métricas guardadas en el futuro de manera fácil y eficiente.
-
-### Testing
-
-Se implementaron pruebas unitarias para la mayoría de los componentes, unidades lógicas y providers, con las siguientes excepciones:
-
-- **Implementaciones triviales**.
-- **Pantallas dependientes de providers**, ya que el uso de Drift Web introduce dependencias con `dart:js_interop`. Esto, aunque no es utilizado directamente en las capas superiores, termina afectando el entorno de pruebas debido a su incompatibilidad con la VM utilizada por `flutter test`. Como resultado, los tests que dependen de Drift Web no pueden ejecutarse en este entorno.
-
 ---
 
 ## Checks y Extras
@@ -140,7 +132,7 @@ Se implementaron pruebas unitarias para la mayoría de los componentes, unidades
 ✔️ **Diseño**: Se implementó un diseño moderno y limpio basado en el prototipo de Figma, con mejoras creativas para solucionar inconsistencias y adaptar la interfaz a un diseño responsivo.  
 ✔️ **Calidad de Código**: El proyecto sigue principios SOLID, aplica clean code, y utiliza una arquitectura simplificada de DDD (Domain-Driven Design) para lograr desacoplamiento y escalabilidad.  
 ✔️ **Diseño Responsivo**: Todas las pantallas son completamente responsivas, adaptándose a diversos tamaños de pantalla, desde dispositivos móviles hasta desktop.  
-✔️ **Pruebas Unitarias y de Widgets**: Se implementaron pruebas en componentes clave, incluyendo lógica de negocio y providers. Sin embargo, debido a limitaciones técnicas con `drift web` y `dart:js_interop`, no se pudieron testear pantallas que dependen de providers.
+✔️ **Pruebas Unitarias y de Widgets**: Se implementaron pruebas en componentes clave, incluyendo lógica de negocio y providers.
 
 ### Innovación y Valor Añadido
 
