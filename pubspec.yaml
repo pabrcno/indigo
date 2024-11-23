@@ -46,6 +46,8 @@ dependencies:
   drift_flutter: ^0.1.0
   mockito: ^5.4.4
   fl_chart: ^0.69.0
+  path_provider: ^2.1.5
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
