@@ -4,7 +4,8 @@ import 'package:indigo/models/patient/patient.dart';
 import 'package:indigo/models/patient_health_metrics/patient_health_metric.dart';
 import 'package:indigo/presentation/constants/colors.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
-import 'package:indigo/presentation/widgets/show_edit_metrics_modal.dart';
+import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
+import 'package:indigo/presentation/widgets/edit_metrics_modal.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 import 'package:indigo/presentation/widgets/metrics_cards_section.dart';
 import 'package:indigo/presentation/widgets/bmi_calculator_section.dart';
@@ -71,15 +72,20 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
             return WideScreenLayout(
               patient: widget.patient,
               patientMetrics: patientMetrics,
-              onEditMetric: (metricType) => showEditMetricsModal(
+              onEditMetric: (metricType) => showModalBottomSheet(
                 context: context,
-                fieldLabel: metricType.name,
-                onSave: (value) async {
-                  await ref.read(patientMetricsProvider.notifier).addMetric(
-                        patientId: widget.patient.id,
-                        metricType: metricType,
-                        value: value,
-                      );
+                isScrollControlled: true,
+                builder: (context) {
+                  return EditMetricsModal(
+                    fieldLabel: getLabelForMetric(metricType),
+                    onSave: (value) async {
+                      await ref.read(patientMetricsProvider.notifier).addMetric(
+                            patientId: widget.patient.id,
+                            metricType: metricType,
+                            value: value,
+                          );
+                    },
+                  );
                 },
               ),
             );
@@ -87,15 +93,20 @@ class _PatientProfileScreenState extends ConsumerState<PatientProfileScreen> {
             return MediumScreenLayout(
               patient: widget.patient,
               patientMetrics: patientMetrics,
-              onEditMetric: (metricType) => showEditMetricsModal(
+              onEditMetric: (metricType) => showModalBottomSheet(
                 context: context,
-                fieldLabel: metricType.name,
-                onSave: (value) async {
-                  await ref.read(patientMetricsProvider.notifier).addMetric(
-                        patientId: widget.patient.id,
-                        metricType: metricType,
-                        value: value,
-                      );
+                isScrollControlled: true,
+                builder: (context) {
+                  return EditMetricsModal(
+                    fieldLabel: getLabelForMetric(metricType),
+                    onSave: (value) async {
+                      await ref.read(patientMetricsProvider.notifier).addMetric(
+                            patientId: widget.patient.id,
+                            metricType: metricType,
+                            value: value,
+                          );
+                    },
+                  );
                 },
               ),
             );
