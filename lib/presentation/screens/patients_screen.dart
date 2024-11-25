@@ -48,17 +48,17 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     final columnHeaders = [
-      {'label': 'Número', 'flex': 1},
-      {'label': 'Nombre', 'flex': 2},
-      {'label': 'Apellido', 'flex': 2},
-      {'label': 'ID', 'flex': 1},
-      if (!isSmallScreen) {'label': 'Aclaraciones', 'flex': 2},
+      'Número',
+      'Nombre',
+      'Apellido',
+      'ID',
+      if (!isSmallScreen) 'Aclaraciones',
     ];
 
     return Scaffold(
       body: Container(
-        margin: kPadding,
-        padding: kPadding,
+        margin: kSmallPadding,
+        padding: kSmallPadding,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -99,9 +99,9 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                 key: const Key('table_header'),
                 children: columnHeaders
                     .map((header) => Expanded(
-                          flex: header['flex'] as int,
+                          flex: 2,
                           child: Text(
-                            header['label'] as String,
+                            header,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: darkPurple,
@@ -124,12 +124,11 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                     final isHovered = ValueNotifier<bool>(false);
 
                     final patientData = [
-                      {'value': '${patient.number}', 'flex': 1},
-                      {'value': patient.name, 'flex': 2},
-                      {'value': patient.lastName, 'flex': 2},
-                      {'value': '#${patient.id}', 'flex': 1},
-                      if (!isSmallScreen)
-                        {'value': patient.notes ?? '-', 'flex': 2},
+                      '${patient.number}',
+                      patient.name,
+                      patient.lastName,
+                      '#${patient.id}',
+                      if (!isSmallScreen) patient.notes ?? '-',
                     ];
 
                     return MouseRegion(
@@ -163,8 +162,8 @@ class _PatientsScreenState extends ConsumerState<PatientsScreen> {
                               child: Row(
                                 children: patientData
                                     .map((data) => Expanded(
-                                          flex: data['flex'] as int,
-                                          child: Text(data['value'] as String),
+                                          flex: 2,
+                                          child: Text(data),
                                         ))
                                     .toList(),
                               ),
