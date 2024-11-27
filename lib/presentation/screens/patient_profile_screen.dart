@@ -6,6 +6,7 @@ import 'package:indigo/presentation/constants/colors.dart';
 import 'package:indigo/presentation/constants/spacings.dart';
 import 'package:indigo/presentation/utils/patient_metics_ui_mapper.dart';
 import 'package:indigo/presentation/widgets/edit_metrics_modal.dart';
+import 'package:indigo/presentation/widgets/paddings.dart';
 import 'package:indigo/providers/patient_health_metrics/patient_metrics_provider.dart';
 import 'package:indigo/presentation/widgets/metrics_cards_section.dart';
 import 'package:indigo/presentation/widgets/bmi_calculator_section.dart';
@@ -132,6 +133,7 @@ class WideScreenLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: kSmallPadding,
       key: const Key('wideScreenLayout'),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +175,9 @@ class WideScreenLayout extends StatelessWidget {
                     // Handle note creation
                   },
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(
+                  height: standardSpacing,
+                ),
                 Image.asset(
                   "assets/images/patient.png",
                   fit: BoxFit.fitHeight,
